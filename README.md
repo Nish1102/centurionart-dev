@@ -9,11 +9,11 @@ Install dependencies for both client and server:
 ## Server .env 
 MONGO_URI = "mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 PORT = 5000
+JWT_SECRET = '495bacb95112ed38eba37df9dc39e2af78dab761c243e333307fc57e1b5e6855'
 
 ## Client .env
 REACT_APP_API_BASE_URL=http://localhost:5000
 REACT_APP_STRIPE_PUBLISHABLE_KEY=your_dev_stripe_publishable_key
-
 
 npm install
 

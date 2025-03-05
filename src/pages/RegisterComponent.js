@@ -32,8 +32,8 @@ export default function RegistrationComponent() {
   };
 
   return (
-    <Container 
-      component="main" 
+    <Container
+      component="main"
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -60,14 +60,14 @@ export default function RegistrationComponent() {
       }}
       maxWidth={false}
     >
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <Paper 
-          elevation={24} 
-          sx={{ 
+        <Paper
+          elevation={24}
+          sx={{
             padding: 4,
             background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(8px)',
@@ -80,7 +80,7 @@ export default function RegistrationComponent() {
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <motion.div
-              animate={{ 
+              animate={{
                 rotate: [0, 360],
                 scale: [1, 1.2, 1]
               }}
@@ -88,9 +88,9 @@ export default function RegistrationComponent() {
             >
               <PaletteIcon sx={{ fontSize: 45, color: '#34D399', mb: 2 }} />
             </motion.div>
-            <Typography 
-              variant="h4" 
-              sx={{ 
+            <Typography
+              variant="h4"
+              sx={{
                 fontWeight: 700,
                 background: 'linear-gradient(135deg, #34D399, #3B82F6)',
                 WebkitBackgroundClip: 'text',
@@ -99,9 +99,9 @@ export default function RegistrationComponent() {
             >
               Join CENTURIONART
             </Typography>
-            <Typography 
-              variant="subtitle2" 
-              sx={{ 
+            <Typography
+              variant="subtitle2"
+              sx={{
                 color: 'text.secondary',
                 mt: 1,
                 fontStyle: 'italic'
@@ -118,60 +118,60 @@ export default function RegistrationComponent() {
           )}
 
           <form onSubmit={handleSubmit} noValidate>
-            <TextField 
-              label="Email" 
-              variant="outlined" 
-              type="email" 
-              fullWidth 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+            <TextField
+              label="Email"
+              variant="outlined"
+              type="email"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
-              sx={{ 
+              sx={{
                 mb: 2,
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '12px',
                 }
               }}
             />
-            <TextField 
-              label="Password" 
-              variant="outlined" 
-              type="password" 
-              fullWidth 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
+            <TextField
+              label="Password"
+              variant="outlined"
+              type="password"
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
-              sx={{ 
+              sx={{
                 mb: 2,
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '12px',
                 }
               }}
             />
-            <TextField 
-              label="Confirm Password" 
-              variant="outlined" 
-              type="password" 
-              fullWidth 
-              value={confirmPassword} 
-              onChange={(e) => setConfirmPassword(e.target.value)} 
+            <TextField
+              label="Confirm Password"
+              variant="outlined"
+              type="password"
+              fullWidth
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
               disabled={loading}
-              sx={{ 
+              sx={{
                 mb: 3,
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '12px',
                 }
               }}
             />
-            <Button 
-              type="submit" 
-              variant="contained" 
-              fullWidth 
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
               disabled={loading}
-              sx={{ 
+              sx={{
                 py: 1.5,
                 borderRadius: '12px',
                 background: 'linear-gradient(135deg, #34D399, #3B82F6)',
@@ -186,9 +186,9 @@ export default function RegistrationComponent() {
 
           <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
             Already have an account? {' '}
-            <Link 
-              href="/login" 
-              sx={{ 
+            <Link
+              href="/login"
+              sx={{
                 color: '#3B82F6',
                 textDecoration: 'none',
                 fontWeight: 600,

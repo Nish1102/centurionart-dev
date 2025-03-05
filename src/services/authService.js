@@ -5,7 +5,7 @@ const API_URL = '/api';
 export const authService = {
   login: async (email, password) => {
     try {
-      const response = await api.post(`${API_URL}/login`, { email, password });
+      const response = await api.post(`${API_URL}/auth/login`, { email, password });
       if (response.data.token) {
         localStorage.setItem('user', JSON.stringify(response.data));
       }
@@ -20,7 +20,7 @@ export const authService = {
 
   register: async (email, password, role) => {
     try {
-      const response = await api.post(`${API_URL}/register`, { email, password, role });
+      const response = await api.post(`${API_URL}/auth/register`, { email, password, role });
       return response.data;
     } catch (error) {
       throw {

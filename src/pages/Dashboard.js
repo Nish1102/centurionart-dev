@@ -86,7 +86,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const response = await api.get(`/api/artworks?_page=${page}&_limit=6`);
+        const response = await api.get(`/api/artwork/artworks?_page=${page}&_limit=6`);
         setArtworks(response.data);
         setTotalPages(Math.ceil(response.headers['x-total-count'] / 6));
       } catch (error) {
