@@ -6,8 +6,8 @@ const userRoutes = require('./userRoutes');
 const authRoutes = require('./authRoutes');
 
 // Define routes
-router.use('/users', userRoutes);
-router.use('/auth', authRoutes);
+// router.use('/users', userRoutes);
+// router.use('/auth', authRoutes);
 
 module.exports = router;
 

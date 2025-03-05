@@ -10,13 +10,13 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
 
+// Connect Database
+connectDB();
+
 // middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Connect Database
-connectDB();
 
 // Routes
 app.use('/api', routes);
