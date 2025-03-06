@@ -1,5 +1,8 @@
 const ArtWork = require('../models/artWorkModel')
 const axios = require('axios');
+const path = require('path');
+const logger = require('../utils/logger')
+
 
 // Artworks endpoint with pagination
 const getAllArtworks = async (req, res) => {
@@ -22,8 +25,9 @@ const getAllArtworks = async (req, res) => {
       res.setHeader('x-total-count', response.data.total);
       res.json(artworks);
     } catch (error) {
-      console.error('Error In Login User:', error);
-      res.status(500).json({ message: 'Internal server error' });  
+      console.error('Error In Login User:', error.message);
+      logger.error(path.join(__dirname), 'getAllArtworks', error.message);
+      res.status(500).json({ message: 'Internal server error' });
     }
 };
 

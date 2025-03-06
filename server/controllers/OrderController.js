@@ -1,4 +1,6 @@
 const stripe = require('stripe')('your-stripe-secret-key');
+const path = require('path');
+const logger = require('../utils/logger')
 
 const payment = async (req, res) => {
     try {
@@ -14,6 +16,7 @@ const payment = async (req, res) => {
         res.status(200).json({ message: 'Payment successful', paymentIntent });
     } catch (error) {
         console.error('Error In Register User:', error);
+        logger.error(path.join(__dirname), 'payment', error.message)
         res.status(500).json({ message: 'Payment failed', error: error.message });
     }
 };
@@ -44,6 +47,7 @@ const createCheckoutSession = async (req, res) => {
 
         res.status(200).json({ id: session.id });
     } catch (error) {
+        logger.error(path.join(__dirname), 'createCheckoutSession', error.message)
         res.status(500).json({ message: 'Checkout session creation failed', error: error.message });
     }
 }

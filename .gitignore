@@ -7,6 +7,7 @@
 /server/.env
 /package-lock.json
 /server/package-lock.json
+/server/app.log
 /.pnp
 .pnp.js
 

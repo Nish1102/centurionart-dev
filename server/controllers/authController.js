@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const logger = require('../utils/logger')
 
 const User = require('../models/userModel')
 
@@ -23,7 +25,8 @@ const registerUser = async (req, res) => {
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {
-        console.error('Error In Register User:', error);
+        console.error('Error In Register User:', error.message);
+        logger.error(path.join(__dirname), 'registerUser', error.message);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -58,10 +61,13 @@ const loginUser = async (req, res) => {
              } 
         });
     } catch (error) {
-        console.error('Error In Login User:', error);
+        console.error('Error In Login User:', error.message);
+        logger.error(path.join(__dirname), 'loginUser', error.message);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+
 
 module.exports = {
     registerUser,
