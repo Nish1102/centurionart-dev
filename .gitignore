@@ -5,6 +5,7 @@
 /server/node_modules
 /.env
 /server/.env
+/package-lock.json
 /.pnp
 .pnp.js
 
