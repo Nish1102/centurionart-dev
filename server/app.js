@@ -12,9 +12,12 @@ const logger = require('./utils/logger');
 const routes = require('./routes/index');
 const { notFound, welcome } = require('./utils/templates');
 const swaggerJsdoc = require('swagger-jsdoc');
+const passport = require('passport');
+const session = require('express-session');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const User = require('./models/userModel');
 
-
-dotenv.config(); 
+dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
 
@@ -25,63 +28,120 @@ connectDB();
 const swaggerDefinition = {
     openapi: '3.0.0',
     info: {
-      title: 'MERN API Documentation',
-      version: '1.0.0',
-      description: 'This is the API documentation for the MERN stack application',
+        title: 'MERN API Documentation',
+        version: '1.0.0',
+        description: 'This is the API documentation for the MERN stack application',
     },
     servers: [
-      {
-        url: 'http://localhost:5000',
-        description: 'Development server',
-      },
+        {
+            url: 'http://localhost:5000',
+            description: 'Development server',
+        },
     ],
-}
+};
 
 // Options for swagger-jsdoc
 const options = {
     swaggerDefinition,
-    apis: ['./routes/*.js'], 
-}
+    apis: ['./routes/*.js'],
+};
 
 // Initialize swagger-jsdoc
 const swaggerSpec = swaggerJsdoc(options);
 
-// Configure the rate limiter
-const limiter = rateLimit({
+// Configure rate limiting
+const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // Limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 300, // Allow more requests for authenticated users
+});
+
 // Middleware to save logs in both app.log and app.log.json
 const logToFile = (message) => {
     const logFilePath = path.join(__dirname, 'app.log.json');
-    if (!fs.existsSync(logFilePath)) {
-        fs.writeFileSync(logFilePath, []);
-    }        
-    // Append to app.log
-    fs.appendFileSync(logFilePath, message + '\n');  
-        
+    let logs = [];
+    if (fs.existsSync(logFilePath)) {
+        try {
+            logs = JSON.parse(fs.readFileSync(logFilePath, 'utf-8'));
+        } catch (error) {
+            logs = [];
+        }
+    }
+    logs.push({ timestamp: new Date().toISOString(), message });
+    fs.writeFileSync(logFilePath, JSON.stringify(logs, null, 2));
 };
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(limiter);
+app.use(generalLimiter);
 app.use(helmet({
-    contentSecurityPolicy: false, 
-    frameguard: { action: 'deny' }, 
-    hsts: { maxAge: 31536000 }, 
-    xssFilter: true, 
+    contentSecurityPolicy: false,
+    frameguard: { action: 'deny' },
+    hsts: { maxAge: 31536000 },
+    xssFilter: true,
 }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/auth/google/callback",
+    scope: ["email", "profile"]
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        console.log(107 , profile)
+        let userInfo = await User.findOne({ googleId: profile.id });
+        if (!userInfo) {
+            userInfo = new User({
+                googleId: profile.id,
+                name: profile.displayName,
+                email: profile.emails[0].value
+            });
+            await userInfo.save();
+        }
+        return done(null, userInfo);
+    } catch (error) {
+        return done(error, null);
+    }
+}));
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
+
+app.use('/auth', authLimiter);
+
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: "http://localhost:3000",
+        failureRedirect: "http://localhost:3000/login"
+    })
+);
 
 app.use(expressWinston.logger({
     winstonInstance: logger,
-    meta: true, 
-    msg: "HTTP {{req.method}} {{req.url}}", 
-    expressFormat: true, 
-    colorize: false, 
+    meta: true,
+    msg: "HTTP {{req.method}} {{req.url}}",
+    expressFormat: true,
+    colorize: false,
     customStream: {
         write: (message) => logToFile(message),
     }
@@ -101,13 +161,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => res.send(welcome));
 app.get('*', (req, res) => res.status(404).send(notFound));
 
-// Error Logging Middleware
-app.use(expressWinston.errorLogger({
-    winstonInstance: logger,
-    customStream: {
-        write: (message) => logToFile(message),
-    }
-}));
+// Global Error Handling Middleware
+app.use((err, req, res, next) => {
+    logger.error(`Error: ${err.message}`);
+    res.status(500).json({ message: "Internal Server Error" });
+});
 
 // Connect Server
 app.listen(PORT, () => {
