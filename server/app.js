@@ -11,7 +11,8 @@ const connectDB = require('./configs/db');
 const logger = require('./utils/logger');
 const routes = require('./routes/index');
 const { notFound, welcome } = require('./utils/templates');
-const swaggerSpec = require('./utils/swagger'); 
+const swaggerJsdoc = require('swagger-jsdoc');
+
 
 dotenv.config(); 
 const PORT = process.env.PORT || 5000;
@@ -19,6 +20,31 @@ const app = express();
 
 // Connect Database
 connectDB();
+
+// Swagger definition
+const swaggerDefinition = {
+    openapi: '3.0.0',
+    info: {
+      title: 'MERN API Documentation',
+      version: '1.0.0',
+      description: 'This is the API documentation for the MERN stack application',
+    },
+    servers: [
+      {
+        url: 'http://localhost:5000',
+        description: 'Development server',
+      },
+    ],
+}
+
+// Options for swagger-jsdoc
+const options = {
+    swaggerDefinition,
+    apis: ['./routes/*.js'], 
+}
+
+// Initialize swagger-jsdoc
+const swaggerSpec = swaggerJsdoc(options);
 
 // Configure the rate limiter
 const limiter = rateLimit({
