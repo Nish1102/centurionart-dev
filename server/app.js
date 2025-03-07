@@ -61,9 +61,9 @@ const authLimiter = rateLimit({
     max: 300, // Allow more requests for authenticated users
 });
 
-// Middleware to save logs in both app.log and app.log.json
+// Middleware to save logs in both app.log
 const logToFile = (message) => {
-    const logFilePath = path.join(__dirname, 'app.log.json');
+    const logFilePath = path.join(__dirname, 'app.log');
     let logs = [];
     if (fs.existsSync(logFilePath)) {
         try {
