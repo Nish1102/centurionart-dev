@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const artWorkController = require('../controllers/artWorkController');
 
-// Register User
+// Get Art Works
 /**
  * @swagger
  * /api/artwork/artworks:
