@@ -1,13 +1,17 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 const helmet = require('helmet');
 const expressWinston = require('express-winston');
 const rateLimit = require('express-rate-limit');
+const swaggerUi = require('swagger-ui-express');
 const connectDB = require('./configs/db');
-const logger = require('./utils/logger')
+const logger = require('./utils/logger');
 const routes = require('./routes/index');
 const { notFound, welcome } = require('./utils/templates');
+const swaggerSpec = require('./utils/swagger'); 
 
 dotenv.config(); 
 const PORT = process.env.PORT || 5000;
@@ -22,42 +26,64 @@ const limiter = rateLimit({
     max: 100, // Limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again after 15 minutes',
 });
-  
-// middlewares
+
+// Middleware to save logs in both app.log and app.log.json
+const logToFile = (message) => {
+    const logFilePath = path.join(__dirname, 'app.log.json');
+    if (!fs.existsSync(logFilePath)) {
+        fs.writeFileSync(logFilePath, []);
+    }        
+    // Append to app.log
+    fs.appendFileSync(logFilePath, message + '\n');  
+        
+};
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 app.use(helmet({
-    contentSecurityPolicy: false, // Disable CSP if you have a complex CSP policy
-    frameguard: { action: 'deny' }, // Prevent clickjacking
-    hsts: { maxAge: 31536000 }, // Enable HSTS with a max age of 1 year
-    xssFilter: true, // Enable XSS filtering
+    contentSecurityPolicy: false, 
+    frameguard: { action: 'deny' }, 
+    hsts: { maxAge: 31536000 }, 
+    xssFilter: true, 
 }));
+
 app.use(expressWinston.logger({
     winstonInstance: logger,
-    meta: true, // Log the meta data about the request (default to true)
-    msg: "HTTP {{req.method}} {{req.url}}", // Customize the default logging message
-    expressFormat: true, // Use the default Express/morgan request formatting
-    colorize: false, // Color the text and status code
+    meta: true, 
+    msg: "HTTP {{req.method}} {{req.url}}", 
+    expressFormat: true, 
+    colorize: false, 
+    customStream: {
+        write: (message) => logToFile(message),
+    }
 }));
+
 app.use(expressWinston.errorLogger({
     winstonInstance: logger,
-      msg: "HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms"
+    msg: "HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms",
+    customStream: {
+        write: (message) => logToFile(message),
+    }
 }));
-  
+
 // Routes
 app.use('/api', routes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => res.send(welcome));
 app.get('*', (req, res) => res.status(404).send(notFound));
 
 // Error Logging Middleware
 app.use(expressWinston.errorLogger({
-    winstonInstance: logger
+    winstonInstance: logger,
+    customStream: {
+        write: (message) => logToFile(message),
+    }
 }));
 
 // Connect Server
 app.listen(PORT, () => {
-    logger.info(`Server running on port ${PORT}`);   
-    console.log(`Server running on port ${PORT}`)
-})
+    logger.info(`Server running on port ${PORT}`);
+});

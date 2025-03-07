@@ -10,6 +10,9 @@ Install dependencies for both client and server:
 MONGO_URI = "mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 PORT = 5000
 JWT_SECRET = '495bacb95112ed38eba37df9dc39e2af78dab761c243e333307fc57e1b5e6855'
+AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+AWS_REGION: process.env.AWS_REGION
 
 ## Client .env
 REACT_APP_API_BASE_URL=http://localhost:5000
