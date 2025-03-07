@@ -2,7 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { RouteProvider } from './contexts/RouteContext';
 import { routes } from './config/routes';
 import Router from './components/Router';
-import Navigation from './components/Navigation';
+import Navigation from './components/landingpage/Navigation';
 
 function App() {
   return (

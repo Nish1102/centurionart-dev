@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { AppBar, Toolbar, Typography, Button, InputBase, Modal, Box, Card, CardMedia, CardContent, Grid, Paper } from "@mui/material";
 import { Search, ShoppingCart, AccountCircle } from "@mui/icons-material";
-import LoginModal  from './LoginPage';
+import LoginModal  from '../loging/LoginPage';
 import Navbar from './Navbar';
-import api from '../services/api';
+import api from '../../services/api';
+import HeroSec from "./HeroSec";
+import './landingstyle.css';
 
 // const artworks = [
 //   { id: 1, title: "Abstract Colors", image: "https://via.placeholder.com/300" },
@@ -66,6 +68,10 @@ export default function ArtGalleryLanding() {
 
       {/* Nav Bar */}
       <Navbar />
+
+      {/* Hero----Section----Start */}
+        <HeroSec/>
+      {/* Hero----Section----End */}
 
       {/* Promotion Banner */}
       {/* <Box sx={{ textAlign: "center", py: 4, backgroundColor: "#bbdefb" }}>

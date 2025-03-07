@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Paper, Alert, Link, Box } from '@mui/material';
 import { motion } from 'framer-motion';
-import { authService } from '../services/authService';
+import { authService } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import BrushIcon from '@mui/icons-material/Brush';
 
