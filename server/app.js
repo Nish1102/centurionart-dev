@@ -49,6 +49,9 @@ const options = {
 // Initialize swagger-jsdoc
 const swaggerSpec = swaggerJsdoc(options);
 
+// Trust the first proxy (e.g., if behind a load balancer or hosting service)
+app.set('trust proxy', 1);
+
 // Configure rate limiting
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
