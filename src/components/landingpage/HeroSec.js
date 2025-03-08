@@ -92,7 +92,7 @@ function HeroSec() {
                 </ListItem>
               </List>
 
-              <Button variant="contained" size="large">
+              <Button variant="contained" className="commn_btn" size="large">
                 Shop Now
               </Button>
             </Item>

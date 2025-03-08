@@ -6,6 +6,9 @@ import Navbar from './Navbar';
 import api from '../../services/api';
 import HeroSec from "./HeroSec";
 import './landingstyle.css';
+import FeaturedSec from "./FeaturedSec";
+import GallerySec from "./GallerySec";
+import FeatureCarousel from "./FeatureCarousel";
 
 // const artworks = [
 //   { id: 1, title: "Abstract Colors", image: "https://via.placeholder.com/300" },
@@ -13,37 +16,28 @@ import './landingstyle.css';
 //   { id: 3, title: "Modern Expression", image: "https://via.placeholder.com/300" },
 // ];
 
-const categories = [
-  { name: "Abstract", image: "https://via.placeholder.com/150", bgColor: "#E0BBE4" },
-  { name: "Landscapes", image: "https://via.placeholder.com/150", bgColor: "#FFDFBA" },
-  { name: "Portraits", image: "https://via.placeholder.com/150", bgColor: "#FFABAB" },
-  { name: "Photography", image: "https://via.placeholder.com/150", bgColor: "#E8E8E8" },
-  { name: "Sculpture", image: "https://via.placeholder.com/150", bgColor: "#FFB7B2" },
-  { name: "Best-selling artists", image: "https://via.placeholder.com/150", bgColor: "#D4F0F0" },
-  { name: "Famous artists", image: "https://via.placeholder.com/150", bgColor: "#C1BBDD" },
-  { name: "Seasonal promotion", image: "https://via.placeholder.com/150", bgColor: "#5B62F4", color: "white" },
-];
+
 
 export default function ArtGalleryLanding() {
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const [artworks, setArtworks] = useState([]);
+    // const [artworks, setArtworks] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
   
-    useEffect(() => {
-      const fetchArtworks = async () => {
-        try {
-          const response = await api.get(`/api/artwork/artworks?_page=${page}&_limit=100`);
-          setArtworks(response.data);
-          setTotalPages(Math.ceil(response.headers['x-total-count'] / 6));
-        } catch (error) {
-          console.error('Failed to fetch artworks:', error);
-        }
-      };
+    // useEffect(() => {
+    //   const fetchArtworks = async () => {
+    //     try {
+    //       const response = await api.get(`/api/artwork/artworks?_page=${page}&_limit=100`);
+    //       setArtworks(response.data);
+    //       setTotalPages(Math.ceil(response.headers['x-total-count'] / 6));
+    //     } catch (error) {
+    //       console.error('Failed to fetch artworks:', error);
+    //     }
+    //   };
   
-      fetchArtworks();
-    }, [page]);
+    //   fetchArtworks();
+    // }, [page]);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -81,7 +75,7 @@ export default function ArtGalleryLanding() {
       </Box> */}
 
       {/* Featured Categories */}
-      <Box sx={{ p: 4 }}>
+      {/* <Box sx={{ p: 4 }}>
         <Typography variant="h5" textAlign="center" fontWeight="bold">Featured artwork categories</Typography>
         <Typography variant="body1" textAlign="center" mb={3}>
           Whatever your taste, style, or mood, find original art you love in these popular categories
@@ -99,10 +93,12 @@ export default function ArtGalleryLanding() {
         <Box textAlign="center" mt={3}>
           <Button variant="outlined" color="primary">Explore all categories</Button>
         </Box>
-      </Box>
+      </Box> */}
+
+      <FeaturedSec/>
 
      {/* Gallery */}
-        <Box sx={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 2, p: 4 }}>
+        {/* <Box sx={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 2, p: 4 }}>
         {Array.isArray(artworks) && artworks.length > 0 ? (
             artworks
             .filter((art) => art.title && art.title.toLowerCase().includes(search.toLowerCase()))
@@ -119,7 +115,12 @@ export default function ArtGalleryLanding() {
             No artworks found.
             </Typography>
         )}
-        </Box>
+        </Box> */}
+
+        <GallerySec/>
+
+        {/* Feature Carousel */}
+        <FeatureCarousel/>
 
 
       {/* Login Modal */}
