@@ -49,6 +49,9 @@ const options = {
 // Initialize swagger-jsdoc
 const swaggerSpec = swaggerJsdoc(options);
 
+// Trust the first proxy (e.g., if behind a load balancer or hosting service)
+app.set('trust proxy', 1);
+
 // Configure rate limiting
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -78,6 +81,19 @@ const logToFile = (message) => {
 
 // Middlewares
 app.use(cors());
+
+// Enable CORS for your frontend
+app.use(cors({
+    origin: [
+        'https://dreamy-starship-3a31f6.netlify.app',
+        'https://localhost:3000',
+        'https://localhost:3001',
+        'http://localhost:3000',
+        'http://localhost:3001'
+    ], // Allow only your frontend
+    credentials: true // Allow cookies if needed
+  }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(generalLimiter);
