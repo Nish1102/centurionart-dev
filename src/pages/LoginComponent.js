@@ -180,7 +180,7 @@ export default function LoginComponent() {
           <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
             New to the collection? {' '}
             <Link 
-              href="/regstration" 
+              href="/registration" 
               sx={{ 
                 color: 'primary.main',
                 textDecoration: 'none',

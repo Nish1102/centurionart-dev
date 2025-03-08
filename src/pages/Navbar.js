@@ -1,8 +1,11 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button, IconButton, InputBase, Box } from "@mui/material";
 import { Search, FavoriteBorder, PersonOutline, ShoppingBagOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Navbar = () => {
+  const navigate = useNavigate(); // Initialize navigate function
+
   return (
     <AppBar position="static" color="inherit" sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}>
         
@@ -12,8 +15,13 @@ const Navbar = () => {
           <Button variant="contained" color="error" sx={{ borderRadius: 3, textTransform: "none" }}>
             Seasonal promotion
           </Button>
-          <Button variant="outlined" color="primary" sx={{ textTransform: "none" }}>
-            Sell my art
+          <Button 
+            variant="outlined" 
+            color="primary" 
+            sx={{ textTransform: "none" }}
+            onClick={() => navigate("/login")} // Navigate to /login on click
+          >
+            Sell my art 
           </Button>
           <IconButton>
             <FavoriteBorder />
