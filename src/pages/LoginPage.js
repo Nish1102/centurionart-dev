@@ -13,7 +13,7 @@ const LoginModal = ({ open, onClose }) => {
         {/* Left Side - Collector */}
         <Box sx={{ width: "50%", p: 3, borderRight: 1, borderColor: "divider", textAlign: "center" }}>
           <Typography variant="h5" color="primary" gutterBottom>
-            👤 I am an art lover, a collector
+            I am an art lover, a collector
           </Typography>
           <Typography variant="body2" color="textSecondary" gutterBottom>
             Create an account to save your favorites and receive personal offers.

@@ -1,5 +1,7 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React from "react";
+import image1 from "../../assets/1.jpg";
+import image2 from "../../assets/2.jpg";
 
 const MoreSubMenu = () => {
   return (
@@ -47,7 +49,7 @@ const MoreSubMenu = () => {
           <CardMedia
             component="img"
             height="100"
-            image="https://source.unsplash.com/100x100/?landscape"
+            image={image1}
             alt="Contemporary Landscapes"
           />
           <CardContent sx={{ p: 1 }}>
@@ -62,7 +64,7 @@ const MoreSubMenu = () => {
           <CardMedia
             component="img"
             height="100"
-            image="https://source.unsplash.com/100x100/?art"
+            image={image2}
             alt="New Romanticism"
           />
           <CardContent sx={{ p: 1 }}>

@@ -1,6 +1,6 @@
 import { FavoriteBorder, PersonOutline, Search, ShoppingBagOutlined } from "@mui/icons-material";
-import { AppBar, Box, Button, IconButton, InputBase, Popover, Toolbar } from "@mui/material";
-import React, { useState } from "react";
+import { AppBar, Box, Button, IconButton, InputBase, Popover, Toolbar, Modal } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import ArtistsSubMenu from "./menuContents/artistsSubMenu";
 import DrawingSubMenu from "./menuContents/drawingSubMenu";
 import MoreSubMenu from "./menuContents/moreSubMenu";
@@ -9,10 +9,16 @@ import PaintingSubMenu from "./menuContents/paintingSubMenu";
 import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
 import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
+import LoginModal  from './LoginPage';
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverContent, setPopoverContent] = useState("");
+   const [search, setSearch] = useState("");
+      const [isLoginOpen, setIsLoginOpen] = useState(false);
+      const [artworks, setArtworks] = useState([]);
+      const [page, setPage] = useState(1);
+      const [totalPages, setTotalPages] = useState(1);
 
   const handlePopoverOpen = (event, content) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +31,23 @@ const Navbar = () => {
   };
 
   const open = Boolean(anchorEl);
+
+  // Close popover when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (anchorEl && !anchorEl.contains(event.target)) {
+        handlePopoverClose();
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open, anchorEl]);
 
   return (
     <AppBar position="static" color="inherit" sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}>
@@ -40,12 +63,13 @@ const Navbar = () => {
           <FavoriteBorder />
         </IconButton>
         <IconButton>
-          <PersonOutline />
+          <PersonOutline onClick={() => setIsLoginOpen(true)} />
         </IconButton>
         <IconButton>
           <ShoppingBagOutlined />
         </IconButton>
       </Box>
+
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
@@ -67,34 +91,31 @@ const Navbar = () => {
         </Box>
       </Toolbar>
 
+      {/* Popover for Submenus */}
       <Popover
         sx={{ pointerEvents: "none" }}
         open={open}
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
         onClose={handlePopoverClose}
-        disableRestoreFocus
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+        disableRestoreFocus={false}
         PaperProps={{ sx: { p: 2, display: "flex" } }}
       >
-        <>
         {popoverContent === "New In" && <NewInMenu />}
         {popoverContent === "Photography" && <PhotographySubMenu />}
         {popoverContent === "Painting" && <PaintingSubMenu />}
         {popoverContent === "Print" && <PrintSubMenu />}
-        {popoverContent === "Photography" && <PaintingSubMenu />}
         {popoverContent === "Sculpture" && <SculptureSubMenu />}
         {popoverContent === "Drawing" && <DrawingSubMenu />}
         {popoverContent === "More" && <MoreSubMenu />}
         {popoverContent === "Artists" && <ArtistsSubMenu />}
-        </>
       </Popover>
+
+      {/* Login Modal */}
+      <Modal open={isLoginOpen} onClose={() => setIsLoginOpen(false)}>
+       <LoginModal  open={isLoginOpen} onClose={() => setIsLoginOpen(false)}/>
+      </Modal>
     </AppBar>
   );
 };

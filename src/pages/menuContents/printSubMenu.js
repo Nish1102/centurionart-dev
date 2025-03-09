@@ -1,5 +1,7 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React from "react";
+import image1 from "../../assets/1.jpg";
+import image2 from "../../assets/2.jpg";
 
 const PrintSubMenu = () => {
   return (
@@ -37,7 +39,7 @@ const PrintSubMenu = () => {
     {/* Highlights */}
     <Grid item xs={3}>
       <Card sx={{ boxShadow: 0 }}>
-        <CardMedia component="img" height="100" image="https://source.unsplash.com/100x100/?art" alt="Surrealist Visions" />
+        <CardMedia component="img" height="100" image={image1} alt="Surrealist Visions" />
         <CardContent sx={{ p: 1 }}>
           <Typography variant="body2" fontWeight="bold">Famous artists: Surrealist Visions</Typography>
           <Typography color="primary">Discover →</Typography>
@@ -45,7 +47,7 @@ const PrintSubMenu = () => {
       </Card>
 
       <Card sx={{ boxShadow: 0, mt: 2 }}>
-        <CardMedia component="img" height="100" image="https://source.unsplash.com/100x100/?portrait" alt="Timeless Portraits" />
+        <CardMedia component="img" height="100" image={image2} alt="Timeless Portraits" />
         <CardContent sx={{ p: 1 }}>
           <Typography variant="body2" fontWeight="bold">Famous artists: Timeless Portraits</Typography>
           <Typography color="primary">Discover →</Typography>

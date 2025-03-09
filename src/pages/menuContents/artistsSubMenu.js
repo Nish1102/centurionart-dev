@@ -1,5 +1,7 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
+import image1 from "../../assets/1.jpg";
+import image2 from "../../assets/2.jpg";
 
 const ArtistsSubMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -49,7 +51,7 @@ const ArtistsSubMenu = () => {
               <CardMedia
                 component="img"
                 height="80"
-                image="https://source.unsplash.com/100x80/?artist"
+                image={image1}
                 alt="Sell Your Art"
               />
               <CardContent sx={{ p: 1 }}>
@@ -64,7 +66,7 @@ const ArtistsSubMenu = () => {
               <CardMedia
                 component="img"
                 height="80"
-                image="https://source.unsplash.com/100x80/?modern-art"
+                image={image2}
                 alt="Inspired by Pierre Soulages"
               />
               <CardContent sx={{ p: 1 }}>
