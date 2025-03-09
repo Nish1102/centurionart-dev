@@ -40,10 +40,10 @@ function GallerySec() {
     const fetchArtworks = async () => {
       try {
         const response = await api.get(
-          `/api/artwork/artworks?_page=${page}&_limit=100`
+          `/api/artwork/artworks?_page=${page}&_limit=6`
         );
         setArtworks(response.data);
-        setTotalPages(Math.ceil(response.headers["x-total-count"] / 6));
+        // setTotalPages(Math.ceil(response.headers["x-total-count"] / 6));
       } catch (error) {
         console.error("Failed to fetch artworks:", error);
       }
