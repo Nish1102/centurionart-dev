@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
@@ -21,6 +23,14 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|jpg)$/i, 
+        type: 'asset',
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|jpg)$/i, 
+        type: 'public/images',
       }
     ]
   },
