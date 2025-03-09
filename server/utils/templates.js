@@ -64,7 +64,7 @@ const welcome = `<!DOCTYPE html>
                                 text-align: center;
                                 background-color: #f4f4f4;
                                 margin: 0;
-                                padding: 50px;
+                                padding: 100px;
                             }
                             .container {
                                 background: white;
@@ -84,7 +84,8 @@ const welcome = `<!DOCTYPE html>
                             a {
                                 display: inline-block;
                                 margin-top: 20px;
-                                padding: 10px 20px;
+                                margin: 5px;
+                                padding: 10px 30px;
                                 font-size: 18px;
                                 color: white;
                                 background-color: #007bff;
@@ -92,7 +93,7 @@ const welcome = `<!DOCTYPE html>
                                 border-radius: 5px;
                             }
                             a:hover {
-                                background-color: #0056b3;
+                                background-color:rgb(15, 244, 133);
                             }
                         </style>
                     </head>
@@ -100,12 +101,11 @@ const welcome = `<!DOCTYPE html>
                         <div class="container">
                             <h1>Welcome to Centurion Art!</h1>
                             <p>Your server is running smoothly.</p>
-                            <a href="/api">Explore API</a>
+                            <a href="/api-docs">Explore API</a>
                         </div>
                     </body>
                     </html>
                     `;
-
 
 module.exports = {
     notFound,

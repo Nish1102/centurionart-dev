@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { authService } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import PaletteIcon from '@mui/icons-material/Palette';
+import GoogleIcon from '@mui/icons-material/Google';
 
 export default function RegistrationComponent() {
   const [email, setEmail] = useState('');
@@ -30,6 +31,15 @@ export default function RegistrationComponent() {
       setLoading(false);
     }
   };
+
+
+  const handleGoogleSignIn = () => {
+    try {
+      window.open('http://localhost:5000/auth/google/callback', '_self');
+    } catch(error) {
+      setError(error.message);
+    }
+  }
 
   return (
     <Container
@@ -183,6 +193,30 @@ export default function RegistrationComponent() {
               {loading ? 'Creating Account...' : 'Start Creating'}
             </Button>
           </form>
+
+          {/* Google Sign-In Button */}
+          <Button
+            variant="outlined"
+            fullWidth
+            onClick={handleGoogleSignIn}
+            sx={{
+              mt: 2,
+              py: 1.5,
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderColor: '#3B82F6',
+              color: '#3B82F6',
+              '&:hover': {
+                borderColor: '#2563EB',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              }
+            }}
+          >
+            <GoogleIcon sx={{ mr: 1 }} />
+            Sign In with Google
+          </Button>
 
           <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
             Already have an account? {' '}

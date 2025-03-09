@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
+require('dotenv').config();
 
 module.exports = {
   entry: './src/index.js',
@@ -107,6 +108,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
-    fullySpecified: false,
+    fullySpecified: false
   }
 };
