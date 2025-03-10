@@ -1,8 +1,20 @@
 import React from "react";
 import { Dialog, DialogContent, Button, Typography, Box, IconButton } from "@mui/material";
-import { Facebook, Google, Close } from "@mui/icons-material";
+import { Google, Close } from "@mui/icons-material";
+import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+// import FacebookLogin from 'react-facebook-login';
 
 const LoginModal = ({ open, onClose }) => {
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse),
+    onError: error => console.error(error),
+  });
+
+  // const responseFacebook = (response) => {
+  //   console.log(response);
+  // };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogContent sx={{ display: "flex", p: 0, position: "relative" }}>
@@ -24,12 +36,19 @@ const LoginModal = ({ open, onClose }) => {
           <Typography variant="body2" color="textSecondary" gutterBottom>
             or
           </Typography>
-          <Button variant="outlined" startIcon={<Google />} fullWidth sx={{ mb: 1 }}>
+          <Button variant="outlined" onClick={() => googleLogin()} startIcon={<Google />} fullWidth sx={{ mb: 1 }}>
             Continue with Google
           </Button>
-          <Button variant="outlined" startIcon={<Facebook />} fullWidth>
-            Continue with Facebook
-          </Button>
+          {/* <FacebookLogin
+            appId="YOUR_FACEBOOK_APP_ID"  
+            autoLoad={false}
+            callback={responseFacebook}
+            render={renderProps => (
+              <Button variant="outlined" onClick={renderProps.onClick} startIcon={<Facebook />} fullWidth>
+                Continue with Facebook
+              </Button>
+            )}
+          /> */}
           <Typography variant="body2" color="textSecondary" mt={2}>
             Already have an account? <a href="#" style={{ color: "blue" }}>Sign in</a>
           </Typography>
@@ -55,4 +74,12 @@ const LoginModal = ({ open, onClose }) => {
   );
 };
 
-export default LoginModal;
+const LoginPage = ({ open, onClose }) => {
+  return (
+    <GoogleOAuthProvider clientId="1050899497546-iotkssf89375nf184hp402ng2nflag56.apps.googleusercontent.com">
+      <LoginModal open={open} onClose={onClose} />
+    </GoogleOAuthProvider>
+  );
+};
+
+export default LoginPage;
