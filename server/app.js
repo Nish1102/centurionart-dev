@@ -80,7 +80,6 @@ const logToFile = (message) => {
 };
 
 // Middlewares
-app.use(cors());
 
 // Enable CORS for your frontend
 app.use(cors({
@@ -90,8 +89,8 @@ app.use(cors({
         'https://localhost:3001',
         'http://localhost:3000',
         'http://localhost:3001'
-    ], // Allow only your frontend
-    credentials: true // Allow cookies if needed
+    ],
+    credentials: true 
   }));
 
 app.use(express.json());

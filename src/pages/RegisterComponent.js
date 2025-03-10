@@ -221,7 +221,7 @@ export default function RegistrationComponent() {
           <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
             Already have an account? {' '}
             <Link
-              href="/login"
+              href="/"
               sx={{
                 color: '#3B82F6',
                 textDecoration: 'none',

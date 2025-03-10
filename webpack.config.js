@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -5,6 +7,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 require('dotenv').config();
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -93,6 +96,11 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/images', to: 'images' } // Copies `public/images` to `dist/images`
+      ]
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
