@@ -1,7 +1,10 @@
+require('dotenv').config(); // Load environment variables
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 require('dotenv').config();
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -20,12 +23,17 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/images', to: 'images' } // Copies `public/images` to `dist/images`
+      ]
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)

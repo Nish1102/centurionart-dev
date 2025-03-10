@@ -1,13 +1,15 @@
 import Dashboard from '../pages/Dashboard';
-import LoginComponent from '../pages/LoginComponent';
+import LoginComponent from '../components/loging/LoginComponent';
 import RegistrationComponent from '../pages/RegisterComponent';
-import BuyerDashboard from '../pages/BuyerDashboard';
-import VendorDashboard from '../pages/VendorDashboard';
-import AdminDashboard from '../pages/AdminDashboard';
-import ArtGalleryLanding from '../pages/LandingPage';
+import BuyerDashboard from '../components/dashboard/buyerdashboard/BuyerDashboard';
+import ResellerDashboard from '../components/dashboard/resellerdashboard/resellerdashboard';
+import VendorDashboard from '../components/dashboard/vendordashboard/VendorDashboard';
+import AdminDashboard from '../components/dashboard/admindashboard/AdminDashboard';
+import ArtGalleryLanding from '../components/landingpage/LandingPage';
 import Unauthorized from '../pages/Unauthorized';
 import { AuthGuard } from '../guards/AuthGuard';
 import { RoleGuard } from '../guards/RoleGuard';
+
 
 export const routes = [
   {
@@ -35,6 +37,12 @@ export const routes = [
     path: '/buyer-dashboard',
     name: 'Buyer Dashboard',
     component: BuyerDashboard,
+    guard: (props) => <RoleGuard {...props} roles={['buyer']} />
+  },
+  {
+    path: '/reseller-dashboard',
+    name: 'Buyer Dashboard',
+    component: ResellerDashboard,
     guard: (props) => <RoleGuard {...props} roles={['buyer']} />
   },
   {
