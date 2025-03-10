@@ -24,6 +24,7 @@ import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
 import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
 import LoginModal from "../loging/LoginPage";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,6 +34,7 @@ const Navbar = () => {
   const [artworks, setArtworks] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   const handlePopoverOpen = (event, content) => {
     setAnchorEl(event.currentTarget);
@@ -90,6 +92,7 @@ const Navbar = () => {
           variant="outlined"
           color="primary"
           sx={{ textTransform: "none" }}
+          onClick={() => navigate("/login")}
         >
           Sell my art
         </Button>
@@ -105,18 +108,8 @@ const Navbar = () => {
       </Box>
 
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        
-        {/* Logo */}
-        {/* <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}> */}
-          <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
-        {/* </Typography> */}
-
-        {/* Search Bar */}
-        {/* <Box sx={{ display: "flex", alignItems: "center", bgcolor: "#f1f1f1", borderRadius: 2, px: 2 }}>
-          <Search color="disabled" />
-          <InputBase placeholder="Search for Photography" sx={{ ml: 1, width: 300 }} />
-        </Box> */}
-
+        {/* logo */}
+        <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
           {["New In", "Painting", "Print", "Photography", "Sculpture", "Drawing", "More", "Artists"].map((item) => (
@@ -125,6 +118,7 @@ const Navbar = () => {
             </Button>
           ))}
         </Box>
+
 
         {/* Search Bar */}
         <Box
