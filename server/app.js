@@ -81,17 +81,22 @@ const logToFile = (message) => {
 
 // Middlewares
 
-// Enable CORS for your frontend
+// // Enable CORS for your frontend
+// app.use(cors({
+//     origin: [
+//         'https://dreamy-starship-3a31f6.netlify.app',
+//         'https://localhost:3000',
+//         'https://localhost:3001',
+//         'http://localhost:3000',
+//         'http://localhost:3001'
+//     ],
+//     credentials: true 
+//   }));
+
 app.use(cors({
-    origin: [
-        'https://dreamy-starship-3a31f6.netlify.app',
-        'https://localhost:3000',
-        'https://localhost:3001',
-        'http://localhost:3000',
-        'http://localhost:3001'
-    ],
-    credentials: true 
-  }));
+    origin: "*",
+    credentials: true, 
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -102,6 +107,7 @@ app.use(helmet({
     hsts: { maxAge: 31536000 },
     xssFilter: true,
 }));
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
