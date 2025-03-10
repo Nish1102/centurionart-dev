@@ -105,6 +105,8 @@ const Navbar = () => {
       </Box>
 
       <Toolbar sx={{ justifyContent: "space-between" }}>
+        {/* logo */}
+        <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
           {[
@@ -126,6 +128,7 @@ const Navbar = () => {
             </Button>
           ))}
         </Box>
+
 
         {/* Search Bar */}
         <Box

@@ -90,6 +90,13 @@
 }
 /* =====Hero-sec-end==== */
 
+/* ====header-sec-start==== */
+.header_logo {
+    max-width: 150px;
+    min-width: 100px;
+  }
+/* ====header-sec-start==== */
+
 
 
 /* =====Featured-sec-start */
