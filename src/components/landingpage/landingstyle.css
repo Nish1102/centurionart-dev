@@ -275,5 +275,43 @@
     width: 100% !important;
     height: 350px !important;
   }
+  .featured_slider_row h6 {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--title-color);
+  }
 
 /* =====Feachered-slider-sec-end===== */  
+
+/* =====Exper-sec-start==== */
+.expert_section {
+    /* position: relative; */
+    background: aliceblue;
+  }
+  .exper_right_row img {
+    /* position: absolute;
+    top: 0;
+    right: 0; */
+    border-radius: 5px;
+  box-shadow: 0 1px 10px rgba(24, 24, 24, .07) !important;
+  }
+  .expert_caption h6 {
+    font-size: 23px;
+    font-weight: normal;
+    color: var(--title-color);
+  }
+  .expert_caption p{
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--peragh-color);
+  }
+/* .exper_right_row {
+    background: url('/public/images/feature-2.jpg') center center no-repeat !important;
+    background-size: cover !important;
+    position: relative;
+    background-color: #1c2b46;
+  } */
+
+  
+
+/* =====Exper-sec-end==== */

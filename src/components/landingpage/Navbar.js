@@ -146,7 +146,7 @@ const Navbar = () => {
           <Search color="disabled" />
           <InputBase
             placeholder="Search for Photography"
-            sx={{ ml: 1, width: 500 }}
+            sx={{ ml: 1, width: 300 }}
           />
         </Box>
       </Toolbar>
