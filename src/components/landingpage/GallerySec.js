@@ -95,7 +95,7 @@ function GallerySec() {
                           art.title &&
                           art.title.toLowerCase().includes(search.toLowerCase())
                       )
-                      .slice(0, 8) // Limit to 8 artworks
+                      .slice(0, 12) // Limit to 8 artworks
                       .map((art) => (
                         <Grid
                           item

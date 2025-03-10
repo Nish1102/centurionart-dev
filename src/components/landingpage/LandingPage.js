@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, Button, InputBase, Modal, Box, Card, CardMedia, CardContent, Grid, Paper } from "@mui/material";
-import { Search, ShoppingCart, AccountCircle } from "@mui/icons-material";
+import { useState } from "react";
+import { Modal} from "@mui/material";
 import LoginModal  from '../loging/LoginPage';
 import Navbar from './Navbar';
-import api from '../../services/api';
 import HeroSec from "./HeroSec";
 import './landingstyle.css';
 import FeaturedSec from "./FeaturedSec";

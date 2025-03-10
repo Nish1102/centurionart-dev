@@ -36,18 +36,18 @@ const Navbar = () => {
       <Toolbar sx={{ justifyContent: "space-between" }}>
         
         {/* Logo */}
-        <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>
-          Singulart
-        </Typography>
+        {/* <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}> */}
+          <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
+        {/* </Typography> */}
 
         {/* Search Bar */}
         <Box sx={{ display: "flex", alignItems: "center", bgcolor: "#f1f1f1", borderRadius: 2, px: 2 }}>
           <Search color="disabled" />
-          <InputBase placeholder="Search for Photography" sx={{ ml: 1, width: 500 }} />
+          <InputBase placeholder="Search for Photography" sx={{ ml: 1, width: 300 }} />
         </Box>
 
         {/* Navigation Links */}
-        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
           {["New In", "Painting", "Print", "Photography", "Sculpture", "Drawing", "More", "Artists"].map((item) => (
             <Button key={item} sx={{ color: "black", textTransform: "none" }}>
               {item}

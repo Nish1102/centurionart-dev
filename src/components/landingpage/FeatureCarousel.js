@@ -1,106 +1,145 @@
-import React, { useEffect } from "react";
-import $ from "jquery";
-// import OwlCarousel from "react-owl-carousel";
-import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
+import React from "react";
+import { Box, Button, Container, Grid, Typography, IconButton } from "@mui/material";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-// Ensure jQuery is globally available
-// if (typeof window !== "undefined") {
-//   window.$ = window.jQuery = $;
-// }
-
-// Categories data
+// ✅ Categories data (Updated paths)
 const categories = [
-  { name: "Abstract", image: "/images/feature-1.jpg" },
-  { name: "Landscapes", image: "/images/feature-2.jpg" },
-  { name: "Portraits", image: "/images/feature-3.jpg" },
-  { name: "Photography", image: "/images/feature-1.jpg" },
-  { name: "Sculpture", image: "/images/feature-2.jpg" },
-  { name: "Best-selling artists", image: "/images/feature-3.jpg" },
-  { name: "Famous artists", image: "/images/feature-1.jpg" },
-  { name: "Seasonal promotion", image: "/images/feature-2.jpg", color: "white" },
+  { name: "Abstract", image: "/images/slider-1.jpg" },
+  { name: "Landscapes", image: "/images/slider-2.jpg" },
+  { name: "Portraits", image: "/images/slider-3.jpg" },
+  { name: "Photography", image: "/images/slider-4.jpg" },
+  { name: "Sculpture", image: "/images/slider-1.jpg" },
+  { name: "Best-selling artists", image: "/images/slider-2.jpg" },
+  { name: "Famous artists", image: "/images/slider-3.jpg" },
+  { name: "Seasonal promotion", image: "/images/slider-4.jpg" },
 ];
 
+// ✅ Custom Arrow Components
+const NextArrow = ({ onClick }) => (
+  <IconButton
+    onClick={onClick}
+    sx={{
+      position: "absolute",
+      top: "50%",
+      right: -20,
+      transform: "translateY(-50%)",
+      backgroundColor: "#fff",
+      boxShadow: 2,
+      zIndex: 1,
+      "&:hover": { backgroundColor: "#f0f0f0" },
+      // display: "flex",
+      // justifyContent: 'center',
+      // alignItems:'center'
+    }}
+  >
+   <ArrowForwardIosIcon
+      style={{
+        position: "relative",
+        left: "4px",
+      }}
+    />
+  </IconButton>
+);
+
+const PrevArrow = ({ onClick }) => (
+  <IconButton
+    onClick={onClick}
+    sx={{
+      position: "absolute",
+      top: "50%",
+      left: -20,
+      transform: "translateY(-50%)",
+      backgroundColor: "#fff",
+      boxShadow: 2,
+      zIndex: 1,
+      "&:hover": { backgroundColor: "#f0f0f0" },
+    }}
+  >
+    <ArrowBackIosIcon />
+  </IconButton>
+);
+
 function FeatureCarousel() {
-  // Owl Carousel settings
-  const options = {
-    loop: true,
-    margin: 10,
-    nav: true,
-    dots: true,
-    autoplay: true,
-    autoplayTimeout: 3000,
-    responsive: {
-      0: { items: 1 },
-      600: { items: 2 },
-      1000: { items: 3 },
-    },
+  // Carousel settings
+  const settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: false,
+    speed: 1000,
+    autoplaySpeed: 3000,
+    cssEase: "linear",
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
-  // jQuery effects after component mounts
-//   useEffect(() => {
-//     const $owlCarousel = $(".owl-carousel");
-
-//     if ($owlCarousel.length > 0) {
-//       $owlCarousel.on("mouseover", function () {
-//         $owlCarousel.trigger("stop.owl.autoplay");
-//       });
-
-//       $owlCarousel.on("mouseleave", function () {
-//         $owlCarousel.trigger("play.owl.autoplay");
-//       });
-
-//       $owlCarousel.on("click", ".owl-nav button", function () {
-//         $(this).css("background", "#ff6600");
-//       });
-//     }
-
-//     return () => {
-//       $owlCarousel.off("mouseover mouseleave click");
-//     };
-//   }, []);
-
   return (
-    <Box className="featured_section">
-      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4, md: 6, lg: 8, xl: 10 } }}>
+    <Box className="featured_section" position="relative">
+      <Container
+        maxWidth="lg"
+        sx={{ py: { xs: 2, sm: 4, md: 6, lg: 8, xl: 10 } }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between",
+                 marginBottom: { xs: 3, sm: 3, md: 5, lg: 5, xl: 5, xxl: 5 },
+               }}
+            >
               <Typography variant="h5" className="main_title">
-              Featured collections
+                Featured collections
               </Typography>
               <Button variant="contained" className="commn_btn">
-                Explore all categories
+                Explore all
               </Button>
             </Box>
 
-            {/* <OwlCarousel className="owl-carousel owl-theme" {...options}>
-              {categories.map((category) => (
-                <Box key={category.name} className="item" sx={{ p: 2, borderRadius: 2 }}>
-                  <Paper
-                    sx={{
-                      boxShadow: "inherit",
-                      padding: 0,
-                      textAlign: "center",
-                      borderRadius: 2,
-                      color: category.color || "black",
-                    }}
-                  >
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      {category.name}
-                    </Typography>
-                    <Box className="feature_img">
-                      <img
-                        src={category.image}
-                        alt={category.name}
-                        style={{ width: "100%", borderRadius: 8 }}
-                      />
-                    </Box>
-                  </Paper>
-                </Box>
-              ))}
-            </OwlCarousel> */}
+            <Box sx={{ position: "relative" }}>
+              <Slider {...settings}>
+                {categories.map((item, index) => (
+                  <Box key={index}>
+                    <Grid container spacing={2} sx={{ p: 0 }}>
+                      <Grid item xs={12}>
+                        <Box className="featured_slider_row" sx={{ px: 2 }}>
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            style={{
+                              width: "100%",
+                              height: "auto",
+                              borderRadius: 12,
+                              display: "block",
+                            }}
+                          />
+                          <Typography variant="h6" align="center" mt={1}>
+                            {item.name}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                ))}
+              </Slider>
+            </Box>
           </Grid>
         </Grid>
       </Container>
