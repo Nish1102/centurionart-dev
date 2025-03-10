@@ -55,8 +55,8 @@ const Navigation = () => {
       <Toolbar>
         {/* Left-aligned content */}
         <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
-          <Typography variant="h6">
-          The Centurion Art 2.0
+          <Typography variant="h6" sx={{ textTransform: "uppercase" }}>
+            The Centurion Art 2.0
           </Typography>
           <BrushIcon sx={{ ml: 1, fontSize: 30 }} />
         </Box>
