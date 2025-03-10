@@ -1,7 +1,7 @@
 import { Card, CardContent, CardMedia, Grid, Typography, Link } from "@mui/material";
 import React, { useState } from "react";
-import image1 from "../../assets/1.jpg";
-import image2 from "../../assets/2.jpg";
+import image1 from "../../../assets/1.jpg";
+import image2 from "../../../assets/2.jpg";
 
 const NewInMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);

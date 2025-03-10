@@ -7,7 +7,7 @@ import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 const LoginModal = ({ open, onClose }) => {
 
   const googleLogin = useGoogleLogin({
-    onSuccess: tokenResponse => console.log(tokenResponse),
+    onSuccess: tokenResponse => console.log('tokenResponse'),
     onError: error => console.error(error),
   });
 
@@ -76,7 +76,7 @@ const LoginModal = ({ open, onClose }) => {
 
 const LoginPage = ({ open, onClose }) => {
   return (
-    <GoogleOAuthProvider clientId="1050899497546-iotkssf89375nf184hp402ng2nflag56.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <LoginModal open={open} onClose={onClose} />
     </GoogleOAuthProvider>
   );

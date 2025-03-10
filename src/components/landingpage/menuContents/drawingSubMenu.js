@@ -1,7 +1,7 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React from "react";
-import image1 from "../../assets/1.jpg";
-import image2 from "../../assets/2.jpg";
+import image1 from "../../../assets/1.jpg";
+import image2 from "../../../assets/2.jpg";
 
 
 const DrawingSubMenu = () => {

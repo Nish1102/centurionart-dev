@@ -1,5 +1,19 @@
-import { FavoriteBorder, PersonOutline, Search, ShoppingBagOutlined } from "@mui/icons-material";
-import { AppBar, Box, Button, IconButton, InputBase, Popover, Toolbar, Modal } from "@mui/material";
+import {
+  FavoriteBorder,
+  PersonOutline,
+  Search,
+  ShoppingBagOutlined,
+} from "@mui/icons-material";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  InputBase,
+  Popover,
+  Toolbar,
+  Modal,
+} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import ArtistsSubMenu from "./menuContents/artistsSubMenu";
 import DrawingSubMenu from "./menuContents/drawingSubMenu";
@@ -9,16 +23,16 @@ import PaintingSubMenu from "./menuContents/paintingSubMenu";
 import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
 import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
-import LoginModal  from './LoginPage';
+import LoginModal from "../loging/LoginPage";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popoverContent, setPopoverContent] = useState("");
-   const [search, setSearch] = useState("");
-      const [isLoginOpen, setIsLoginOpen] = useState(false);
-      const [artworks, setArtworks] = useState([]);
-      const [page, setPage] = useState(1);
-      const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState("");
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [artworks, setArtworks] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handlePopoverOpen = (event, content) => {
     setAnchorEl(event.currentTarget);
@@ -50,13 +64,33 @@ const Navbar = () => {
   }, [open, anchorEl]);
 
   return (
-    <AppBar position="static" color="inherit" sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}>
+    <AppBar
+      position="static"
+      color="inherit"
+      sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}
+    >
       {/* Icons & Sell My Art Button */}
-      <Box sx={{ justifyContent: "right", marginTop: 2, display: "flex", alignItems: "center", gap: 1 }}>
-        <Button variant="contained" color="error" sx={{ borderRadius: 3, textTransform: "none" }}>
+      <Box
+        sx={{
+          justifyContent: "right",
+          marginTop: 2,
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        <Button
+          variant="contained"
+          color="error"
+          sx={{ borderRadius: 3, textTransform: "none" }}
+        >
           Seasonal promotion
         </Button>
-        <Button variant="outlined" color="primary" sx={{ textTransform: "none" }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          sx={{ textTransform: "none" }}
+        >
           Sell my art
         </Button>
         <IconButton>
@@ -73,7 +107,16 @@ const Navbar = () => {
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-          {["New In", "Painting", "Print", "Photography", "Sculpture", "Drawing", "More", "Artists"].map((item) => (
+          {[
+            "New In",
+            "Painting",
+            "Print",
+            "Photography",
+            "Sculpture",
+            "Drawing",
+            "More",
+            "Artists",
+          ].map((item) => (
             <Button
               key={item}
               sx={{ color: "black", textTransform: "none" }}
@@ -85,9 +128,20 @@ const Navbar = () => {
         </Box>
 
         {/* Search Bar */}
-        <Box sx={{ display: "flex", alignItems: "center", bgcolor: "#f1f1f1", borderRadius: 2, px: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            bgcolor: "#f1f1f1",
+            borderRadius: 2,
+            px: 2,
+          }}
+        >
           <Search color="disabled" />
-          <InputBase placeholder="Search for Photography" sx={{ ml: 1, width: 500 }} />
+          <InputBase
+            placeholder="Search for Photography"
+            sx={{ ml: 1, width: 500 }}
+          />
         </Box>
       </Toolbar>
 
@@ -114,7 +168,7 @@ const Navbar = () => {
 
       {/* Login Modal */}
       <Modal open={isLoginOpen} onClose={() => setIsLoginOpen(false)}>
-       <LoginModal  open={isLoginOpen} onClose={() => setIsLoginOpen(false)}/>
+        <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
       </Modal>
     </AppBar>
   );
