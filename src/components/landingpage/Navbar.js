@@ -111,9 +111,22 @@ const Navbar = () => {
         {/* logo */}
         <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
         {/* Navigation Links */}
-        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
-          {["New In", "Painting", "Print", "Photography", "Sculpture", "Drawing", "More", "Artists"].map((item) => (
-            <Button key={item} sx={{ color: "black", textTransform: "none" }}>
+        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+          {[
+            "New In",
+            "Painting",
+            "Print",
+            "Photography",
+            "Sculpture",
+            "Drawing",
+            "More",
+            "Artists",
+          ].map((item) => (
+            <Button
+              key={item}
+              sx={{ color: "black", textTransform: "none" }}
+              onMouseEnter={(e) => handlePopoverOpen(e, item)}
+            >
               {item}
             </Button>
           ))}
