@@ -59,8 +59,8 @@ const Navigation = () => {
           The Centurion Art 2.0
           </Typography>
           <BrushIcon sx={{ ml: 1, fontSize: 30 }} />
-        </Box>
-
+        </Box> 
+ 
         {/* Right-aligned menu items */}
         {/* {isMobile ? (
           <>
