@@ -24,6 +24,7 @@ import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
 import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
 import LoginModal from "../loging/LoginPage";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,6 +34,7 @@ const Navbar = () => {
   const [artworks, setArtworks] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   const handlePopoverOpen = (event, content) => {
     setAnchorEl(event.currentTarget);
@@ -90,6 +92,7 @@ const Navbar = () => {
           variant="outlined"
           color="primary"
           sx={{ textTransform: "none" }}
+          onClick={() => navigate("/login")}
         >
           Sell my art
         </Button>
