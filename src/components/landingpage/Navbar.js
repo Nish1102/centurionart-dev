@@ -71,41 +71,7 @@ const Navbar = () => {
       color="inherit"
       sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}
     >
-      {/* Icons & Sell My Art Button */}
-      <Box
-        sx={{
-          justifyContent: "right",
-          marginTop: 2,
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <Button
-          variant="contained"
-          color="error"
-          sx={{ borderRadius: 3, textTransform: "none" }}
-        >
-          Seasonal promotion
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          sx={{ textTransform: "none" }}
-          onClick={() => navigate("/login")}
-        >
-          Sell my art
-        </Button>
-        <IconButton>
-          <FavoriteBorder />
-        </IconButton>
-        <IconButton>
-          <PersonOutline onClick={() => setIsLoginOpen(true)} />
-        </IconButton>
-        <IconButton>
-          <ShoppingBagOutlined />
-        </IconButton>
-      </Box>
+     
 
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* logo */}
