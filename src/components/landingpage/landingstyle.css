@@ -284,16 +284,18 @@
 /* =====Feachered-slider-sec-end===== */  
 
 /* =====Exper-sec-start==== */
+
 .expert_section {
     /* position: relative; */
     background: aliceblue;
   }
+  .exper_right_row {
+    position: relative;
+  }
   .exper_right_row img {
-    /* position: absolute;
-    top: 0;
-    right: 0; */
-    border-radius: 5px;
+  border-radius: 5px;
   box-shadow: 0 1px 10px rgba(24, 24, 24, .07) !important;
+  width: 100%;
   }
   .expert_caption h6 {
     font-size: 23px;
@@ -305,13 +307,61 @@
     font-weight: normal;
     color: var(--peragh-color);
   }
-/* .exper_right_row {
-    background: url('/public/images/feature-2.jpg') center center no-repeat !important;
-    background-size: cover !important;
-    position: relative;
-    background-color: #1c2b46;
-  } */
 
+  .expert_frame li {
+    position: absolute;
+    list-style: none;
+    float: left;
+    margin: 10px;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+  }
+  .outerBorder {
+  background-color: #1e1e1e;
+  height: 224px;
+  position: relative;
+  width:160px;
+  margin: 0 auto;
+  -webkit-box-shadow: 4px 7px 14px rgba(50, 50, 50, 0.44);
+  -moz-box-shadow: 4px 7px 14px rgba(50, 50, 50, 0.44);
+  box-shadow: 4px 7px 14px rgba(50, 50, 50, 0.44);
+  background: -moz-linear-gradient(-45deg, #000000 0%, #4c4c4c 83%, #000000 100%);
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#000000), color-stop(83%,#4c4c4c), color-stop(100%,#000000));
+  background: -webkit-linear-gradient(-45deg, #000000 0%,#4c4c4c 83%,#000000 100%);
+  background: -o-linear-gradient(-45deg, #000000 0%,#4c4c4c 83%,#000000 100%);
+  background: -ms-linear-gradient(-45deg, #000000 0%,#4c4c4c 83%,#000000 100%);
+  background: linear-gradient(135deg, #000000 0%,#4c4c4c 83%,#000000 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=1 );
+  }
+  
+  .innerBorder {
+  background:#ccc url(http://aertl.bitweb1.nwtc.edu/php/css/images/matte.png) top left repeat ;
+  height: 204px;
+  left: 10px;
+  position: absolute;
+  top: 10px;
+  width: 140px;
+  -webkit-box-shadow: inset 5px 5px 12px rgba(50, 50, 50, 0.44);
+  -moz-box-shadow: inset 5px 5px 12px rgba(50, 50, 50, 0.44);
+  box-shadow: inset 5px 5px 12px rgba(50, 50, 50, 0.44);
+  overflow: hidden;
+  }
+  .innerBorder img {
+    height: 204px !important;
+  }
+  
+  /* .expert_frame li img{
+    left: 15px;
+    position: relative;
+    top: 16px;
+   
+  } */
+  
+  .expert_frame li:nth-child(5) .outerBorder {
+    width: 563px;
+    height:288px;
+  }
   
 
 /* =====Exper-sec-end==== */

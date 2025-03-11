@@ -8,6 +8,7 @@ import FeaturedSec from "./FeaturedSec";
 import GallerySec from "./GallerySec";
 import FeatureCarousel from "./FeatureCarousel";
 import ExpertAdvisor from "./ExpertAdvisor";
+import Navigation from "./Navigation";
 
 // const artworks = [
 //   { id: 1, title: "Abstract Colors", image: "https://via.placeholder.com/300" },
@@ -58,6 +59,9 @@ export default function ArtGalleryLanding() {
           <ShoppingCart sx={{ color: 'gray', ml: 2 }} />
         </Toolbar>
       </AppBar> */}
+
+      {/* Top header */}
+        <Navigation />
 
       {/* Nav Bar */}
       <Navbar />
