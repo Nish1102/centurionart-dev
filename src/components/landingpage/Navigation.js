@@ -24,7 +24,7 @@ import BrushIcon from '@mui/icons-material/Brush';
 import { color, motion } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = ({setIsLoginOpen}) => {
   const { routes, setCurrentRoute, currentRoute } = useRoute();
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();

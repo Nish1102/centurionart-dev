@@ -22,7 +22,7 @@ export default function ArtGalleryLanding() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Top header */}
-        <Navigation />
+        <Navigation setIsLoginOpen={setIsLoginOpen} />
       {/* Nav Bar */}
        <Navbar />
       {/* Hero sec */}
