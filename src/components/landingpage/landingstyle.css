@@ -5,10 +5,10 @@
 }
 
 /* ====header-sec-start==== */
-.header_logo {
-    max-width: 150px;
-    min-width: 100px;
-  }
+.top_header{
+    background: #5600d3 !important;
+}
+
 /* ====header-sec-start==== */  
 
 
@@ -101,7 +101,7 @@
 
 /* ====header-sec-start==== */
 .header_logo {
-    max-width: 150px;
+    max-width: 180px;
     min-width: 100px;
   }
 /* ====header-sec-start==== */
@@ -139,7 +139,7 @@
 .feature_card h6 {
     position: absolute;
     text-align: center;
-    left: 50%;
+    left: 49%;
     color: white;
     transform: translateX(-50%);
     width: 80%;
@@ -365,3 +365,14 @@
   
 
 /* =====Exper-sec-end==== */
+
+/* ====Footer sec==== */
+.footer_sec{
+    /* background: var(--peragh-color) !important; */
+}
+.coryright_sec{
+ background: #5600d3 !important;  
+}
+.coryright_sec p{
+    color: white !important; 
+   }
