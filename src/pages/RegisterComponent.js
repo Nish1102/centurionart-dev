@@ -5,6 +5,8 @@ import { authService } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import PaletteIcon from '@mui/icons-material/Palette';
 import GoogleIcon from '@mui/icons-material/Google';
+import { useLocation } from "react-router-dom";
+
 
 export default function RegistrationComponent() {
   const [email, setEmail] = useState('');
@@ -13,6 +15,9 @@ export default function RegistrationComponent() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const userType = location.state?.userType;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +28,7 @@ export default function RegistrationComponent() {
     }
     setLoading(true);
     try {
-      await authService.register(email, password);
+      await authService.register(email, password, userType);
       navigate('/login');
     } catch (err) {
       setError(err.message);
