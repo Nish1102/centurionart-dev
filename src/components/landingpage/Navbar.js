@@ -23,6 +23,7 @@ import PaintingSubMenu from "./menuContents/paintingSubMenu";
 import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
 import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
+import UserProfilePopover from "./UserProfilePopover";
 import LoginModal from "../loging/LoginPage";
 import { useNavigate } from "react-router-dom";
 
@@ -33,6 +34,7 @@ const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [artworks, setArtworks] = useState([]);
   const [page, setPage] = useState(1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
@@ -49,21 +51,21 @@ const Navbar = () => {
   const open = Boolean(anchorEl);
 
   // Close popover when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (anchorEl && !anchorEl.contains(event.target)) {
-        handlePopoverClose();
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (anchorEl && !anchorEl.contains(event.target)) {
+  //       handlePopoverClose();
+  //     }
+  //   };
 
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+  //   if (open) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [open, anchorEl]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [open, anchorEl]);
 
   return (
     <AppBar
@@ -99,8 +101,17 @@ const Navbar = () => {
         <IconButton>
           <FavoriteBorder />
         </IconButton>
-        <IconButton>
-          <PersonOutline onClick={() => setIsLoginOpen(true)} />
+        <IconButton
+          onMouseEnter={(e) =>
+            isLoggedIn ? handlePopoverOpen(e, "userLoggedIn") : null
+          }
+          onClick={() => {
+            if (!isLoggedIn) {
+              setIsLoginOpen(true);
+            }
+          }}
+        >
+          <PersonOutline />
         </IconButton>
         <IconButton>
           <ShoppingBagOutlined />
@@ -153,7 +164,7 @@ const Navbar = () => {
 
       {/* Popover for Submenus */}
       <Popover
-        sx={{ pointerEvents: "none" }}
+        sx={{ pointerEvents: "auto" }}
         open={open}
         anchorEl={anchorEl}
         onClose={handlePopoverClose}
@@ -170,6 +181,7 @@ const Navbar = () => {
         {popoverContent === "Drawing" && <DrawingSubMenu />}
         {popoverContent === "More" && <MoreSubMenu />}
         {popoverContent === "Artists" && <ArtistsSubMenu />}
+        {popoverContent === "userLoggedIn" && <UserProfilePopover />}      
       </Popover>
 
       {/* Login Modal */}

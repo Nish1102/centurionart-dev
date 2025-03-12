@@ -34,10 +34,10 @@ export const routes = [
     guard: AuthGuard
   },
   {
-    path: '/buyer-dashboard',
+    path: '/collector-dashboard',
     name: 'Buyer Dashboard',
     component: BuyerDashboard,
-    guard: (props) => <RoleGuard {...props} roles={['buyer']} />
+    // guard: (props) => <RoleGuard {...props} roles={['buyer']} />
   },
   {
     path: '/reseller-dashboard',
