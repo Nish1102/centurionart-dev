@@ -31,6 +31,13 @@ const artworks = [
   },
 ];
 
+// bg_images
+const styles = {
+  backgroundImage: `url("/images/feature-1.jpg")`,
+  backgroundSize: "cover", // optional
+  backgroundPosition: "center", // optional
+};
+
 function GallerySec() {
   const [search, setSearch] = useState("");
   const [artworks, setArtworks] = useState([]);
@@ -113,8 +120,9 @@ function GallerySec() {
                               textAlign: "center",
                               borderRadius: 2,
                             }}
+                            
                           >
-                            <Box className="art_img">
+                            <Box className="art_img" style={styles}>
                             <span><img src="../images/auth.jpg" alt="auth"/>{art.author}</span>
                               <img
                                 src={

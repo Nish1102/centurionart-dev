@@ -73,54 +73,13 @@ const Navbar = () => {
       color="inherit"
       sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}
     >
-      {/* Icons & Sell My Art Button */}
-      <Box
-        sx={{
-          justifyContent: "right",
-          marginTop: 2,
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <Button
-          variant="contained"
-          color="error"
-          sx={{ borderRadius: 3, textTransform: "none" }}
-        >
-          Seasonal promotion
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          sx={{ textTransform: "none" }}
-          onClick={() => navigate("/login")}
-        >
-          Sell my art
-        </Button>
-        <IconButton>
-          <FavoriteBorder />
-        </IconButton>
-        <IconButton
-          onMouseEnter={(e) =>
-            isLoggedIn ? handlePopoverOpen(e, "userLoggedIn") : null
-          }
-          onClick={() => {
-            if (!isLoggedIn) {
-              setIsLoginOpen(true);
-            }
-          }}
-        >
-          <PersonOutline />
-        </IconButton>
-        <IconButton>
-          <ShoppingBagOutlined />
-        </IconButton>
-      </Box>
-
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* logo */}
-        <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
+        <img
+          className="header_logo"
+          src="../images/logo1.png"
+          alt="header logo"
+        />
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
           {[
@@ -143,7 +102,6 @@ const Navbar = () => {
           ))}
         </Box>
 
-
         {/* Search Bar */}
         <Box
           sx={{
@@ -157,31 +115,49 @@ const Navbar = () => {
           <Search color="disabled" />
           <InputBase
             placeholder="Search for Photography"
-            sx={{ ml: 1, width: 500 }}
+            sx={{ ml: 1, width: 300 }}
           />
         </Box>
       </Toolbar>
 
       {/* Popover for Submenus */}
       <Popover
-        sx={{ pointerEvents: "auto" }}
+        sx={{ pointerEvents: "none" }}
         open={open}
         anchorEl={anchorEl}
         onClose={handlePopoverClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "left" }}
         disableRestoreFocus={false}
-        PaperProps={{ sx: { p: 2, display: "flex" } }}
+        PaperProps={{ sx: { p: 2, display: "flex", pointerEvents: "auto" } }} // Allow interaction
       >
-        {popoverContent === "New In" && <NewInMenu />}
-        {popoverContent === "Photography" && <PhotographySubMenu />}
-        {popoverContent === "Painting" && <PaintingSubMenu />}
-        {popoverContent === "Print" && <PrintSubMenu />}
-        {popoverContent === "Sculpture" && <SculptureSubMenu />}
-        {popoverContent === "Drawing" && <DrawingSubMenu />}
-        {popoverContent === "More" && <MoreSubMenu />}
-        {popoverContent === "Artists" && <ArtistsSubMenu />}
-        {popoverContent === "userLoggedIn" && <UserProfilePopover />}      
+        {popoverContent === "New In" && (
+          <NewInMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "Photography" && (
+          <PhotographySubMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "Painting" && (
+          <PaintingSubMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "Print" && (
+          <PrintSubMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "Sculpture" && (
+          <SculptureSubMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "Drawing" && (
+          <DrawingSubMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "More" && (
+          <MoreSubMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "Artists" && (
+          <ArtistsSubMenu sx={{ pointerEvents: "auto" }} />
+        )}
+        {popoverContent === "userLoggedIn" && (
+          <UserProfilePopover sx={{ pointerEvents: "auto" }} />
+        )}
       </Popover>
 
       {/* Login Modal */}

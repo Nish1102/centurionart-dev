@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
     city: { type: String },
     country: { type: String },
     zip: { type: String },
-    role: { type: String }
+    isvendor: { type: Boolean },
+    userType: { type: String, enum: ["artist", "collector"], }
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

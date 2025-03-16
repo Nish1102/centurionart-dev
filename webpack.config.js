@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
-require('dotenv').config();
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -28,7 +27,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
             loader: 'file-loader',
@@ -61,6 +60,7 @@ module.exports = {
           }
         ]
       }
+      
     ]
   },
   optimization: {

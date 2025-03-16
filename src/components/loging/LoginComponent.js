@@ -51,7 +51,7 @@ export default function LoginComponent() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px)',
+          // background: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px)',
         }
       }}
       maxWidth={false}
@@ -86,13 +86,17 @@ export default function LoginComponent() {
           }}
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <motion.div
+            {/* <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             >
               <BrushIcon sx={{ fontSize: 40, color: 'primary.main', mb: 2 }} />
-            </motion.div>
-            <Typography 
+            </motion.div> */}
+
+            {/* logo */}
+            <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
+
+            {/* <Typography 
               variant="h4" 
               sx={{ 
                 fontWeight: 700,
@@ -101,8 +105,8 @@ export default function LoginComponent() {
                 WebkitTextFillColor: 'transparent'
               }}
             >
-              CENTURIONART
-            </Typography>
+              The Centurion Art 2.0
+            </Typography> */}
             <Typography 
               variant="subtitle2" 
               sx={{ 

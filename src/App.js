@@ -11,7 +11,6 @@ function App() {
     <BrowserRouter>
       <RouteProvider routes={routes}>
         <div className="App">
-          <Navigation />
           <Router />
         </div>
       </RouteProvider>

@@ -13,15 +13,25 @@ import {
   useTheme,
   useMediaQuery 
 } from '@mui/material';
+import {
+  FavoriteBorder,
+  PersonOutline,
+  Search,
+  ShoppingBagOutlined,
+} from "@mui/icons-material";
 import MenuIcon from '@mui/icons-material/Menu';
 import BrushIcon from '@mui/icons-material/Brush';
-import { motion } from 'framer-motion';
+import { color, motion } from 'framer-motion';
+import { useNavigate } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = ({setIsLoginOpen}) => {
   const { routes, setCurrentRoute, currentRoute } = useRoute();
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -51,14 +61,52 @@ const Navigation = () => {
   );
 
   return (
-    <AppBar position="static" color="primary" elevation={4}>
+    <AppBar position="static" className='top_header' elevation={4}>
       <Toolbar>
         {/* Left-aligned content */}
-        <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
-          <Typography variant="h6" sx={{ textTransform: "uppercase" }}>
+        <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ flexGrow: 1 }}>
+         <Box display="flex" alignItems="center" justifyContent="space-between">
+         <Typography variant="h6" sx={{ textTransform: "uppercase" }}>
             The Centurion Art 2.0
           </Typography>
           <BrushIcon sx={{ ml: 1, fontSize: 30 }} />
+         </Box>
+
+           {/* Icons & Sell My Art Button */}
+                <Box
+                  sx={{
+                    justifyContent: "right",
+                   // marginTop: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="error"
+                    sx={{ borderRadius: 3, textTransform: "none" }}
+                  >
+                    Seasonal promotion
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    style={{color:'white',border: '1px solid #fff'}}
+                    sx={{ textTransform: "none" }}
+                    onClick={() => navigate("/login")}
+                  >
+                    Sell my art
+                  </Button>
+                  <IconButton>
+                    <FavoriteBorder style={{color:'white',}} />
+                  </IconButton>
+                  <IconButton>
+                    <PersonOutline onClick={() => setIsLoginOpen(true)} style={{color:'white',}} />
+                  </IconButton>
+                  <IconButton>
+                    <ShoppingBagOutlined style={{color:'white',}} />
+                  </IconButton>
+                </Box>
         </Box> 
  
         {/* Right-aligned menu items */}
