@@ -22,6 +22,10 @@ const LoginModal = ({ open, onClose }) => {
     navigate("/registration", { state: { userType } });
   }  
 
+  const handleLogin = (userType) => {
+    navigate("/login", { state: { userType } })
+  }
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogContent sx={{ display: "flex", p: 0, position: "relative" }}>
@@ -57,7 +61,7 @@ const LoginModal = ({ open, onClose }) => {
             )}
           /> */}
           <Typography variant="body2" color="textSecondary" mt={2}>
-            Already have an account? <a href="#" style={{ color: "blue" }}>Sign in</a>
+            Already have an account? <a href="#" style={{ color: "blue" }} onClick={() => handleLogin()}>Sign in</a>
           </Typography>
         </Box>
 
@@ -89,7 +93,7 @@ const LoginModal = ({ open, onClose }) => {
             )}
           /> */}
           <Typography variant="body2" color="textSecondary" mt={2}>
-            You already are a Singulart artist? <a href="#" style={{ color: "blue" }}>Sign in</a>
+            You already are a centurion artist? <a href="#" style={{ color: "blue" }} onClick={() => handleLogin()} >Sign in</a>
           </Typography>
         </Box>
       </DialogContent>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Paper, Alert, Link, Box } from '@mui/material';
 import { motion } from 'framer-motion';
 import { authService } from '../../services/authService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import BrushIcon from '@mui/icons-material/Brush';
 
 export default function LoginComponent() {
@@ -12,13 +12,16 @@ export default function LoginComponent() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const location = useLocation();
+  const userType = location.state?.userType;
+  
+
+  const handleSubmit = async (e) => {  
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
-      await authService.login(email, password);
+      await authService.login(email, password, userType);
       navigate('/dashboard');
     } catch (err) {
       setError(err.message);
