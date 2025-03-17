@@ -4,9 +4,9 @@ import image1 from "../../../assets/1.jpg"
 import image2 from "../../../assets/2.jpg"
 
 
-const NewInMenu = () => {
+const NewInMenu = ({close}) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} onMouseLeave={() => close()}>
       {/* Style */}
       <Grid item xs={3}>
         <Typography variant="subtitle1" fontWeight="bold">

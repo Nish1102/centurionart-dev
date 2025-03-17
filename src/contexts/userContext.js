@@ -1,24 +1,48 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-export const UserContext = createContext();
+const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null); // null means no user is logged in
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Function to log in user
-    const login = (userData) => {
-        console.log(10, ' login ',  userData);
-        setUser(userData);
-    };
+  // Load user data from localStorage on component mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setIsAuthenticated(true);
+        console.log("User loaded from localStorage:", parsedUser);
+      } catch (error) {
+        console.error("Error parsing user from localStorage:", error);
+        localStorage.removeItem('user'); // Remove invalid data
+      }
+    }
+  }, []);
 
-    // Function to log out user
-    const logout = () => {
-        setUser(null);
-    };
+  const login = (userData) => {
+    // Store the user data in localStorage
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
+    setIsAuthenticated(true);
+  };
 
-    return (
-        <UserContext.Provider value={{ user, login, logout }}>
-            {children}
-        </UserContext.Provider>
-    );
+  const logout = () => {
+    // Remove user data from localStorage
+    localStorage.removeItem('user');
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
+  // Log current context state for debugging
+
+  return (
+    <UserContext.Provider value={{ user, isAuthenticated, login, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
+
+export const useUser = () => useContext(UserContext);

@@ -4,25 +4,25 @@ import { useNavigate } from "react-router-dom";
 import image1 from "../../../assets/1.jpg";
 import image2 from "../../../assets/2.jpg";
 
-const NewInMenu = () => {
+const NewInMenu = ({close}) => {
   const navigate = useNavigate();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} onMouseLeave={() => close()}>
       {/* New Artworks */}
       <Grid item xs={3}>
         <Typography variant="subtitle1" fontWeight="bold">NEW ARTWORKS</Typography>
-        <Link component="button" sx={{ '&:hover': { textDecoration: 'underline' } }} 
-        onClick={() => {alert('HELLO');navigate('/collector-dashboard')}}>
+        <Link underline="none" sx={{ '&:hover': { textDecoration: 'underline' } }} component="button" 
+        onClick={() => {navigate('/collector-dashboard')}}>
           <Typography>Under ₹50,005</Typography>
         </Link>
-        <Link href="#" underline="none" sx={{ '&:hover': { textDecoration: 'underline' } }} onClick={() => navigate('/collector-dashboard')}>
+        <Link underline="none" sx={{ '&:hover': { textDecoration: 'underline' } }} onClick={() => navigate('/collector-dashboard')}>
           <Typography>Under ₹100,000</Typography>
         </Link>
-        <Link href="#" underline="none" sx={{ '&:hover': { textDecoration: 'underline' } }} onClick={() => navigate('/collector-dashboard')}>
+        <Link underline="none" sx={{ '&:hover': { textDecoration: 'underline' } }} onClick={() => navigate('/collector-dashboard')}>
           <Typography>Under ₹250,000</Typography>
         </Link>
-        <Link href="#" underline="none" sx={{ '&:hover': { textDecoration: 'underline' } }} onClick={() => navigate('/collector-dashboard')}>
+        <Link underline="none" sx={{ '&:hover': { textDecoration: 'underline' } }} onClick={() => navigate('/collector-dashboard')}>
           <Typography>Over ₹250,000</Typography>
         </Link>
       </Grid>

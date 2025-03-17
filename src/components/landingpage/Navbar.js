@@ -1,31 +1,27 @@
 import {
-  FavoriteBorder,
-  PersonOutline,
-  Search,
-  ShoppingBagOutlined,
+  Search
 } from "@mui/icons-material";
 import {
   AppBar,
   Box,
   Button,
-  IconButton,
   InputBase,
-  Popover,
-  Toolbar,
   Modal,
+  Popover,
+  Toolbar
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/userContext";
+import LoginModal from "../loging/LoginPage";
 import ArtistsSubMenu from "./menuContents/artistsSubMenu";
 import DrawingSubMenu from "./menuContents/drawingSubMenu";
 import MoreSubMenu from "./menuContents/moreSubMenu";
 import NewInMenu from "./menuContents/newInMenu";
 import PaintingSubMenu from "./menuContents/paintingSubMenu";
+import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
 import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
-import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
-import UserProfilePopover from "./UserProfilePopover";
-import LoginModal from "../loging/LoginPage";
-import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -37,7 +33,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
-
+  const { user } = useUser();
   const handlePopoverOpen = (event, content) => {
     setAnchorEl(event.currentTarget);
     setPopoverContent(content);
@@ -73,13 +69,11 @@ const Navbar = () => {
       color="inherit"
       sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}
     >
+     
+
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* logo */}
-        <img
-          className="header_logo"
-          src="../images/logo1.png"
-          alt="header logo"
-        />
+        <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
           {[
@@ -102,6 +96,7 @@ const Navbar = () => {
           ))}
         </Box>
 
+
         {/* Search Bar */}
         <Box
           sx={{
@@ -122,43 +117,43 @@ const Navbar = () => {
 
       {/* Popover for Submenus */}
       <Popover
-        sx={{ pointerEvents: "none" }}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handlePopoverClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "left" }}
-        disableRestoreFocus={false}
-        PaperProps={{ sx: { p: 2, display: "flex", pointerEvents: "auto" } }} // Allow interaction
-      >
-        {popoverContent === "New In" && (
-          <NewInMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "Photography" && (
-          <PhotographySubMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "Painting" && (
-          <PaintingSubMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "Print" && (
-          <PrintSubMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "Sculpture" && (
-          <SculptureSubMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "Drawing" && (
-          <DrawingSubMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "More" && (
-          <MoreSubMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "Artists" && (
-          <ArtistsSubMenu sx={{ pointerEvents: "auto" }} />
-        )}
-        {popoverContent === "userLoggedIn" && (
-          <UserProfilePopover sx={{ pointerEvents: "auto" }} />
-        )}
-      </Popover>
+             sx={{ pointerEvents: "none" }}
+             open={open}
+             anchorEl={anchorEl}
+             onClose={handlePopoverClose}
+             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+             transformOrigin={{ vertical: "top", horizontal: "left" }}
+             disableRestoreFocus={false}
+             PaperProps={{ sx: { p: 2, display: "flex", pointerEvents: "auto" } }} // Allow interaction
+           >
+             {popoverContent === "New In" && (
+               <NewInMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {popoverContent === "Photography" && (
+               <PhotographySubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {popoverContent === "Painting" && (
+               <PaintingSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {popoverContent === "Print" && (
+               <PrintSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {popoverContent === "Sculpture" && (
+               <SculptureSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {popoverContent === "Drawing" && (
+               <DrawingSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {popoverContent === "More" && (
+               <MoreSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {popoverContent === "Artists" && (
+               <ArtistsSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} />
+             )}
+             {/* {user && (
+               <UserProfilePopover sx={{ pointerEvents: "auto" }} />
+             )} */}
+           </Popover>
 
       {/* Login Modal */}
       <Modal open={isLoginOpen} onClose={() => setIsLoginOpen(false)}>
