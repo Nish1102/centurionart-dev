@@ -6,7 +6,6 @@ import RegisterForm from "./RegistrationPage";
 import { useUser } from "../../contexts/userContext";
 import { useNavigate } from 'react-router-dom';
 // import FacebookLogin from 'react-facebook-login';
-import { useNavigate } from "react-router-dom";
 
 const LoginModal = ({ open, onClose }) => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -18,6 +17,9 @@ const LoginModal = ({ open, onClose }) => {
     onSuccess: async tokenResponse => {
       handleLoginSuccess(tokenResponse, 'collector');
     },
+    onError: error => console.error(error),
+  });
+
   const googleLogin = useGoogleLogin({
     onSuccess: tokenResponse => console.log('tokenResponse'),
     onError: error => console.error(error),
@@ -92,7 +94,7 @@ const LoginModal = ({ open, onClose }) => {
             Create an account to save your favorites and receive personal offers.
           </Typography>
           <Button variant="contained" onClick={() => setIsRegisterOpen(true)} fullWidth sx={{ mb: 2 }}>
-//           <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('collector')}>
+           {/* <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('collector')}> */}
             Sign up with email
           </Button>
           <Typography variant="body2" color="textSecondary" gutterBottom>
@@ -127,9 +129,9 @@ const LoginModal = ({ open, onClose }) => {
             fullWidth
           >
             Apply with Google
-//           <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('artist')}>
-//             Apply online
-//           </Button>
+           {/* <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('artist')}>
+             Apply online */}
+           </Button>
           {/* <Typography variant="body2" color="textSecondary" gutterBottom>
             or
           </Typography>
