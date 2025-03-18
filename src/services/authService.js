@@ -18,9 +18,9 @@ export const authService = {
     }
   },
 
-  register: async (email, password, role) => {
+  register: async (email, password, userType) => {
     try {
-      const response = await api.post(`${API_URL}/auth/register`, { email, password, role });
+      const response = await api.post(`${API_URL}/auth/register`, { email, password, userType });
       return response.data;
     } catch (error) {
       throw {

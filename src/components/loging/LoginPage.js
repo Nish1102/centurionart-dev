@@ -5,6 +5,8 @@ import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import RegisterForm from "./RegistrationPage";
 import { useUser } from "../../contexts/userContext";
 import { useNavigate } from 'react-router-dom';
+// import FacebookLogin from 'react-facebook-login';
+import { useNavigate } from "react-router-dom";
 
 const LoginModal = ({ open, onClose }) => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -16,6 +18,8 @@ const LoginModal = ({ open, onClose }) => {
     onSuccess: async tokenResponse => {
       handleLoginSuccess(tokenResponse, 'collector');
     },
+  const googleLogin = useGoogleLogin({
+    onSuccess: tokenResponse => console.log('tokenResponse'),
     onError: error => console.error(error),
   });
 
@@ -64,6 +68,14 @@ const LoginModal = ({ open, onClose }) => {
     }
   };
 
+  const handleSignup = (userType) => {
+    navigate("/registration", { state: { userType } });
+  }  
+
+  const handleLogin = (userType) => {
+    navigate("/login", { state: { userType } })
+  }
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm">
       {!isRegisterOpen && <DialogContent sx={{ display: "flex", p: 0, position: "relative" }}>
@@ -80,6 +92,7 @@ const LoginModal = ({ open, onClose }) => {
             Create an account to save your favorites and receive personal offers.
           </Typography>
           <Button variant="contained" onClick={() => setIsRegisterOpen(true)} fullWidth sx={{ mb: 2 }}>
+//           <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('collector')}>
             Sign up with email
           </Button>
           <Typography variant="body2" color="textSecondary" gutterBottom>
@@ -95,7 +108,7 @@ const LoginModal = ({ open, onClose }) => {
             Continue with Google
           </Button>
           <Typography variant="body2" color="textSecondary" mt={2}>
-            Already have an account? <a href="#" style={{ color: "blue" }}>Sign in</a>
+            Already have an account? <a href="#" style={{ color: "blue" }} onClick={() => handleLogin()}>Sign in</a>
           </Typography>
         </Box>
 
@@ -105,7 +118,7 @@ const LoginModal = ({ open, onClose }) => {
             🖌 I am an artist
           </Typography>
           <Typography variant="body2" color="textSecondary" gutterBottom>
-            You are a painter, photographer, sculptor, or draftsman.
+            You are a painter, photographer, sculptor, or draftsman, creating masterpieces.
           </Typography>
           <Button 
             variant="contained" 
@@ -114,9 +127,27 @@ const LoginModal = ({ open, onClose }) => {
             fullWidth
           >
             Apply with Google
-          </Button>
+//           <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('artist')}>
+//             Apply online
+//           </Button>
+          {/* <Typography variant="body2" color="textSecondary" gutterBottom>
+            or
+          </Typography>
+          <Button variant="outlined" onClick={() => googleLogin()} startIcon={<Google />} fullWidth sx={{ mb: 1 }}>
+            Continue with Google
+          </Button> */}
+          {/* <FacebookLogin
+            appId="YOUR_FACEBOOK_APP_ID"  
+            autoLoad={false}
+            callback={responseFacebook}
+            render={renderProps => (
+              <Button variant="outlined" onClick={renderProps.onClick} startIcon={<Facebook />} fullWidth>
+                Continue with Facebook
+              </Button>
+            )}
+          /> */}
           <Typography variant="body2" color="textSecondary" mt={2}>
-            You already are a Singulart artist? <a href="#" style={{ color: "blue" }}>Sign in</a>
+            You already are a centurion artist? <a href="#" style={{ color: "blue" }} onClick={() => handleLogin()} >Sign in</a>
           </Typography>
         </Box>
       </DialogContent>}
