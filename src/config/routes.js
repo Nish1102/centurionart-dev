@@ -9,6 +9,7 @@ import ArtGalleryLanding from '../components/landingpage/LandingPage';
 import Unauthorized from '../pages/Unauthorized';
 import { AuthGuard } from '../guards/AuthGuard';
 import { RoleGuard } from '../guards/RoleGuard';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
 
 
 export const routes = [
@@ -30,7 +31,7 @@ export const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard,
+    component: DashboardLayout,
     guard: AuthGuard
   },
   {
