@@ -7,13 +7,18 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+const mode = process.env.NODE_ENV || 'development';
+const isDev = mode === 'development';
 
 module.exports = {
+  mode,
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
-    publicPath: '/'
+    filename: isDev ? '[name].js' : '[name].[contenthash].js',
+    publicPath: isDev ? '/' : './'
   },
   module: {
     rules: [
@@ -60,7 +65,6 @@ module.exports = {
           }
         ]
       }
-      
     ]
   },
   optimization: {
@@ -81,7 +85,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      minify: {
+      minify: isDev ? false : {
         removeComments: true,
         collapseWhitespace: true,
         removeRedundantAttributes: true,
@@ -95,24 +99,27 @@ module.exports = {
       }
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css'
+      filename: isDev ? '[name].css' : '[name].[contenthash].css'
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'public/images', to: 'images' } // Copies `public/images` to `dist/images`
+        { from: 'public/images', to: 'images' }
       ]
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
-    })
-  ],
+    }),
+    isDev && new ReactRefreshWebpackPlugin()
+  ].filter(Boolean),
   devServer: {
     historyApiFallback: true,
     static: {
       directory: path.join(__dirname, 'public')
     },
     port: 3000,
-    hot: true
+    hot: true,
+    liveReload: true,
+    watchFiles: ['src/**/*', 'public/**/*']
   },
   resolve: {
     extensions: ['.js', '.jsx'],

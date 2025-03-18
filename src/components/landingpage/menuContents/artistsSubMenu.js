@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import image1 from "../../../assets/1.jpg";
 import image2 from "../../../assets/2.jpg";
 
-const ArtistsSubMenu = () => {
+const ArtistsSubMenu = ({close}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuType, setMenuType] = useState(null);
 
@@ -20,7 +20,7 @@ const ArtistsSubMenu = () => {
   const open = Boolean(anchorEl);
 
   return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} onMouseLeave={() => close()}>
           {/* Artist Categories */}
           <Grid item xs={3}>
             <Typography variant="subtitle1" fontWeight="bold">ARTIST CATEGORIES</Typography>
