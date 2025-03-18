@@ -1,9 +1,9 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React from "react";
 
-const SculptureSubMenu = () => {
+const SculptureSubMenu = ({close}) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} onMouseLeave={() => close()}>
       {/* Style */}
       <Grid item xs={4}>
         <Typography variant="subtitle1" fontWeight="bold">

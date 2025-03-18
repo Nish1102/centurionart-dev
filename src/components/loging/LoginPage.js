@@ -1,29 +1,76 @@
-import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  Button,
-  Typography,
-  Box,
-  IconButton,
-} from "@mui/material";
-import { Google, Close } from "@mui/icons-material";
-import { useGoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+
+import React, { useState } from "react";
 import "./login-style.css";
+import { Dialog, DialogContent, Button, Typography, Box, IconButton } from "@mui/material";
+import { Google, Close } from "@mui/icons-material";
+import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import RegisterForm from "./RegistrationPage";
+import { useUser } from "../../contexts/userContext";
+import { useNavigate } from 'react-router-dom';
 // import FacebookLogin from 'react-facebook-login';
-import { useNavigate } from "react-router-dom";
 
 const LoginModal = ({ open, onClose }) => {
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const { login } = useUser();
   const navigate = useNavigate();
+
+  // Create separate login functions for each role
+  const collectorGoogleLogin = useGoogleLogin({
+    onSuccess: async tokenResponse => {
+      handleLoginSuccess(tokenResponse, 'collector');
+    },
+    onError: error => console.error(error),
+  });
 
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => console.log("tokenResponse"),
     onError: (error) => console.error(error),
   });
 
-  // const responseFacebook = (response) => {
-  //   console.log(response);
-  // };
+  const artistGoogleLogin = useGoogleLogin({
+    onSuccess: async tokenResponse => {
+      handleLoginSuccess(tokenResponse, 'artist');
+    },
+    onError: error => console.error(error),
+  });
+
+  // Common function to handle login success
+  const handleLoginSuccess = async (tokenResponse, role) => {
+    try {
+      const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          'Authorization': `Bearer ${tokenResponse.access_token}`
+        }
+      });
+      const userInfo = await userInfoResponse.json();
+      console.log('User Info:', userInfo);
+      
+      // Add role to user info
+      const userWithRole = {
+        ...userInfo,
+        role: role,
+        token: tokenResponse.access_token
+      };
+      
+      // Store in localStorage with role
+      localStorage.setItem('user', JSON.stringify({
+        ...userWithRole,
+        isAuthenticated: true
+      }));
+      
+      // Update context with user data including role
+      login(userWithRole);
+      if (role === 'artist') {
+        navigate('/artists-dashboard');
+      } else {
+        navigate('/'); // Navigate to home or collector page
+      }
+      
+      onClose(); // Close the modal on success
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
+    }
+  };
 
   const handleSignup = (userType) => {
     navigate("/registration", { state: { userType } });
@@ -51,22 +98,14 @@ const styles = {
 };  
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth  
-    //style={styles}
-    >
-     <Box className="login_logo">
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <Box className="login_logo">
           <img src="../images/logo1.png" alt="logo"/>
-        </Box>
-      <DialogContent sx={{ display: "flex", p: 0, position: "relative" }} >
-        <IconButton
-        className="login_cancel_btn"
-          onClick={onClose}
-          sx={{ position: "absolute", top: 8, right: 8 }}
-        >
+      </Box>
+      {!isRegisterOpen && <DialogContent sx={{ display: "flex", p: 0, position: "relative" }}>
+        <IconButton className="login_cancel_btn" onClick={onClose} sx={{ position: "absolute", top: 8, right: 8 }}>
           <Close  style={{position:'absolute', zIndex:'9', Top: 10, right: 8}}/>
-        </IconButton>
-
-       
+        </IconButton>       
 
         {/* Left Side - Collector */}
         <Box className="collector_box"
@@ -87,32 +126,24 @@ const styles = {
             Create an account to save your favorites and receive personal
             offers.
           </Typography>
-
-          <Button
-            className="login_commn_btn"
-            variant="contained"
-            fullWidth
-            sx={{ mb: 2, mt: 3 }}
-            onClick={() => handleSignup("collector")}
-          >
+          <Button className="login_commn_btn" variant="contained" onClick={() => setIsRegisterOpen(true)} fullWidth sx={{ mb: 2, mt: 3 }}>
+           {/* <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('collector')}> */}
             Sign up with email
           </Button>
 
           <Typography variant="body2" color="textSecondary" gutterBottom>
             or
           </Typography>
-
-          <Button
+          <Button 
+            variant="outlined" 
             className="google_button"
-            variant="outlined"
-            onClick={() => googleLogin()}
-            startIcon={<Google />}
-            fullWidth
+            onClick={() => collectorGoogleLogin()} 
+            startIcon={<Google />} 
+            fullWidth 
             sx={{ mb: 1 }}
           >
             Continue with Google
           </Button>
-
           <Typography variant="body2" color="textSecondary" mt={2}>
             Already have an account?{" "}
             <a href="#" style={{ color: "blue" }} onClick={() => handleLogin()}>
@@ -130,15 +161,18 @@ const styles = {
             You are a painter, photographer, sculptor, or draftsman, creating
             masterpieces.
           </Typography>
-          <Button
-            className="login_commn_btn"
-            variant="contained"
-            fullWidth
-            sx={{ mb: 2 }}
-            onClick={() => handleSignup("artist")}
+          <Button 
+             variant="contained" 
+  className="login_commn_btn"
+  onClick={() => artistGoogleLogin()} 
+  startIcon={<Google />}
+  sx={{ mb: 2 }}
+  fullWidth
           >
-            Apply online
-          </Button>
+            Apply with Google
+           {/* <Button variant="contained" fullWidth sx={{ mb: 2 }} onClick={() => handleSignup('artist')}>
+             Apply online */}
+           </Button>
           {/* <Typography variant="body2" color="textSecondary" gutterBottom>
             or
           </Typography>
@@ -162,7 +196,10 @@ const styles = {
             </a>
           </Typography>
         </Box>
-      </DialogContent>
+      </DialogContent>}
+      {isRegisterOpen && <DialogContent sx={{width: 350, p: 0, position: "relative" }}>
+        <RegisterForm onClose={onClose}/>
+      </DialogContent>}
     </Dialog>
   );
 };
@@ -170,7 +207,7 @@ const styles = {
 const LoginPage = ({ open, onClose }) => {
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      <LoginModal open={open} onClose={onClose} />
+       <LoginModal open={open} onClose={onClose} />
     </GoogleOAuthProvider>
   );
 };

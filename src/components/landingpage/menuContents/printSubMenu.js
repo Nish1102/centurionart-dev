@@ -3,9 +3,9 @@ import React from "react";
 import image1 from "../../../assets/1.jpg";
 import image2 from "../../../assets/2.jpg";
 
-const PrintSubMenu = () => {
+const PrintSubMenu = ({close}) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} onMouseLeave={() => close()}>
     {/* Famous Artists Prints */}
     <Grid item xs={3}>
       <Typography variant="subtitle1" fontWeight="bold">FAMOUS ARTISTS PRINTS</Typography>
