@@ -89,15 +89,15 @@ export default function LoginComponent() {
           }}
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            {/* <motion.div
+            <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             >
               <BrushIcon sx={{ fontSize: 40, color: 'primary.main', mb: 2 }} />
-            </motion.div> */}
+            </motion.div>
 
             {/* logo */}
-            <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
+            {/* <img className="header_logo" src="../images/logo1.png" alt="header logo"/> */}
 
             {/* <Typography 
               variant="h4" 
