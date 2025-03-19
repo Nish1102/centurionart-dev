@@ -2,7 +2,7 @@
 
 const menus = [
     {
-        name : 'NewIn',
+        name : 'New In',
         child: [
             {
                 name: 'NewArtworks',
@@ -283,7 +283,7 @@ const menus = [
         ],
     },
     {
-        name: 'Artist',
+        name: 'Artists',
         child: [
             { name: 'ARTIST CATEGORIES', 
               child: [

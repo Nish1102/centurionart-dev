@@ -10,7 +10,7 @@ import {
   Popover,
   Toolbar
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/userContext";
 import LoginModal from "../loging/LoginPage";
@@ -22,6 +22,7 @@ import PaintingSubMenu from "./menuContents/paintingSubMenu";
 import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
 import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
+import api from "../../services/api";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -34,7 +35,10 @@ const Navbar = () => {
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const { user } = useUser();
+  const [ menus, setMenus ] = useState();
+
   const handlePopoverOpen = (event, content) => {
+
     setAnchorEl(event.currentTarget);
     setPopoverContent(content);
   };
@@ -45,6 +49,18 @@ const Navbar = () => {
   };
 
   const open = Boolean(anchorEl);
+
+  const getMenus = async () => {
+    try {
+      const response = await api.get("/api/menu/");
+  
+      if (response.status === 200 && response.data) {
+        setMenus?.(response.data); 
+      }
+    } catch (error) {
+      console.error("Error fetching menus:", error);
+    }
+  };  
 
   // Close popover when clicking outside
   // useEffect(() => {
@@ -63,6 +79,10 @@ const Navbar = () => {
   //   };
   // }, [open, anchorEl]);
 
+  useEffect(() => {
+    getMenus()
+  }, [])
+
   return (
     <AppBar
       position="static"
@@ -76,24 +96,18 @@ const Navbar = () => {
         <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-          {[
-            "New In",
-            "Painting",
-            "Print",
-            "Photography",
-            "Sculpture",
-            "Drawing",
-            "More",
-            "Artists",
-          ].map((item) => (
-            <Button
-              key={item}
-              sx={{ color: "black", textTransform: "none" }}
-              onMouseEnter={(e) => handlePopoverOpen(e, item)}
-            >
-              {item}
-            </Button>
-          ))}
+          {
+            menus?.filter((item) => item.parent_id === null).map((item) => (
+                <Button
+                  key={item.id}
+                  sx={{ color: "black", textTransform: "none" }}
+                  onMouseEnter={(e) => handlePopoverOpen(e, item.title)}
+                >
+                  {item.title || "Unnamed"}
+                </Button>
+              )
+            )
+          }
         </Box>
 
 
