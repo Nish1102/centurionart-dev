@@ -31,7 +31,7 @@ export const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: DashboardLayout,
+   component: DashboardLayout,
     guard: AuthGuard
   },
   {
@@ -43,7 +43,7 @@ export const routes = [
   {
     path: '/artists-dashboard',
     name: 'Artists Dashboard',
-    component: ResellerDashboard,
+    component: DashboardLayout,
     guard: (props) => <RoleGuard {...props} roles={['artist']} />
   },
   {

@@ -40,7 +40,7 @@ const RightIcons = styled(Box)({
 const AdminHeader = ({ onToggleSidebar }) => {
   return (
     <StyledAppBar position="fixed">
-      <Toolbar>
+      {/* <Toolbar>
         <LogoContainer>
           <Logo src="../images/logo1.png" alt="Logo" /> 
         </LogoContainer>
@@ -68,7 +68,29 @@ const AdminHeader = ({ onToggleSidebar }) => {
             <AccountCircle />
           </IconButton>
         </RightIcons>
-      </Toolbar>
+      </Toolbar> */}
+
+      <AppBar position="fixed" open={open}>
+              <Toolbar>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  edge="start"
+                  sx={[
+                    {
+                      marginRight: 5,
+                    },
+                    open && { display: 'none' },
+                  ]}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" noWrap component="div">
+                  Mini variant drawer
+                </Typography>
+              </Toolbar>
+            </AppBar>
     </StyledAppBar>
   );
 };

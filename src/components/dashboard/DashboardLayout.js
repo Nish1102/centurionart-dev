@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import Sidebar from './sidebar/SideBar';
 // import './dashboardstyle.css';
 import AdminHeader from './AdminHeader';
+import AdminDashboard from './admindashboard/AdminDashboard';
 
 
 
-function DashboardLayout() {
+function DashboardLayout() { 
 
   return (
     <div>
-       <AdminHeader />
+       {/* <AdminHeader /> */}
         <Sidebar />
-       
+        {/* <AdminDashboard/> */}
     </div>
   )
 }

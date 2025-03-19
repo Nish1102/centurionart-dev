@@ -75,10 +75,11 @@ const ResellerDashboard = () => {
     .sort((a, b) => b[sortBy] - a[sortBy]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation setIsLoginOpen={setIsLoginOpen} />
-      <Container>
-        <Box component="main" sx={{ flexGrow: 1, p: 2, mt: 2 }}>
+    <div className="min-h-screen bg-gray-50" >
+      {/* <Navigation setIsLoginOpen={setIsLoginOpen} /> */}
+      <Container style={{padding:0, margin: 0}}>
+       
+        <Box component="main" sx={{ flexGrow: 1, p: 0, mt: 2, m:0 }}>
           {/* Portfolio Header */}
           <Typography variant="h4" fontWeight="bold">
             My Portfolio
@@ -107,7 +108,7 @@ const ResellerDashboard = () => {
           </Box>
 
           {/* Portfolio Stats */}
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ p: 3, px: 0 }}>
             <Grid container spacing={3}>
               {/* Artworks for Sale */}
               <Grid item xs={12} sm={4}>
