@@ -1,43 +1,43 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import React from "react";
+import { Grid, Typography, Link } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SculptureSubMenu = ({close}) => {
+const SculptureSubMenu = ({ close, menus, menuId }) => {
+
+  const navigate = useNavigate();
+
+  const [subMenus, setSubMenus] = useState([]);
+
+  // Sub-menus ko filter karna
+  useEffect(() => {
+    const filteredSubMenus = menus.filter((item) => item.parent_id === menuId);
+    setSubMenus(filteredSubMenus);
+  }, [menuId, menus]);
+
+
   return (
     <Grid container spacing={3} onMouseLeave={() => close()}>
-      {/* Style */}
-      <Grid item xs={4}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          STYLE
-        </Typography>
-        <Typography>Color</Typography>
-        <Typography>Black and White</Typography>
-        <Typography>Sepia</Typography>
-        <Typography>Digital</Typography>
-        <Typography>Street Photo</Typography>
-      </Grid>
+      {subMenus.map((subMenu) => (
+        <Grid item xs={3} key={subMenu._id}>
+          <Typography variant="subtitle1" fontWeight="bold">
+            {subMenu.title}
+          </Typography>
 
-      {/* Theme */}
-      <Grid item xs={4}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          THEME
-        </Typography>
-        <Typography>Landscape</Typography>
-        <Typography>Urban</Typography>
-        <Typography>Portrait</Typography>
-        <Typography>Nature</Typography>
-        <Typography>Travel</Typography>
-      </Grid>
-
-      {/* Shop By */}
-      <Grid item xs={4}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          SHOP BY
-        </Typography>
-        <Typography>Seasonal Promotion</Typography>
-        <Typography>New In</Typography>
-        <Typography>Price +</Typography>
-        <Typography>Size +</Typography>
-      </Grid>
+          {menus
+            .filter((subMenuItem) => subMenuItem.parent_id === subMenu._id)
+            .map((subMenuItem) => (
+              <Link
+                key={subMenuItem._id}
+                underline="none"
+                sx={{ "&:hover": { textDecoration: "underline" }, display: "block" }}
+                component="button"
+                onClick={() => navigate("/collector-dashboard")}
+              >
+                <Typography display="block">{subMenuItem.title}</Typography>
+              </Link>
+            ))}
+        </Grid>
+      ))}
     </Grid>
   );
 };

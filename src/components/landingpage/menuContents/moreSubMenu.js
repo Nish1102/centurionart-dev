@@ -1,47 +1,45 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import React from "react";
+import { Card, CardContent, CardMedia, Grid, Typography, Link } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import image1 from "../../../assets/1.jpg";
 import image2 from "../../../assets/2.jpg";
 
-const MoreSubMenu = ({close}) => {
+const MoreSubMenu = ({ close, menus, menuId }) => {
+
+  const navigate = useNavigate();
+
+  const [subMenus, setSubMenus] = useState([]);
+
+  // Sub-menus ko filter karna
+  useEffect(() => {
+    const filteredSubMenus = menus.filter((item) => item.parent_id === menuId);
+    setSubMenus(filteredSubMenus);
+  }, [menuId, menus]);
+
   return (
     <Grid container spacing={3} onMouseLeave={() => close()}>
-      {/* Style */}
-      <Grid item xs={3}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          STYLE
-        </Typography>
-        <Typography>Abstract</Typography>
-        <Typography>Figurative</Typography>
-        <Typography>Impressionism</Typography>
-        <Typography>Realism</Typography>
-        <Typography>Pop Art</Typography>
-      </Grid>
 
-      {/* Theme */}
-      <Grid item xs={3}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          THEME
-        </Typography>
-        <Typography>Landscape</Typography>
-        <Typography>Portrait</Typography>
-        <Typography>Floral</Typography>
-        <Typography>Urban</Typography>
-        <Typography>Pop Culture</Typography>
-      </Grid>
+      {subMenus.map((subMenu) => (
+        <Grid item xs={3} key={subMenu._id}>
+          <Typography variant="subtitle1" fontWeight="bold">
+            {subMenu.title}
+          </Typography>
 
-      {/* Shop By */}
-      <Grid item xs={3}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          SHOP BY
-        </Typography>
-        <Typography>Seasonal Promotion</Typography>
-        <Typography>New In</Typography>
-        <Typography>Price +</Typography>
-        <Typography>Size +</Typography>
-        <Typography>Color +</Typography>
-        <Typography>Technique +</Typography>
-      </Grid>
+          {menus
+            .filter((subMenuItem) => subMenuItem.parent_id === subMenu._id)
+            .map((subMenuItem) => (
+              <Link
+                key={subMenuItem._id}
+                underline="none"
+                sx={{ "&:hover": { textDecoration: "underline" }, display: "block" }}
+                component="button"
+                onClick={() => navigate("/collector-dashboard")}
+              >
+                <Typography display="block">{subMenuItem.title}</Typography>
+              </Link>
+            ))}
+        </Grid>
+      ))}
 
       {/* Highlights */}
       <Grid item xs={3}>
