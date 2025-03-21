@@ -22,14 +22,17 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const FeaturedSec = () => {
   const [ categories, setCategories ] = useState([]);
+  const [page, setPage] = useState(1);
+  
 
   useEffect(() => {
     const getAllCategories = async() => {
       try {
-        const response = await api.get("/api/categories/");
+        const response = await api.get(`/api/categories?_page=${page}&_limit=8`);
         
         if (response.status === 200 && response.data) {
-          setCategories?.(response.data); 
+          setCategories?.(response.data);
+          // setTotalPages(Math.ceil(response.headers['x-total-count'] / 6))
         }
       } catch(error) {
         console.error(error)

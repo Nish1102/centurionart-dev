@@ -3,7 +3,14 @@ const logger = require("../utils/logger");
 
 const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find();
+    const page = parseInt(req.query._page) || 1;
+    const limit = parseInt(req.query._limit) || 100;
+    const skip = (page - 1) * limit;
+
+    const totalCategories = await Category.countDocuments();
+    const categories = await Category.find().skip(skip).limit(limit);    
+
+    res.setHeader('x-total-count', totalCategories); 
     res.status(200).json(categories);
   } catch (error) {
     logger.error("Error fetching categories:", error);

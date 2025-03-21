@@ -1,4 +1,5 @@
 const ArtWork = require('../models/artWorkModel');
+const Category = require("../models/categoryModel");
 const path = require('path');
 const logger = require('../utils/logger');
 
