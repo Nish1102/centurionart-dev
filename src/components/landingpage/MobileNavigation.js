@@ -30,10 +30,8 @@ function MobileNavigation() {
   // api getmenus   
     const getMenus = async () => {
       try {
-        console.log(33 , ' get Menus calling from here ')
         const response = await api.get("/api/menu/");
     
-        console.log(36 , response.data)
         if (response.status === 200 && response.data) {
           setMenus?.(response.data); 
         }

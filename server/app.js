@@ -127,7 +127,6 @@ passport.use(new GoogleStrategy({
     scope: ["email", "profile"]
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        console.log(107 , profile)
         let userInfo = await User.findOne({ googleId: profile.id });
         if (!userInfo) {
             userInfo = new User({

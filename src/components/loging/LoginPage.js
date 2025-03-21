@@ -43,7 +43,6 @@ const LoginModal = ({ open, onClose }) => {
         }
       });
       const userInfo = await userInfoResponse.json();
-      console.log('User Info:', userInfo);
       
       // Add role to user info
       const userWithRole = {

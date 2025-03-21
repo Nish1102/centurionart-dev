@@ -28,8 +28,7 @@ const FeaturedSec = () => {
   useEffect(() => {
     const getAllCategories = async() => {
       try {
-        const response = await api.get(`/api/categories?_page=${page}&_limit=8`);
-        
+        const response = await api.get(`/api/category/categories?_page=${page}&_limit=8`);
         if (response.status === 200 && response.data) {
           setCategories?.(response.data);
           // setTotalPages(Math.ceil(response.headers['x-total-count'] / 6))
