@@ -187,10 +187,19 @@ const ResellerDashboard = () => {
               sx={{ width: 160 }}
             />
             <CardContent>
-              <Typography variant="h6">{artwork.title}</Typography>
-              <Typography variant="body2">{artwork.date}</Typography>
-              <Typography variant="body1">Price: ₹{artwork.price}</Typography>
-              <Typography variant="body2">Views: {artwork.views}</Typography>
+              <Typography variant="h6" sx={{
+                            fontSize: {
+                xs: '0.875rem', 
+                sm: '1rem',     
+                md: '1.125rem', 
+                lg: '1.2rem',   
+                xl: '1.25rem',  
+              },
+              color: '#1c2b46',
+              }}>{artwork.title}</Typography>
+              <Typography variant="body2" sx={{fontSize:'0.775rem',fontWeight:'600',color:'#5600d3'}}>{artwork.date}</Typography>
+              <Typography variant="body1"><strong>Price: ₹</strong>{artwork.price}</Typography>
+              <Typography variant="body2"><storng>Views:</storng> {artwork.views}</Typography>
               <Button variant="contained" color="primary" sx={{ marginTop: 1 }}>
                 Edit
               </Button>

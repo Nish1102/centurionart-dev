@@ -126,8 +126,8 @@ const Navbar = () => {
               xs: '40%',     // Full width on mobile
       sm: '50%',    // Medium width on small screens
       md: '200px',    // Wider on tablets
-      lg: '500px',    // Even wider on large screens
-      xl: '600px',    // Max width on extra-large screens
+      lg: '300px',    // Even wider on large screens
+      xl: '300px',    // Max width on extra-large screens
 
             }
           }}
