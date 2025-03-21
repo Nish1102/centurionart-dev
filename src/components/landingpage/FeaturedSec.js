@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import api from "../../services/api";
+
 
 // item tag
 const Item = styled(Paper)(({ theme }) => ({
@@ -18,23 +20,24 @@ const Item = styled(Paper)(({ theme }) => ({
   boxShadow: "none",
 }));
 
-// categories
-const categories = [
-  { name: "Abstract", image: "../images/feature-1.jpg" },
-  { name: "Landscapes", image: "../images/feature-2.jpg" },
-  { name: "Portraits", image: "../images/feature-3.jpg" },
-  { name: "Photography", image: "../images/feature-1.jpg" },
-  { name: "Sculpture", image: "../images/feature-2.jpg" },
-  { name: "Best-selling artists", image: "../images/feature-3.jpg" },
-  { name: "Famous artists", image: "../images/feature-1.jpg" },
-  {
-    name: "Seasonal promotion",
-    image: "../images/feature-2.jpg",
-    color: "white",
-  },
-];
+const FeaturedSec = () => {
+  const [ categories, setCategories ] = useState([]);
 
-function FeaturedSec() {
+  useEffect(() => {
+    const getAllCategories = async() => {
+      try {
+        const response = await api.get("/api/categories/");
+        
+        if (response.status === 200 && response.data) {
+          setCategories?.(response.data); 
+        }
+      } catch(error) {
+        console.error(error)
+      }
+    }
+    getAllCategories()
+  }, [])
+
   return (
     <>
       <Box className="featured_section">
