@@ -23,6 +23,7 @@ import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
 import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
 import api from "../../services/api";
+import '../landingpage/menuContents/menu-style.css';
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -95,7 +96,7 @@ const Navbar = () => {
 
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* logo */}
-        <img className="header_logo" src="../images/logo1.png" alt="header logo"/>
+        <img className="header_logo" src="../images/logo1.png" alt="header logo" />
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
           {
@@ -121,6 +122,14 @@ const Navbar = () => {
             bgcolor: "#f1f1f1",
             borderRadius: 2,
             px: 2,
+            width:{
+              xs: '40%',     // Full width on mobile
+      sm: '50%',    // Medium width on small screens
+      md: '200px',    // Wider on tablets
+      lg: '500px',    // Even wider on large screens
+      xl: '600px',    // Max width on extra-large screens
+
+            }
           }}
         >
           <Search color="disabled" />

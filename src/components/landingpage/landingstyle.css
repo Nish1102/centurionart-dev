@@ -370,6 +370,9 @@
 .footer_sec{
     /* background: var(--peragh-color) !important; */
 }
+.css-18eeilu-MuiTypography-root-MuiLink-root:hover {
+    color: #5600d3 !important;
+}
 .coryright_sec{
  background: #5600d3 !important;  
 }
@@ -377,5 +380,14 @@
     color: white !important; 
    }
 
+
+
+/* media query */
+@media (max-width: 575.98px) { 
+    .header_logo {
+        max-width: 150px;
+        min-width: 100px;
+      }
+ }
 
    
