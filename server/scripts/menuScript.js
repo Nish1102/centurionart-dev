@@ -19,7 +19,7 @@ const saveMenu = async (menu, parentId = null) => {
 
 const seedMenus = async () => {
     try {
-        await mongoose.connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+        await mongoose.connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart?retryWrites=true&w=majority&appName=Cluster0");
         console.log("Connected to MongoDB");
 
         await Menu.deleteMany({});

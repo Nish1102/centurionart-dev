@@ -120,7 +120,6 @@ function GallerySec() {
                               textAlign: "center",
                               borderRadius: 2,
                             }}
-                            
                           >
                             <Box className="art_img" style={styles}>
                             <span><img src="../images/auth.jpg" alt="auth"/>{art.author}</span>

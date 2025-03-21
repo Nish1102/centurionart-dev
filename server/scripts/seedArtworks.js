@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 const axios = require("axios");
 const ArtWork = require("../models/artWorkModel");
 const Category = require("../models/categoryModel");
+const User = require("../models/userModel"); // Import User model
 
 // MongoDB Connection
 mongoose
-  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("✅ Database connected successfully"))
   .catch((err) => {
     console.error("Database connection failed:", err);
@@ -35,30 +36,37 @@ const fetchImageUrl = async (categoryName) => {
   }
 };
 
-// Function to create dummy artworks with correct category
+// Function to create dummy artworks
 const createDummyArtworks = async () => {
-  const categories = await Category.find(); // Fetch all categories from DB
+  const categories = await Category.find();
   if (categories.length === 0) {
     console.error("❌ No categories found! Seed categories first.");
     process.exit(1);
   }
 
+  const artists = await User.find({ userType: "artist" }); // Fetch only artists
+  if (artists.length === 0) {
+    console.error("❌ No artist users found! Seed some artists first.");
+    process.exit(1);
+  }
+
   const dummyArtworks = await Promise.all(
     Array.from({ length: 49 }, async (_, i) => {
-      const randomCategory = categories[Math.floor(Math.random() * categories.length)]; // Pick random category
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      const randomArtist = artists[Math.floor(Math.random() * artists.length)];
 
       return {
         title: `Artwork ${i + 1}`,
         description: `This is a dummy description for artwork ${i + 1}`,
-        category: randomCategory._id, // Assign correct category ID
+        category: randomCategory._id,
         medium: "Oil on Canvas",
         size: "24x36 inches",
-        price: Math.floor(Math.random() * 5000) + 1000, // Random price between 1000-6000
-        artUrls: [await fetchImageUrl(randomCategory.name)], // Fetch image based on category name
-        artist: new mongoose.Types.ObjectId(), // Replace with actual artist _id
-        available: Math.random() > 0.2, // 80% chance of being available
-        availableCount: Math.floor(Math.random() * 10) + 1, // Random stock between 1-10
-        stories: Array.from({ length: Math.floor(Math.random() * 4) + 2 }, () => generateStory()), // 2-5 random stories
+        price: Math.floor(Math.random() * 5000) + 1000,
+        artUrls: [await fetchImageUrl(randomCategory.name)],
+        artist: randomArtist._id, // Assigning actual artist's ObjectId
+        available: Math.random() > 0.2,
+        availableCount: Math.floor(Math.random() * 10) + 1,
+        stories: Array.from({ length: Math.floor(Math.random() * 4) + 2 }, () => generateStory()),
       };
     })
   );
@@ -67,7 +75,7 @@ const createDummyArtworks = async () => {
 
 const seedDatabase = async () => {
   try {
-    await ArtWork.deleteMany(); 
+    await ArtWork.deleteMany();
     console.log("🗑️ Previous artworks deleted!");
 
     const artworks = await createDummyArtworks();

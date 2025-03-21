@@ -3,7 +3,7 @@ const axios = require("axios");
 const Category = require("../models/categoryModel"); 
 
 mongoose
-  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("✅ Database connected successfully"))
   .catch((err) => {
     console.error("Database connection failed:", err);
