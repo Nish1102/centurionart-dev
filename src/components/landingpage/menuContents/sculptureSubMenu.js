@@ -1,4 +1,4 @@
-import { Grid, Typography, Link } from "@mui/material";
+import { Grid, Typography, Link, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,13 +16,16 @@ const SculptureSubMenu = ({ close, menus, menuId }) => {
 
 
   return (
-    <Grid container spacing={3} onMouseLeave={() => close()}>
+    <Grid container spacing={3} 
+    onMouseLeave={() => close()}
+    >
       {subMenus.map((subMenu) => (
-        <Grid item xs={3} key={subMenu._id}>
-          <Typography variant="subtitle1" fontWeight="bold">
+        <Grid item xs={4} key={subMenu._id} className="menu_row" sx={{ borderRight: '1px solid #ebebeb', px:2}}>
+          <Typography variant="subtitle1" className="menu_title" fontWeight="bold">
             {subMenu.title}
           </Typography>
 
+          <Box className="menu_bg">
           {menus
             .filter((subMenuItem) => subMenuItem.parent_id === subMenu._id)
             .map((subMenuItem) => (
@@ -33,9 +36,10 @@ const SculptureSubMenu = ({ close, menus, menuId }) => {
                 component="button"
                 onClick={() => navigate("/collector-dashboard")}
               >
-                <Typography display="block">{subMenuItem.title}</Typography>
+                <Typography display="block" className="submenu_title">{subMenuItem.title}</Typography>
               </Link>
             ))}
+          </Box>
         </Grid>
       ))}
     </Grid>

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Grid, Typography, Link } from "@mui/material";
+import { Card, CardContent, CardMedia, Grid, Typography, Link, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import image1 from "../../../assets/1.jpg";
@@ -20,14 +20,17 @@ const DrawingSubMenu = ({ close, menus, menuId }) => {
 
 
   return (
-    <Grid container spacing={3} onMouseLeave={() => close()}>
+    <Grid container spacing={3} 
+   onMouseLeave={() => close()}
+    >
 
       {subMenus.map((subMenu) => (
-        <Grid item xs={3} key={subMenu._id}>
-          <Typography variant="subtitle1" fontWeight="bold">
+        <Grid item xs={3} key={subMenu._id} lassName="menu_row" sx={{ borderRight: '1px solid #ebebeb', px:2}}>
+          <Typography variant="subtitle1" className="menu_title" fontWeight="bold">
             {subMenu.title}
           </Typography>
 
+          <Box className="menu_bg">
           {menus
             .filter((subMenuItem) => subMenuItem.parent_id === subMenu._id)
             .map((subMenuItem) => (
@@ -38,16 +41,17 @@ const DrawingSubMenu = ({ close, menus, menuId }) => {
                 component="button"
                 onClick={() => navigate("/collector-dashboard")}
               >
-                <Typography display="block">{subMenuItem.title}</Typography>
+                <Typography display="block" className="submenu_title">{subMenuItem.title}</Typography>
               </Link>
             ))}
+          </Box>
         </Grid>
       ))}
 
 
       {/* Highlights */}
       <Grid item xs={3}>
-        <Card sx={{ boxShadow: 0 }}>
+        <Card sx={{ boxShadow: 0,my:2 }} className="menu_card">
           <CardMedia
             component="img"
             height="100"
@@ -62,7 +66,7 @@ const DrawingSubMenu = ({ close, menus, menuId }) => {
           </CardContent>
         </Card>
 
-        <Card sx={{ boxShadow: 0, mt: 2 }}>
+        <Card sx={{ boxShadow: 0, mt: 1 }} className="menu_card">
           <CardMedia
             component="img"
             height="100"

@@ -1,0 +1,32 @@
+
+.menu_bg button:hover{
+    text-decoration: none !important;
+}
+
+.menu_title {
+    margin-bottom: 0.5rem !important;
+    background: #5600d3;
+    color: white;
+    font-size: 16px;
+    padding: 1px 10px;
+}
+.submenu_title {
+    font-size: 16px;
+    padding: 5px 0px 5px 10px;
+    margin: 2px 0;
+    border-bottom: 1px solid #ebebeb;
+    color: #5600d3;
+    text-decoration: none !important;
+}
+
+.submenu_title:hover{
+    text-decoration: none !important;
+}
+
+.menu_bg button{
+    width: 100%;
+    text-align: start;
+}
+.menu_card{
+    box-shadow: 0 1px 10px rgba(24, 24, 24, .07) !important;
+}

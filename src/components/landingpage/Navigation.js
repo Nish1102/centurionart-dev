@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { useRoute } from "../../contexts/RouteContext";
 import { useUser } from "../../contexts/userContext";
 import UserProfilePopover from "./UserProfilePopover";
+import MobileNavigation from "./MobileNavigation";
 
 const Navigation = ({ setIsLoginOpen }) => {
   const { routes, setCurrentRoute, currentRoute } = useRoute();
@@ -49,6 +50,7 @@ const Navigation = ({ setIsLoginOpen }) => {
   };
 
   return (
+    <>
     <AppBar position="static" className="top_header" elevation={4}>
       <Toolbar>
         {/* Left-aligned content */}
@@ -56,56 +58,139 @@ const Navigation = ({ setIsLoginOpen }) => {
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          sx={{ flexGrow: 1 }}
+          sx={{ flexGrow: 1,
+          display:{xs:'block',lg:'flex',md:'flex',sm:'flex'}
+           }}
         >
+        <Box sx={{display:{xxl:'block',xl:'block',lg:'block', md:'block',sm:'block',xs:'none'} }}>
           <Box
             display="flex"
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent="space-between" 
           >
-            <Typography variant="h6" sx={{ textTransform: "uppercase" }}>
+            <Typography variant="h6" sx={{ textTransform: "uppercase",
+              fontSize: {
+      xs: '0.875rem', 
+      sm: '1rem',     
+      md: '1.125rem', 
+      lg: '1.25rem',  
+      // xl: '1.5rem',   
+              }
+             }}>
               The Centurion Art 2.0
             </Typography>
-            <BrushIcon sx={{ ml: 1, fontSize: 30 }} />
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <BrushIcon sx={{ fontSize: 40, color: 'white', my: 1 }} />
+            </motion.div>
           </Box>
+       </Box>
 
           {/* Icons & Sell My Art Button */}
           <Box
             sx={{
-              justifyContent: "right",
+              justifyContent: "space-between",
               // marginTop: 2,
               display: "flex",
               alignItems: "center",
               gap: 1,
             }}
+           
           >
             <Button
               variant="contained"
               color="error"
-              sx={{ borderRadius: 3, textTransform: "none" }}
+              sx={{ borderRadius: 1, textTransform: "none",
+             padding: {
+    xs: 1,
+    sm: 1,
+    md: 1,
+    lg: 1,
+  },
+                fontSize: {
+      xs: '0.575rem', 
+      sm: '0.875rem',     
+      md: '1rem', 
+      lg: '1rem',  
+      // xl: '1.5rem',   
+              } 
+              }}
             >
               Seasonal promotion
             </Button>
             <Button
               variant="outlined"
               style={{ color: "white", border: "1px solid #fff" }}
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none",
+                display:{lg:'block', md:'block',sm:'block',xs:'block'},
+                fontSize: {
+      xs: '0.575rem', 
+      sm: '0.875rem',     
+      md: '1rem', 
+      lg: '1rem',  
+      // xl: '1.5rem',   
+              } 
+               }}
               onClick={() => navigate("/login")}
             >
               Sell my art
             </Button>
-            <IconButton>
-              <FavoriteBorder style={{ color: "white" }} />
+            <IconButton
+            style={{display:'flex',alignItems:'center'}}
+             sx={{ 
+              display:{lg:'block', md:'block',sm:'block',xs:'block'},
+              px:0
+              }}
+            >
+              <FavoriteBorder style={{ color: "white" }} sx={{
+                fontSize: {
+      xs: '1.375rem', 
+      sm: '1.375rem',     
+      md: '1.575rem', 
+      lg: '1.575rem',
+                }  
+              }} />
             </IconButton>
             <IconButton
+             style={{display:'flex',alignItems:'center'}}
+             sx={{ 
+              display:{lg:'block', md:'block',sm:'block',xs:'block'},
+              px:0
+              }}
               onClick={!user ? () => setIsLoginOpen(true) : undefined}
               onMouseEnter={user ? (e) => handlePopoverOpen(e) : undefined}
             >
-              <PersonOutline style={{ color: "white" }} />
+              <PersonOutline style={{ color: "white" }} sx={{
+                fontSize: {
+      xs: '1.375rem', 
+      sm: '1.375rem',     
+      md: '1.575rem', 
+      lg: '1.575rem',
+                }  
+              }}  />
             </IconButton>
-            <IconButton>
-              <ShoppingBagOutlined style={{ color: "white" }} />
+            <IconButton
+            style={{display:'flex',alignItems:'center'}}
+              sx={{ 
+              display:{lg:'block', md:'block',sm:'block',xs:'block'},
+              px:0
+              }}
+            >
+              <ShoppingBagOutlined style={{ color: "white" }} sx={{
+                fontSize: {
+      xs: '1.375rem', 
+      sm: '1.375rem',     
+      md: '1.575rem', 
+      lg: '1.575rem',
+                }  
+              }}  />
             </IconButton>
+
+            <Box sx={{ display: { lg: 'none', md: 'none', sm: 'block', xs: 'block' } }}>
+  <MobileNavigation />
+</Box>
           </Box>
         </Box>
       </Toolbar>
@@ -122,6 +207,44 @@ const Navigation = ({ setIsLoginOpen }) => {
         {<UserProfilePopover onClose={handlePopoverClose} sx={{ pointerEvents: "auto" }} />}
       </Popover>
     </AppBar>
+
+     <AppBar position="static" className="top_header" elevation={4} sx={{  display:{lg:'none', md:'none',sm:'none',xs:'none'}}}>
+           {/* Icons & Sell My Art Button */}
+           <Box
+            sx={{
+              justifyContent: "right",
+              // marginTop: 2,
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+           
+            <Button
+              variant="outlined"
+              style={{ color: "white", border: "1px solid #fff" }}
+              sx={{ textTransform: "none",}}
+              onClick={() => navigate("/login")}
+            >
+              Sell my art
+            </Button>
+            <IconButton
+            >
+              <FavoriteBorder style={{ color: "white" }} />
+            </IconButton>
+            <IconButton
+              onClick={!user ? () => setIsLoginOpen(true) : undefined}
+              onMouseEnter={user ? (e) => handlePopoverOpen(e) : undefined}
+            >
+              <PersonOutline style={{ color: "white" }} />
+            </IconButton>
+            <IconButton
+            >
+              <ShoppingBagOutlined style={{ color: "white" }} />
+            </IconButton>
+          </Box>
+     </AppBar>
+    </>
   );
 };
 
