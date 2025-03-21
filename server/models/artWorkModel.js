@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
 
 const ArtWorkSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    description: {
-        type: String,
+    title: { type: String, required: true, trim: true },
+    description: { type: String, 
         // required: true,
     },
     category: {
@@ -44,10 +39,8 @@ const ArtWorkSchema = new mongoose.Schema({
         // required: true,
         min: 0
     },
-    stories: [{
-        type: mongoose.Schema.Types.ObjectId,
-        // ref: "Story",
-    }]
+    stories: [{ type: String }]
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("ArtWork", ArtWorkSchema);

@@ -1,36 +1,37 @@
-const ArtWork = require('../models/artWorkModel')
-const axios = require('axios');
+const ArtWork = require('../models/artWorkModel');
 const path = require('path');
-const logger = require('../utils/logger')
+const logger = require('../utils/logger');
 
-
-// Artworks endpoint with pagination
 const getAllArtworks = async (req, res) => {
     const page = parseInt(req.query._page) || 1;
     const limit = parseInt(req.query._limit) || 100;
     const skip = (page - 1) * limit;
-  
+
     try {
-      const response = await axios.get(`https://dummyjson.com/products?skip=${skip}&limit=${limit}`);
-      const artworks = response.data.products.map(product => ({
-        id: product.id,
-        title: product.title,
-        author: product.brand,
-        price: product.price,
-        location: product.category,
-        image: product.thumbnail,
-        description: product.description
-      }));
-  
-      res.setHeader('x-total-count', response.data.total);
-      res.json(artworks);
+        const totalArtworks = await ArtWork.countDocuments(); 
+        const artworks = await ArtWork.find().skip(skip).limit(limit);
+
+        // Convert MongoDB data to match frontend structure
+        const formattedArtworks = artworks.map(art => ({
+            id: art._id,  
+            title: art.title,
+            author: art.artist, 
+            price: art.price,
+            location: art.category,  
+            image: art.artUrls[0],  
+            description: art.description
+        }));
+
+        res.setHeader('x-total-count', totalArtworks); 
+        res.json(formattedArtworks); 
+
     } catch (error) {
-      console.error('Error In Login User:', error.message);
-      logger.error(path.join(__dirname), 'getAllArtworks', error.message);
-      res.status(500).json({ message: 'Internal server error' });
+        console.error('Error fetching artworks:', error.message);
+        logger.error(path.join(__dirname), 'getAllArtworks', error.message);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 
 module.exports = {
     getAllArtworks
-}
+};
