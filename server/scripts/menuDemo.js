@@ -181,23 +181,23 @@ const menus = [
                 child: [
                     {
                         name: 'Pablo Picasso',
-                        filter: [{ id: 'artist', val: 'Pablo Picasso' } , ]
+                        filter: [{ id: 'artist', val: 'pablo picasso' } , ]
                     },
                     {
                         name: 'Salvador Dali',
-                        filter: [{ id: 'artist', val: 'Salvador Dali' } , ]
+                        filter: [{ id: 'artist', val: 'salvador dali' } , ]
                     },
                     {
                         name: 'Banksy',
-                        filter: [{ id: 'artist', val: 'Banksy' } , ]
+                        filter: [{ id: 'artist', val: 'banksy' } , ]
                     },
                     {
                         name: 'Shepard Fairy',
-                        filter: [{ id: 'artist', val: 'Shepard Fairy' } , ]
+                        filter: [{ id: 'artist', val: 'shepard fairy' } , ]
                     },
                     {
                         name: 'Marc Chagal',
-                        filter: [{ id: 'artist', val: 'Marc Chagal' } , ]
+                        filter: [{ id: 'artist', val: 'marc chagal' } , ]
                     },
                 ]
             },
@@ -642,19 +642,19 @@ const menus = [
                 child: [
                     {
                         name: 'Famous Artist',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'pablo picasso' } , ]
                     },
                     {
                         name: 'Best Selling Artist',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'best selling artist' } , ]
                     },
                     {
                         name: 'Curators Sellection',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'Curators Sellection' } , ]
                     },
                     {
                         name: 'Featured Artist',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'featured artist' } , ]
                     },
                 ]
             },
@@ -663,47 +663,47 @@ const menus = [
                 child: [
                     {
                         name: 'Jorge Nava',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'jorge nava' } , ]
                     },
                     {
                         name: 'Pasquale Rapicano',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'pasquale rapicano' } , ]
                     },
                     {
                         name: 'Silivia Ingrid',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'silivia ingrid' } , ]
                     },
                     {
                         name: 'Hummer',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'hummer' } , ]
                     },
                     {
                         name: 'Marc Crossmann',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'marc crossmann' } , ]
                     },
                     {
                         name: 'Ulrike Gaiser',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'ulrike gaiser' } , ]
                     },
                     {
                         name: 'Deniela Schreiber',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'deniela schreiber' } , ]
                     },
                     {
                         name: 'Hector Bouchet',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'hector bouchet' } , ]
                     },
                     {
                         name: 'Jose Rizzo',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'jose rizzo' } , ]
                     },
                     {
                         name: 'ozziuaan',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'ozziuaan' } , ]
                     },
                     {
                         name: 'Whitney Shirley',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'pablo picasso' } , ]
                     }
                 ],
             },
