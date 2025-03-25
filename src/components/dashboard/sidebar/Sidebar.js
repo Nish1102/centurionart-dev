@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -25,6 +25,8 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ResellerDashboard from "../resellerdashboard/ResellerDashboard";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import api from "../../../services/api";
+
 
 const drawerWidth = 240;
 
@@ -97,9 +99,14 @@ export default function Sidebar() {
   const [open, setOpen] = React.useState(false);
   const [activeSubmenu, setActiveSubmenu] = React.useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [ menus, setMenus ] = useState();
+  const [subMenus, setSubMenus] = useState([]);
+  
 
-  const handleSubmenuClick = (menuKey) => {
-    setActiveSubmenu((prevKey) => (prevKey === menuKey ? null : menuKey));
+  const handleSubmenuClick = (mainMenu) => {
+    setActiveSubmenu((prevKey) => (prevKey === mainMenu.title ? null : mainMenu.title));
+    const filteredSubMenus = menus.filter((item) => item.parent_id === mainMenu._id);
+    setSubMenus(filteredSubMenus);
   };
 
   const handleDrawerOpen = () => {
@@ -124,182 +131,105 @@ export default function Sidebar() {
       <Divider />
       <List>
         {/* Menu 1 */}
-        <ListItem disablePadding sx={{ display: "block" }}>
-        <ListItemButton
-  onClick={() => handleSubmenuClick("menu1")}
-  sx={{
-    minHeight: 48,
-    px: 1.5,
-    justifyContent: open ? "initial" : "center",
-    m: open ? "5px 10px" : "0",
-    borderRadius: open ? "5px" : "0",
-    boxShadow: open
-      ? "inset 0px 0px 4px 1px rgba(86, 0, 211, 0.12), inset 0px 0px 27px 1px rgba(255, 255, 255, 0.5)"
-      : "",
-    '&:hover': {
-      backgroundColor: '#5600d3',
-      color: '#fff',
-      '& .MuiListItemIcon-root': {
-        color: '#fff', // Changes icon color
-      },
-      '& .MuiSvgIcon-root': {
-        color: '#fff', // Ensures actual icon SVG color is also white
-      },
-      '& .MuiListItemText-primary': {
-        color: '#fff',
-      },
-    },
-  }}
->
-  <ListItemIcon
-    sx={{
-      minWidth: 0,
-      mr: open ? 1 : "auto",
-      justifyContent: "center",
-      display: "flex", // Important for proper alignment
-      color: "#5600d3", // Default icon color
-    }}
-  >
-    <InboxIcon />
-  </ListItemIcon>
-  <ListItemText primary="Menu 1" sx={{ opacity: open ? 1 : 0 }} />
-  {activeSubmenu === "menu1" ? <ExpandLess /> : <ExpandMore />}
-</ListItemButton>
-          <Collapse
-            in={activeSubmenu === "menu1"}
-            timeout="auto"
-            unmountOnExit
-            sx={{
-              borderLeft: open ? "1px solid #ab72ff" : "none",
-              ml: open ? 3.5 : 0,
-              pl: 1,
-            }}
-          >
-            <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: open ? 4 : 2 }}>
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {/* <MailIcon sx={{color: '#5600d3'}} /> */}
-                </ListItemIcon>
-                <ListItemText
-                  primary="Sub Item 1"
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-              <ListItemButton sx={{ pl: open ? 4 : 2 }}>
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {/* <MailIcon sx={{color: '#5600d3'}} /> */}
-                </ListItemIcon>
-                <ListItemText
-                  primary="Sub Item 2"
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </List>
-          </Collapse>
-        </ListItem>
 
-        {/* Menu 2 */}
-        <ListItem disablePadding sx={{ display: "block" }}>
-          <ListItemButton
-            onClick={() => handleSubmenuClick("menu2")}
-            sx={{
-    minHeight: 48,
-    px: 1.5,
-    justifyContent: open ? "initial" : "center",
-    m: open ? "5px 10px" : "0",
-    borderRadius: open ? "5px" : "0",
-    boxShadow: open
-      ? "inset 0px 0px 4px 1px rgba(86, 0, 211, 0.12), inset 0px 0px 27px 1px rgba(255, 255, 255, 0.5)"
-      : "",
-    '&:hover': {
-      backgroundColor: '#5600d3',
-      color: '#fff',
-      '& .MuiListItemIcon-root': {
-        color: '#fff', // Changes icon color
-      },
-      '& .MuiSvgIcon-root': {
-        color: '#fff', // Ensures actual icon SVG color is also white
-      },
-      '& .MuiListItemText-primary': {
-        color: '#fff',
-      },
-    },
-  }}
-          >
-            <ListItemIcon
-              sx={{
-      minWidth: 0,
-      mr: open ? 1 : "auto",
-      justifyContent: "center",
-      display: "flex", // Important for proper alignment
-      color: "#5600d3", // Default icon color
-    }}
-            >
-              <InboxIcon sx={{ color: "#5600d3" }} />
-            </ListItemIcon>
-            <ListItemText primary="Menu 2" sx={{ opacity: open ? 1 : 0 }} />
-            {activeSubmenu === "menu2" ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse
-            in={activeSubmenu === "menu2"}
-            timeout="auto"
-            unmountOnExit
-            sx={{
-              borderLeft: open ? "1px solid #ab72ff" : "none",
-              ml: open ? 3.5 : 0,
-              pl: 1,
-            }}
-          >
-            <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: open ? 4 : 2 }}>
+        {
+          menus?.filter((item) => item.parent_id === null).map((item) => (
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                onClick={() => handleSubmenuClick(item)}
+                sx={{
+                  minHeight: 48,
+                  px: 1.5,
+                  justifyContent: open ? "initial" : "center",
+                  m: open ? "5px 10px" : "0",
+                  borderRadius: open ? "5px" : "0",
+                  boxShadow: open
+                    ? "inset 0px 0px 4px 1px rgba(86, 0, 211, 0.12), inset 0px 0px 27px 1px rgba(255, 255, 255, 0.5)"
+                    : "",
+                  '&:hover': {
+                    backgroundColor: '#5600d3',
+                    color: '#fff',
+                    '& .MuiListItemIcon-root': {
+                      color: '#fff', // Changes icon color
+                    },
+                    '& .MuiSvgIcon-root': {
+                      color: '#fff', // Ensures actual icon SVG color is also white
+                    },
+                    '& .MuiListItemText-primary': {
+                      color: '#fff',
+                    },
+                  },
+                }}
+              >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : "auto",
+                    mr: open ? 1 : "auto",
                     justifyContent: "center",
+                    display: "flex", // Important for proper alignment
+                    color: "#5600d3", // Default icon color
                   }}
                 >
-                  {/* <MailIcon /> */}
+                  <InboxIcon />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Sub Item 1"
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
+                <ListItemText primary={item.title || "No Name"} sx={{ opacity: open ? 1 : 0 }} />
+                {activeSubmenu === item.title ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <ListItemButton sx={{ pl: open ? 4 : 2 }}>
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {/* <MailIcon /> */}
-                </ListItemIcon>
-                <ListItemText
-                  primary="Sub Item 2"
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </List>
-          </Collapse>
-        </ListItem>
+              <Collapse
+                in={activeSubmenu === item.title}
+                timeout="auto"
+                unmountOnExit
+                sx={{
+                  borderLeft: open ? "1px solid #ab72ff" : "none",
+                  ml: open ? 3.5 : 0,
+                  pl: 1,
+                }}
+              >
+
+                {subMenus.map((subMenu) => (
+                  <List component="div" disablePadding>
+                    <ListItemButton sx={{ pl: open ? 4 : 2 }}>
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {/* <MailIcon sx={{color: '#5600d3'}} /> */}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={subMenu.title}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+
+                  </List>
+                ))}
+              </Collapse>
+            </ListItem>
+          ))}
       </List>
     </>
   );
 
+  // Fetch Menus
+  const getMenus = async () => {
+    try {
+      const response = await api.get("/api/menu/");
+
+      if (response.status === 200 && response.data) {
+        setMenus?.(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching menus:", error);
+    }
+  };  
+
+    useEffect(() => {
+      getMenus()
+    }, [])
+  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
