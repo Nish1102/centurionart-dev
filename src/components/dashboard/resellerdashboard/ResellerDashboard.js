@@ -38,11 +38,16 @@ const ResellerDashboard = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [activeId, setActiveId] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
+  // card menu button
+  const handleToggle = (id) => {
+    setActiveId((prevId) => (prevId === id ? null : id));
+  };
 
   // ======listing icon with content
   // const items = [
@@ -105,7 +110,14 @@ const ResellerDashboard = () => {
       <Container style={{ padding: 0, margin: 0 }}>
         <Box component="main" sx={{ flexGrow: 1, p: 0, mt: 2, m: 0 }}>
           {/* Portfolio Header */}
-          <Typography variant="h4" fontWeight="bold">
+          <Typography variant="h4" sx={{
+  fontSize: "30px",
+  fontWeight: 600,
+  textTransform: "capitalize",
+  color: "#1c2b46",
+  mb: '1.5rem',
+  display:'block'
+}}>
             My Portfolio
           </Typography>
           <Box
@@ -319,7 +331,7 @@ const ResellerDashboard = () => {
                   displayEmpty
                   sx={{
     width: '100%',
-    '& .MuiOutlinedInput-root': {
+    '& .MuiOutlinedInput-root': { 
       '& fieldset': {
         borderColor: '#ccc',
       },
@@ -481,7 +493,7 @@ const ResellerDashboard = () => {
                 }}
               >
                 <IconButton
-                  onClick={() => setShowList((prev) => !prev)}
+                  onClick={() => handleToggle(artwork.id)}
                   sx={{
                     fontSize: "0.75rem",
                     textTransform: "capitalize",
@@ -513,7 +525,7 @@ const ResellerDashboard = () => {
                 },
               }}
             >
-              {(!isMobile || showList) && (
+               {activeId === artwork.id && (
                 <List
                   sx={{
                     position: "absolute",
