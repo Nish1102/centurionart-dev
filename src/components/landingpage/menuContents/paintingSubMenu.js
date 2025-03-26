@@ -36,7 +36,7 @@ const NewInMenu = ({ close, menus, menuId }) => {
                 underline="none"
                 sx={{ "&:hover": { textDecoration: "underline" }, display: "block" }}
                 component="button"
-                onClick={() => navigate("/collector-dashboard")}
+                onClick={() => navigate("/painting")}
               >
                 <Typography display="block" className="submenu_title">{subMenuItem.title}</Typography>
               </Link>

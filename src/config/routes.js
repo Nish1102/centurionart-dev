@@ -2,7 +2,7 @@ import Dashboard from '../pages/Dashboard';
 import LoginComponent from '../components/loging/LoginComponent';
 import RegistrationComponent from '../pages/RegisterComponent';
 import BuyerDashboard from '../components/dashboard/buyerdashboard/BuyerDashboard';
-import ResellerDashboard from '../components/dashboard/resellerdashboard/ResellerDashboard';
+import PaintingDashboard from '../components/dashboard/paintingdashboard/paintingdashoard';
 import VendorDashboard from '../components/dashboard/vendordashboard/VendorDashboard';
 import AdminDashboard from '../components/dashboard/admindashboard/AdminDashboard';
 import ArtGalleryLanding from '../components/landingpage/LandingPage';
@@ -35,10 +35,16 @@ export const routes = [
     guard: AuthGuard
   },
   {
-    path: '/collector-dashboard',
-    name: 'Buyer Dashboard',
+    path: '/collector-dashboard/:navParam?/:subNavParam?',
+    name: 'Collector Dashboard',
     component: BuyerDashboard,
-    guard: (props) => <RoleGuard {...props} roles={['collector']} />
+    // guard: (props) => <RoleGuard {...props} roles={['collector']} />
+  },
+  {
+    path: '/painting/:navParam?/:subNavParam?',
+    name: 'Collector Dashboard',
+    component: PaintingDashboard,
+    // guard: (props) => <RoleGuard {...props} roles={['collector']} />
   },
   {
     path: '/artists-dashboard',

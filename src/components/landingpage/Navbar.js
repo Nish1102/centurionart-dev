@@ -1,6 +1,4 @@
-import {
-  Search
-} from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 import {
   AppBar,
   Box,
@@ -8,7 +6,7 @@ import {
   InputBase,
   Modal,
   Popover,
-  Toolbar
+  Toolbar,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +21,7 @@ import PhotographySubMenu from "./menuContents/photoGraphySubMenu";
 import PrintSubMenu from "./menuContents/printSubMenu";
 import SculptureSubMenu from "./menuContents/sculptureSubMenu";
 import api from "../../services/api";
-import '../landingpage/menuContents/menu-style.css';
+import "../landingpage/menuContents/menu-style.css";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,11 +34,11 @@ const Navbar = () => {
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const { user } = useUser();
-  const [ menus, setMenus ] = useState();
-  const [ menuId, setMenuId ] = useState();
+  const [menus, setMenus] = useState();
+  const [menuId, setMenuId] = useState();
 
   const handlePopoverOpen = (event, content, id) => {
-    setMenuId(id)
+    setMenuId(id);
     setAnchorEl(event.currentTarget);
     setPopoverContent(content);
   };
@@ -56,14 +54,14 @@ const Navbar = () => {
   const getMenus = async () => {
     try {
       const response = await api.get("/api/menu/");
-    
+
       if (response.status === 200 && response.data) {
-        setMenus?.(response.data); 
+        setMenus?.(response.data);
       }
     } catch (error) {
       console.error("Error fetching menus:", error);
     }
-  };  
+  };
 
   // Close popover when clicking outside
   // useEffect(() => {
@@ -83,8 +81,8 @@ const Navbar = () => {
   // }, [open, anchorEl]);
 
   useEffect(() => {
-    getMenus()
-  }, [])
+    getMenus();
+  }, []);
 
   return (
     <AppBar
@@ -92,27 +90,27 @@ const Navbar = () => {
       color="inherit"
       sx={{ boxShadow: 0, borderBottom: "1px solid #ddd" }}
     >
-     
-
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* logo */}
-        <img className="header_logo" src="../images/logo1.png" alt="header logo" />
+        <img
+          className="header_logo"
+          src="../images/logo1.png"
+          alt="header logo"
+        />
         {/* Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-          {
-            menus?.filter((item) => item.parent_id === null).map((item) => (
-                <Button
-                  key={item.id}
-                  sx={{ color: "black", textTransform: "none" }}
-                  onMouseEnter={(e) => handlePopoverOpen(e, item.title, item._id)}
-                >
-                  {item.title || "Unnamed"}
-                </Button>
-              )
-            )
-          }
+          {menus
+            ?.filter((item) => item.parent_id === null)
+            .map((item) => (
+              <Button
+                key={item.id}
+                sx={{ color: "black", textTransform: "none" }}
+                onMouseEnter={(e) => handlePopoverOpen(e, item.title, item._id)}
+              >
+                {item.title || "Unnamed"}
+              </Button>
+            ))}
         </Box>
-
 
         {/* Search Bar */}
         <Box
@@ -122,14 +120,13 @@ const Navbar = () => {
             bgcolor: "#f1f1f1",
             borderRadius: 2,
             px: 2,
-            width:{
-              xs: '40%',     // Full width on mobile
-      sm: '50%',    // Medium width on small screens
-      md: '200px',    // Wider on tablets
-      lg: '500px',    // Even wider on large screens
-      xl: '600px',    // Max width on extra-large screens
-
-            }
+            width: {
+              xs: "40%", // Full width on mobile
+              sm: "50%", // Medium width on small screens
+              md: "200px", // Wider on tablets
+              lg: "500px", // Even wider on large screens
+              xl: "600px", // Max width on extra-large screens
+            },
           }}
         >
           <Search color="disabled" />
@@ -142,43 +139,83 @@ const Navbar = () => {
 
       {/* Popover for Submenus */}
       <Popover
-             sx={{ pointerEvents: "none" }}
-             open={open}
-             anchorEl={anchorEl}
-             onClose={handlePopoverClose}
-             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-             transformOrigin={{ vertical: "top", horizontal: "left" }}
-             disableRestoreFocus={false}
-             PaperProps={{ sx: { p: 2, display: "flex", pointerEvents: "auto" } }} 
-           >
-             {popoverContent === "New In" && (
-               <NewInMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId} />
-             )}
-             {popoverContent === "Photography" && (
-               <PhotographySubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId}/>
-             )}
-             {popoverContent === "Painting" && (
-               <PaintingSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId}/>
-             )}
-             {popoverContent === "Print" && (
-               <PrintSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId}/>
-             )}
-             {popoverContent === "Sculpture" && (
-               <SculptureSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId}/>
-             )}
-             {popoverContent === "Drawing" && (
-               <DrawingSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId}/>
-             )}
-             {popoverContent === "More" && (
-               <MoreSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId}/>
-             )}
-             {popoverContent === "Artists" && (
-               <ArtistsSubMenu close={handlePopoverClose} sx={{ pointerEvents: "auto" }} menus={menus}  menuId={menuId}/>
-             )}
-             {/* {user && (
+        sx={{ pointerEvents: "none" }}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handlePopoverClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+        disableRestoreFocus={false}
+        PaperProps={{ sx: { p: 2, display: "flex", pointerEvents: "auto" } }}
+      >
+        {popoverContent === "New In" && (
+          <NewInMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {popoverContent === "Photography" && (
+          <PhotographySubMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {popoverContent === "Painting" && (
+          <PaintingSubMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {popoverContent === "Print" && (
+          <PrintSubMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {popoverContent === "Sculpture" && (
+          <SculptureSubMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {popoverContent === "Drawing" && (
+          <DrawingSubMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {popoverContent === "More" && (
+          <MoreSubMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {popoverContent === "Artists" && (
+          <ArtistsSubMenu
+            close={handlePopoverClose}
+            sx={{ pointerEvents: "auto" }}
+            menus={menus}
+            menuId={menuId}
+          />
+        )}
+        {/* {user && (
                <UserProfilePopover sx={{ pointerEvents: "auto" }} />
              )} */}
-           </Popover>
+      </Popover>
 
       {/* Login Modal */}
       <Modal open={isLoginOpen} onClose={() => setIsLoginOpen(false)}>

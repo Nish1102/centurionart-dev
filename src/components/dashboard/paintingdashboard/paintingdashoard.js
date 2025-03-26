@@ -4,17 +4,17 @@ import GallerySec from "../../landingpage/GallerySec";
 import Navbar from "../../landingpage/Navbar";
 import Navigation from "../../landingpage/Navigation";
 
-const BuyerDashboard = () => {
+const PaintingDashboard = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       <Navbar />
       <Box sx={{ backgroundColor: "#0000FF", color: "white", p: 4, textAlign: "center" }}>
         <Typography variant="h3" fontWeight="bold">
-          Original Artworks for Sale
+            Original Paintings For Sale
         </Typography>
         <Typography variant="body1" mt={1}>
-          Discover SINGULART's selection of original artworks created by contemporary artists from around the world.
+        Buy one of the unique paintings for sale by international talents from around the world. Choose from a variety of styles, such as abstract, impressionism, realism, and more.
         </Typography>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
@@ -36,4 +36,4 @@ const BuyerDashboard = () => {
   );
 };
 
-export default BuyerDashboard;
+export default PaintingDashboard;

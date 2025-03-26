@@ -36,8 +36,10 @@ const NewInMenu = ({ close, menus, menuId }) => {
                 underline="none"
                 sx={{ "&:hover": { textDecoration: "underline" }, display: "block" }}
                 component="button"
-                onClick={() => navigate("/collector-dashboard")}
-              >
+                onClick={() => {
+                  let numberOnly = subMenuItem.title.match(/\d+/)?.[0] || "";
+                  navigate(`/collector-dashboard/our-artworks/${numberOnly}`);
+                }}>
                 <Typography display="block" className="submenu_title">{subMenuItem.title}</Typography>
               </Link>
              
