@@ -65,7 +65,7 @@ const ResellerDashboard = () => {
     {
       id: 1,
       title: "Meera’s Mohan - Oil Painting By Hari Om Singh",
-      image: image1, // Replace with the actual image URL
+      image: "/images/reseller_art_1.jpg", // Replace with the actual image URL
       date: "Tuesday, August 4, 2020",
       price: 400000,
       views: 6190,
@@ -74,7 +74,7 @@ const ResellerDashboard = () => {
     {
       id: 2,
       title: "Moments of Musical Love and Divine Romance - Radha Krishna",
-      image: image2,
+      image: "/images/reseller_art_2.jpg",
       date: "Tuesday, August 4, 2020",
       price: 400000,
       views: 1010,
@@ -83,7 +83,7 @@ const ResellerDashboard = () => {
     {
       id: 3,
       title: "The Eternal Melody - Lord Krishna Playing Flute",
-      image: image1,
+      image: "/images/reseller_art_3.jpg",
       date: "Friday, June 12, 2019",
       price: 250000,
       views: 4520,
@@ -92,7 +92,7 @@ const ResellerDashboard = () => {
     {
       id: 4,
       title: "Serene Buddha - Peaceful Meditation Artwork",
-      image: image2,
+      image: "/images/reseller_art_4.jpg",
       date: "Sunday, March 15, 2021",
       price: 350000,
       views: 7230,
@@ -104,18 +104,34 @@ const ResellerDashboard = () => {
     )
     .sort((a, b) => b[sortBy] - a[sortBy]);
 
+
+// bg_images
+const styles = {
+  backgroundImage: `url("/images/reseller_card_1.png")`,
+  backgroundSize: "cover", // optional
+  backgroundPosition: "center", // optional
+};
+
+// bg_images
+const stylesTwo = {
+  backgroundImage: `url("/images/reseller_card_2.png")`,
+  backgroundSize: "cover", // optional
+  backgroundPosition: "center", // optional
+};
+
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Box className="min-h-screen bg-gray-50">
       {/* <Navigation setIsLoginOpen={setIsLoginOpen} /> */}
-      <Container style={{ padding: 0, margin: 0 }}>
-        <Box component="main" sx={{ flexGrow: 1, p: 0, mt: 2, m: 0 }}>
+      <Container style={{ padding: 0, margin: 0,display: 'contents' }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 0, mt: 2, m: 0,}}>
           {/* Portfolio Header */}
           <Typography variant="h4" sx={{
   fontSize: "30px",
   fontWeight: 600,
   textTransform: "capitalize",
   color: "#1c2b46",
-  mb: '1.5rem',
+  mb: '1.5rem', 
   display:'block'
 }}>
             My Portfolio
@@ -131,24 +147,66 @@ const ResellerDashboard = () => {
 
           {/* Tabs Section */}
           <Box sx={{ borderBottom: 1, borderColor: "divider", mt: 2 }}>
-            <Tabs
-              value={tabIndex}
-              onChange={handleTabChange}
-              variant="scrollable"
-              scrollButtons="auto"
-            >
-              <Tab label="Overview" />
-              <Tab label="Pricing" />
-              <Tab label="Categories & Formats" />
-            </Tabs>
-          </Box>
+  <Tabs
+    value={tabIndex}
+    onChange={handleTabChange}
+    variant="scrollable"
+    scrollButtons="auto"
+    TabIndicatorProps={{
+      style: { backgroundColor: "#5600d3" }, // Active Tab Bottom Border Color
+    }}
+  >
+    <Tab
+      label="Overview"
+      sx={{
+        fontSize: "0.775rem",
+        color: "gray", // Default Color
+        "&.Mui-selected": {
+          color: "white", // Active Color
+          fontWeight: "bold",
+          backgroundColor: "#5600d3",
+          borderRadius:'5px',
+          borderBottom:'none'
+        },
+      }}
+    />
+    <Tab
+      label="Pricing"
+      sx={{
+        fontSize: "0.775rem",
+        color: "gray",
+        "&.Mui-selected": {
+          color: "white", // Active Color
+          fontWeight: "bold",
+          backgroundColor: "#5600d3",
+          borderRadius:'5px',
+          borderBottom:'none'
+        },
+      }}
+    />
+    <Tab
+      label="Categories & Formats"
+      sx={{
+        fontSize: "0.775rem",
+        color: "gray",
+        "&.Mui-selected": {
+          color: "white", // Active Color
+          fontWeight: "bold",
+          backgroundColor: "#5600d3",
+          borderRadius:'5px',
+          borderBottom:'none'
+        },
+      }}
+    />
+  </Tabs>
+</Box>
 
           {/* Portfolio Stats */}
           <Box sx={{ p: 3, px: 0 }}>
             <Grid container spacing={3}>
               {/* Artworks for Sale */}
               <Grid item xs={12} sm={4}>
-                <Card sx={{ textAlign: "center", p: 2 }}>
+                <Card sx={{ textAlign: "center", p: 2 }} style={styles}>
                   <CardContent>
                     <Typography variant="h4" fontWeight="bold">
                       101
@@ -162,7 +220,7 @@ const ResellerDashboard = () => {
 
               {/* Artworks in Draft */}
               <Grid item xs={12} sm={4}>
-                <Card sx={{ textAlign: "center", p: 2 }}>
+                <Card sx={{ textAlign: "center", p: 2 }} style={stylesTwo}>
                   <CardContent>
                     <Typography variant="h4" fontWeight="bold">
                       1
@@ -176,7 +234,7 @@ const ResellerDashboard = () => {
 
               {/* Artworks Not for Sale */}
               <Grid item xs={12} sm={4}>
-                <Card sx={{ textAlign: "center", p: 2 }}>
+                <Card sx={{ textAlign: "center", p: 2 }} style={styles}>
                   <CardContent>
                     <Typography variant="h4" fontWeight="bold">
                       3
@@ -465,7 +523,7 @@ const ResellerDashboard = () => {
           </Container>
         </Box>
 
-        {filteredArtworks.map((artwork) => (
+        { filteredArtworks.map((artwork) => (
           <Card
             key={artwork.id}
             sx={{
@@ -722,7 +780,7 @@ const ResellerDashboard = () => {
               style={{ paddingBottom: "0px" }}
             >
               {/* Left: Text Content */}
-              <Box sx={{ flex: 1, width: "100%", pb: 0 }}>
+              <Box sx={{ flex: 1, width: "100%", pb: 2 }}>
                 <Typography
                   variant="h6"
                   sx={{
@@ -954,7 +1012,7 @@ const ResellerDashboard = () => {
           </Card>
         ))}
       </Container>
-    </div>
+    </Box>
   );
 };
 

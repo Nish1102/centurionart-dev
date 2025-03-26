@@ -188,7 +188,7 @@ export default function Sidebar() {
 
                 {subMenus.map((subMenu) => (
                   <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: open ? 4 : 2 }}>
+                    <ListItemButton sx={{ pl: open ? 4 : 2, paddingLeft: '0'}}>
                       <ListItemIcon
                         sx={{
                           minWidth: 0,
@@ -200,7 +200,8 @@ export default function Sidebar() {
                       </ListItemIcon>
                       <ListItemText
                         primary={subMenu.title}
-                        sx={{ opacity: open ? 1 : 0 }}
+                        primaryTypographyProps={{ fontSize: "0.875rem", textTransform:'capitalize' }} // ✅ Correct font size setting
+                        sx={{ opacity: open ? 1 : 0,fontSize:'0.675rem'}}
                       />
                     </ListItemButton>
 
@@ -266,7 +267,7 @@ export default function Sidebar() {
                 color: "#5600d3",
               }}
             >
-              The Centurion Art 2.0
+              The Centurion <span style={{color:'d32f2f'}}>Art 2.0</span>
             </Typography>
             <motion.div
               animate={{ y: [0, -10, 0] }}
