@@ -153,6 +153,8 @@ const Navigation = ({ setIsLoginOpen }) => {
                 }  
               }} />
             </IconButton>
+
+
             <IconButton
              style={{display:'flex',alignItems:'center'}}
              sx={{ 
@@ -232,6 +234,8 @@ const Navigation = ({ setIsLoginOpen }) => {
             >
               <FavoriteBorder style={{ color: "white" }} />
             </IconButton>
+
+            
             <IconButton
               onClick={!user ? () => setIsLoginOpen(true) : undefined}
               onMouseEnter={user ? (e) => handlePopoverOpen(e) : undefined}
