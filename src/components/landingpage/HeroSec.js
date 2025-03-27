@@ -34,7 +34,15 @@ function HeroSec() {
           }}
           >
             <Item className="hero_caption">
-              <Typography variant="h1">
+              <Typography variant="h1" sx={{
+                fontSize: {
+    xs: '1.825rem',  // Extra small devices (phones)
+    sm: '2rem',  // Small devices (tablets)
+    md: '2.3rem',  // Medium devices (small laptops)
+    lg: '2.8rem',  // Large devices (desktops)
+    xl: '2.8rem',    // Extra large devices (large screens)
+  }
+              }}>
                 30% off your favorite artworks, for a limited time only
               </Typography>
               <Typography variant="body1">
