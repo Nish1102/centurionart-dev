@@ -9,7 +9,7 @@ const categorySchema = new mongoose.Schema(
       trim: true,
     },
     image: {
-      type: String, // Image URL store karne ke liye
+      type: String, 
       required: true,
     },
   },

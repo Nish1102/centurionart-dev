@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Button, Grid, Paper } from "@mui/material";
 import Sidebar from "../../landingpage/Sidebar";
 import GallerySec from "../../landingpage/GallerySec";
 import Navbar from "../../landingpage/Navbar";
+import { useLocation } from "react-router-dom";
 
 const categories = [
   {
@@ -33,6 +34,13 @@ const categories = [
 ];
 
 const BuyerDashboard = () => {
+  const location = useLocation();
+  const menuId = location.state?.menuId || null;
+
+  useEffect(() => {
+    console.log(40 , ' buyer dashboard loaded ')
+  })
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />

@@ -9,6 +9,10 @@ const NewInMenu = ({ close, menus, menuId }) => {
   const navigate = useNavigate();
   const [subMenus, setSubMenus] = useState([]);
 
+  const filterAndNavigate = (menuId) => {
+    navigate("/collector-dashboard", { state: { menuId } });
+  };
+
   // Sub-menus ko filter karna
   useEffect(() => {
     const filteredSubMenus = menus.filter((item) => item.parent_id === menuId);
@@ -36,7 +40,7 @@ const NewInMenu = ({ close, menus, menuId }) => {
                 underline="none"
                 sx={{ "&:hover": { textDecoration: "underline" }, display: "block" }}
                 component="button"
-                onClick={() => navigate("/collector-dashboard")}
+                onClick={() => filterAndNavigate(subMenuItem._id)}
               >
                 <Typography display="block" className="submenu_title">{subMenuItem.title}</Typography>
               </Link>
