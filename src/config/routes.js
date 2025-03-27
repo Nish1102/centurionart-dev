@@ -11,7 +11,6 @@ import { AuthGuard } from '../guards/AuthGuard';
 import { RoleGuard } from '../guards/RoleGuard';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
 
-
 export const routes = [
   {
     path: '/',

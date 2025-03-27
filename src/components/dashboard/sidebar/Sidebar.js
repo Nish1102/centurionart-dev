@@ -228,6 +228,17 @@ export default function Sidebar() {
   };  
 
     useEffect(() => {
+      const getMenus = async () => {
+        try {
+          const response = await api.get("/api/menu/");
+    
+          if (response.status === 200 && response.data) {
+            setMenus?.(response.data);
+          }
+        } catch (error) {
+          console.error("Error fetching menus:", error);
+        }
+      };  
       getMenus()
     }, [])
   

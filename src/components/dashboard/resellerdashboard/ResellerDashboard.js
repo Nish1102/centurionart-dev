@@ -18,7 +18,6 @@ import {
   Checkbox,
 } from "@mui/material";
 import React, { useState } from "react";
-import Navigation from "../../landingpage/Navigation";
 import MailIcon from '@mui/icons-material/Mail'; 
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { List, ListItem, ListItemIcon, ListItemText, } from '@mui/material';
