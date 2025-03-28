@@ -3,29 +3,28 @@ const Category = require("../models/categoryModel");
 const path = require('path');
 const logger = require('../utils/logger');
 
+// Get all artworks
 const getAllArtworks = async (req, res) => {
     const page = parseInt(req.query._page) || 1;
     const limit = parseInt(req.query._limit) || 100;
     const skip = (page - 1) * limit;
 
     try {
-        const totalArtworks = await ArtWork.countDocuments(); 
+        const totalArtworks = await ArtWork.countDocuments();
         const artworks = await ArtWork.find().skip(skip).limit(limit);
 
-        // Convert MongoDB data to match frontend structure
         const formattedArtworks = artworks.map(art => ({
-            id: art._id,  
+            id: art._id,
             title: art.title,
-            author: art.artist, 
+            author: art.artist,
             price: art.price,
-            location: art.category,  
-            image: art.artUrls[0],  
+            location: art.category,
+            image: art.artUrls[0],
             description: art.description
         }));
 
-        res.setHeader('x-total-count', totalArtworks); 
-        res.json(formattedArtworks); 
-
+        res.setHeader('x-total-count', totalArtworks);
+        res.json(formattedArtworks);
     } catch (error) {
         console.error('Error fetching artworks:', error.message);
         logger.error(path.join(__dirname), 'getAllArtworks', error.message);
@@ -33,6 +32,104 @@ const getAllArtworks = async (req, res) => {
     }
 };
 
+// Add a new artwork
+const addArtworks = async (req, res) => {
+    try {
+        const { title, description, category, medium, size, price, artUrls, artist, available, availableCount, isFramed, readyToHang, stories, saleStatus } = req.body;
+        
+        const newArtWork = new ArtWork({
+            title,
+            description,
+            category,
+            medium,
+            size,
+            price,
+            artUrls,
+            artist,
+            available: available ?? true,
+            availableCount: availableCount ?? 0,
+            isFramed: isFramed ?? true,
+            readyToHang: readyToHang ?? true,
+            stories: stories || [],
+            saleStatus: saleStatus || "available"
+        });
+
+        await newArtWork.save();
+        res.status(201).json(newArtWork);
+    } catch (error) {
+        console.error('Error adding artwork:', error.message);
+        logger.error(path.join(__dirname), 'addArtworks', error.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Update an artwork
+const updateArtworks = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedArtWork = await ArtWork.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedArtWork) {
+            return res.status(404).json({ message: 'Artwork not found' });
+        }
+        res.json(updatedArtWork);
+    } catch (error) {
+        console.error('Error updating artwork:', error.message);
+        logger.error(path.join(__dirname), 'updateArtworks', error.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Delete an artwork
+const deleteArtworks = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedArtWork = await ArtWork.findByIdAndDelete(id);
+        if (!deletedArtWork) {
+            return res.status(404).json({ message: 'Artwork not found' });
+        }
+        res.json({ message: 'Artwork deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting artwork:', error.message);
+        logger.error(path.join(__dirname), 'deleteArtworks', error.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// upload Artworks Images
+const uploadArtworkImages = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ message: "No images uploaded" });
+        }
+
+        // Get uploaded file URLs
+        const imageUrls = req.files.map(file => `/uploads/${file.filename}`);
+
+        // Update artwork document
+        const artwork = await ArtWork.findByIdAndUpdate(
+            id,
+            { $push: { artUrls: { $each: imageUrls } } },
+            { new: true }
+        );
+
+        if (!artwork) {
+            return res.status(404).json({ message: "Artwork not found" });
+        }
+
+        res.status(200).json({ message: "Images uploaded successfully", artwork });
+    } catch (error) {
+        console.error("Error uploading images:", error.message);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
 module.exports = {
-    getAllArtworks
+    getAllArtworks,
+    addArtworks,
+    updateArtworks,
+    deleteArtworks,
+    uploadArtworkImages,
 };

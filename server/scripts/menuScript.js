@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Menu = require("../models/menuModel");
-const menus = require("./menuDemo");
+const menus = require("../constant/menu");
 
 const saveMenu = async (menu, parentId = null) => {
     try {
