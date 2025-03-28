@@ -26,6 +26,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import ResellerDashboard from "../resellerdashboard/ResellerDashboard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import api from "../../../services/api";
+import ArtEdit from "../resellerdashboard/ArtEdit";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const drawerWidth = 240;
@@ -101,6 +103,7 @@ export default function Sidebar() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [ menus, setMenus ] = useState();
   const [subMenus, setSubMenus] = useState([]);
+  const location = useLocation(); // Get the current route
   
 
   const handleSubmenuClick = (mainMenu) => {
@@ -309,7 +312,11 @@ export default function Sidebar() {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <ResellerDashboard />
+        {location.pathname === '/artists-dashboard' ? (<><ResellerDashboard /> </>):(<></>)}
+        
+        {/* {location.pathname === '/artedit' ? (<> <ArtEdit /></>):(<></>)} */}
+
+        <ArtEdit />
       </Box>
     </Box>
   );

@@ -141,7 +141,7 @@ function LoginModal({ open, onClose }) {
         <IconButton
           aria-label="close"
           onClick={onClose}
-          sx={{ position: "absolute", right: 8, top: 8, color: "#5600d3" }}
+          sx={{ position: "absolute", right: 8, top: 8, color: "#000" }}
         >
           <CloseIcon />
         </IconButton>
