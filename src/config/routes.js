@@ -10,6 +10,7 @@ import Unauthorized from '../pages/Unauthorized';
 import { AuthGuard } from '../guards/AuthGuard';
 import { RoleGuard } from '../guards/RoleGuard';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
+import ArtEdit from '../components/dashboard/resellerdashboard/ArtEdit';
 
 export const routes = [
   {
@@ -46,6 +47,7 @@ export const routes = [
     guard: (props) => <RoleGuard {...props} roles={['artist']} />
   },
   {
+    
     path: '/vendor-dashboard',
     name: 'Vendor Dashboard',
     component: VendorDashboard,

@@ -30,6 +30,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 // import artworks from "./artworksData"; // Assume artworksData.js contains an array of artwork objects
 import image1 from "../../../assets/1.jpg";
 import image2 from "../../../assets/2.jpg";
+import { useNavigate } from "react-router-dom";
 
 const ResellerDashboard = () => {
   const [filter, setFilter] = useState("");
@@ -41,6 +42,7 @@ const ResellerDashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
 
 
   // card menu button
@@ -301,6 +303,9 @@ const stylesTwo = {
     '&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#5600d3',
     },
+    '& .MuiInputLabel-root.Mui-focused': {
+    color: '#5600d3', // Label color when focused
+  },
   }} 
                 >
                   <MenuItem value="views">Order by</MenuItem>
@@ -338,6 +343,9 @@ const stylesTwo = {
     '&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#5600d3',
     },
+    '& .MuiInputLabel-root.Mui-focused': {
+    color: '#5600d3', // Label color when focused
+  },
   }} 
                 >
                   <MenuItem value="views">All range</MenuItem>
@@ -374,6 +382,9 @@ const stylesTwo = {
     '&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#5600d3',
     },
+    '& .MuiInputLabel-root.Mui-focused': {
+    color: '#5600d3', // Label color when focused
+  },
   }} 
                 >
                   <MenuItem value="views">Order by</MenuItem>
@@ -410,6 +421,9 @@ const stylesTwo = {
     '&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#5600d3',
     },
+    '& .MuiInputLabel-root.Mui-focused': {
+    color: '#5600d3', // Label color when focused
+  },
   }} 
                 >
                   <MenuItem value="views">Sorting</MenuItem>
@@ -482,6 +496,12 @@ const stylesTwo = {
     '&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#5600d3',
     },
+    '& .MuiInputLabel-root.Mui-focused': {
+    color: '#5600d3', // Label color when focused
+  },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: '#5600d3', // Label color when focused
+  },
   }}
                 />
               </Grid>
@@ -834,6 +854,7 @@ const stylesTwo = {
                 <Button
                   variant="contained"
                   sx={{ mt: 1, backgroundColor: "#1c2b46" }}
+                  // onClick={() => Editnavigate(`/artists-dashboard`)}
                 >
                   Edit
                 </Button>

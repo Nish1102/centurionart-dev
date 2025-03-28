@@ -7,6 +7,7 @@ function DashboardLayout() {
   return (
     <div style={{background: '#f8f8f8cc'}}>
         <Sidebar />
+        
     </div>
   )
 }
