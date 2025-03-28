@@ -30,7 +30,7 @@ const menus = [
                 child: [
                     {
                         name: 'Inspired by Memphis',
-                        filter: []
+                        filter: [  ]
                     },
                     {
                         name: 'Milano',
@@ -63,23 +63,23 @@ const menus = [
                 child: [
                     {
                         name: 'Alex Senchenko',
-                        filter: [],
+                        filter: [{ id: 'artist', val: 'Alex Senchenko' } , ]
                     },
                     {
                         name: 'Barbara Pastorino',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'Barbara Pastorino' } , ]
                     },
                     {
                         name: 'JADIS',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'JADIS' } , ]
                     },
                     {
                         name: 'Huseyin AK',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'Huseyin AK' } , ]
                     },
                     {
                         name: 'Jan Baumeister',
-                        filter: []
+                        filter: [{ id: 'artist', val: 'Jan Baumeister' } , ]
                     },
                 ]
             },
@@ -231,27 +231,27 @@ const menus = [
                 child: [
                     {
                         name: 'Abstract',
-                        filter: []
+                        filter: [{ id: 'style', val: 'Abstract' } , ]
                     },
                     {
                         name: 'Figurative',
-                        filter: []
+                        filter: [{ id: 'style', val: 'Figurative' } , ]
                     },
                     {
                         name: 'Impressionism',
-                        filter: []
+                        filter: [{ id: 'style', val: 'Impressionism' } , ]
                     },
                     {
                         name: 'Realism',
-                        filter: []
+                        filter: [{ id: 'style', val: 'Realism' } , ]
                     },
                     {
                         name: 'Pop Art',
-                        filter: []
+                        filter: [{ id: 'style', val: 'Pop Art' } , ]
                     },
                     {
                         name: 'Vintage',
-                        filter: []
+                        filter: [{ id: 'style', val: 'Vintage' } , ]
                     },
                 ],
             },
