@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const artWorkController = require('../controllers/artWorkController');
+const { uploadMultiple } = require('../services/uploads');
 
 /**
  * @swagger
@@ -72,5 +73,164 @@ const artWorkController = require('../controllers/artWorkController');
  *         description: Internal server error
  */
 router.get('/artworks', artWorkController.getAllArtworks);
+
+/**
+ * @swagger
+ * /api/artwork:
+ *   post:
+ *     summary: Add a new artwork
+ *     description: Adds a new artwork to the database.
+ *     tags:
+ *       - Artworks
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               medium:
+ *                 type: string
+ *               size:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               artUrls:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               artist:
+ *                 type: string
+ *               available:
+ *                 type: boolean
+ *               availableCount:
+ *                 type: number
+ *               isFramed:
+ *                 type: boolean
+ *               readyToHang:
+ *                 type: boolean
+ *               stories:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               saleStatus:
+ *                 type: string
+ *                 enum: ["available", "not-available", "sold"]
+ *     responses:
+ *       201:
+ *         description: Artwork added successfully
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/artwork', artWorkController.addArtworks);
+
+/**
+ * @swagger
+ * /api/artwork/{id}:
+ *   put:
+ *     summary: Update an artwork
+ *     description: Updates an existing artwork by ID.
+ *     tags:
+ *       - Artworks
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Artwork ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               available:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Artwork updated successfully
+ *       404:
+ *         description: Artwork not found
+ *       500:
+ *         description: Internal server error
+ */
+router.put('/artwork/:id', artWorkController.updateArtworks);
+
+/**
+ * @swagger
+ * /api/artwork/{id}:
+ *   delete:
+ *     summary: Delete an artwork
+ *     description: Deletes an artwork by ID.
+ *     tags:
+ *       - Artworks
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Artwork ID
+ *     responses:
+ *       200:
+ *         description: Artwork deleted successfully
+ *       404:
+ *         description: Artwork not found
+ *       500:
+ *         description: Internal server error
+ */
+router.delete('/artwork/:id', artWorkController.deleteArtworks);
+
+/**
+ * @swagger
+ * /api/artwork/upload/{id}:
+ *   post:
+ *     summary: Upload artwork images
+ *     description: Uploads multiple images for an artwork and saves the URLs in artUrls.
+ *     tags:
+ *       - Artworks
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Artwork ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *     responses:
+ *       200:
+ *         description: Images uploaded successfully and URLs saved
+ *       400:
+ *         description: Invalid request
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/artwork/upload/:id', uploadMultiple, artWorkController.uploadArtworkImages);
+
 
 module.exports = router;
