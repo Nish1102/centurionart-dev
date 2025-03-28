@@ -14,7 +14,7 @@ export default function LoginComponent() {
 
   const location = useLocation();
   const userType = location.state?.userType;
-  
+
 
   const handleSubmit = async (e) => {  
     e.preventDefault();

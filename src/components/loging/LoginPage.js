@@ -16,6 +16,7 @@ import { useGoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { Google } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/userContext";
+import RegisterForm from "./RegistrationPage";
 
 const TabPanel = ({ children, value, index }) => (
   <div role="tabpanel" hidden={value !== index}>
@@ -27,9 +28,18 @@ function LoginModal({ open, onClose }) {
   const [tabValue, setTabValue] = useState(0);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const { login } = useUser();
+  const [userType, setUserType ] = useState(null);
+
   const navigate = useNavigate();
 
   const handleTabChange = (event, newValue) => {
+
+    if(newValue === 0) {
+      setUserType('collector')
+    } else {
+      setUserType('artist')
+    }
+
     setTabValue(newValue);
   };
 
@@ -233,12 +243,19 @@ function LoginModal({ open, onClose }) {
                     <a
                       href="#"
                       style={{ color: "blue" }}
-                      onClick={() => handleLogin()}
+                      onClick={() => handleLogin('collector')}
                     >
                       Sign in
                     </a>
                   </Typography>
                 </Box>
+              </DialogContent>
+            )}
+
+                        
+            {isRegisterOpen && (
+              <DialogContent sx={{ width: 350, p: 0, position: "relative" }}>
+                <RegisterForm onClose={onClose} userType={userType} />
               </DialogContent>
             )}
           </Box>
@@ -321,9 +338,10 @@ function LoginModal({ open, onClose }) {
                 </Box>
               </DialogContent>
             )}
+
             {isRegisterOpen && (
               <DialogContent sx={{ width: 350, p: 0, position: "relative" }}>
-                <RegisterForm onClose={onClose} />
+                <RegisterForm onClose={onClose} userType={userType}/>
               </DialogContent>
             )}
           </Box>

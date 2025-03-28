@@ -1,4 +1,5 @@
 const Menu = require("../models/menuModel");
+const Artwork = require("../models/artWorkModel");
 const logger = require("../utils/logger");
 
 const getAllMenus = async (req, res) => {
@@ -22,6 +23,47 @@ const getMenuById = async (req, res) => {
     res.status(500).json({ message: "Error fetching menu" });
   }
 };
+
+
+const getArtworkByMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Step 1: Fetch menu data using the provided menu ID
+    const menu = await Menu.findById(id);
+    if (!menu) {
+      return res.status(404).json({ message: "Menu not found" });
+    }
+
+    // Note -> Arregate will Manage after Filter Analysis will complete
+
+    // Step 2: Use the menu data as filters to get artworks
+    const artworks = await Artwork.aggregate([
+      {
+        $match: {
+          category: menu.category, // Example: Match category with the menu
+          style: menu.style, // Example: Match style if exists in the menu
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          artist: 1,
+          year: 1,
+          description: 1,
+          imageUrl: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(artworks);
+  } catch (error) {
+    logger.error("Error fetching artworks by menu:", error);
+    res.status(500).json({ message: "Error fetching artworks" });
+  }
+};
+
 
 const addMenu = async (req, res) => {
   try {
@@ -64,5 +106,6 @@ module.exports = {
   getMenuById,
   addMenu,
   updateMenu,
-  deleteMenu
+  deleteMenu,
+  getArtworkByMenu
 };

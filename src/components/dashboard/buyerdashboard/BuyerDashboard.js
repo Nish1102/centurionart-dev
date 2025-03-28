@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Grid, Paper } from "@mui/material";
 import Sidebar from "../../landingpage/Sidebar";
 import GallerySec from "../../landingpage/GallerySec";
 import Navbar from "../../landingpage/Navbar";
 import { useLocation } from "react-router-dom";
+import api from "../../../services/api";
+
 
 const categories = [
   {
@@ -33,13 +35,29 @@ const categories = [
   },
 ];
 
+
+
 const BuyerDashboard = () => {
   const location = useLocation();
   const menuId = location.state?.menuId || null;
+  const [artworks, setArtworks] = useState([]);
 
   useEffect(() => {
-    console.log(40 , ' buyer dashboard loaded ')
-  })
+    // Get All Artworks Using Filter
+    const getArtworksUsingFilter = async () => {
+      try {
+        const response = await api.get("/api/menu/");
+
+        if (response.status === 200 && response.data) {
+          setArtworks?.(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching menus:", error);
+      }
+    };
+    getArtworksUsingFilter()
+  }, [menuId])
+
 
   return (
     <div className="min-h-screen bg-gray-50">
