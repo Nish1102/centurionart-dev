@@ -5,6 +5,7 @@ import BuyerDashboard from '../components/dashboard/buyerdashboard/BuyerDashboar
 import PaintingDashboard from '../components/dashboard/paintingdashboard/paintingdashoard';
 import VendorDashboard from '../components/dashboard/vendordashboard/VendorDashboard';
 import AdminDashboard from '../components/dashboard/admindashboard/AdminDashboard';
+import CommonDashboard from '../components/dashboard/commondashboard/commonDashboard';
 import ArtGalleryLanding from '../components/landingpage/LandingPage';
 import Unauthorized from '../pages/Unauthorized';
 import { AuthGuard } from '../guards/AuthGuard';
@@ -43,7 +44,37 @@ export const routes = [
   {
     path: '/painting/:navParam?/:subNavParam?',
     name: 'Collector Dashboard',
-    component: PaintingDashboard,
+    component: CommonDashboard,
+    // guard: (props) => <RoleGuard {...props} roles={['collector']} />
+  },
+  {
+    path: '/print/:navParam?/:subNavParam?',
+    name: 'Collector Dashboard',
+    component: CommonDashboard,
+    // guard: (props) => <RoleGuard {...props} roles={['collector']} />
+  },
+  {
+    path: '/photography/:navParam?/:subNavParam?',
+    name: 'Collector Dashboard',
+    component: CommonDashboard,
+    // guard: (props) => <RoleGuard {...props} roles={['collector']} />
+  },
+  {
+    path: '/sculpture/:navParam?/:subNavParam?',
+    name: 'Collector Dashboard',
+    component: CommonDashboard,
+    // guard: (props) => <RoleGuard {...props} roles={['collector']} />
+  },
+  {
+    path: '/drawing/:navParam?/:subNavParam?',
+    name: 'Collector Dashboard',
+    component: CommonDashboard,
+    // guard: (props) => <RoleGuard {...props} roles={['collector']} />
+  },
+  {
+    path: '/artists/:navParam?/:subNavParam?',
+    name: 'Collector Dashboard',
+    component: CommonDashboard,
     // guard: (props) => <RoleGuard {...props} roles={['collector']} />
   },
   {
