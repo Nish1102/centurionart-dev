@@ -3,7 +3,7 @@ const axios = require("axios");
 const Category = require("../models/categoryModel"); 
 
 mongoose
-  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart-development?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("✅ Database connected successfully"))
   .catch((err) => {
     console.error("Database connection failed:", err);
@@ -21,8 +21,9 @@ const categoriesList = [
 
 const fetchCategoryImage = async (category) => {
   try {
+    const client_id = 'iZN7Ir1rg9PpJTCdi9XTm9Yh0DnPxXNTzJVYmnGblzs'
     const response = await axios.get(
-      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(category)}&client_id=0lxMQL91nJrnjb47038UD4nd_jSonnU-Ruv9JY0mcN0`
+      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(category)}&client_id=${client_id}`
     );
     return response.data.urls?.small || "https://via.placeholder.com/400x300?text=No+Image";
   } catch {

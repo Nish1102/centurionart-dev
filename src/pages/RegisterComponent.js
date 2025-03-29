@@ -17,7 +17,7 @@ export default function RegistrationComponent() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const userType = location.state?.userType;
+  // const userType = location.state?.userType;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +28,7 @@ export default function RegistrationComponent() {
     }
     setLoading(true);
     try {
+      const userType = 'artist'
       await authService.register(email, password, userType);
       navigate('/login');
     } catch (err) {

@@ -33,7 +33,7 @@ const artworks = [
 
 // bg_images
 const styles = {
-  backgroundImage: `url("/images/feature-1.jpg")`,
+  // backgroundImage: `url("/images/feature-1.jpg")`,
   backgroundSize: "cover", // optional
   backgroundPosition: "center", // optional
 };

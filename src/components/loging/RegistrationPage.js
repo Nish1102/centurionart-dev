@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography, Link } from "@mui/material";
 import { Google } from "@mui/icons-material";
 import { useGoogleLogin } from '@react-oauth/google';
+import { authService } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
-const RegisterForm = ({ onClose }) => {
-  const googleLogin = useGoogleLogin({
-    onSuccess: tokenResponse => {
-      console.log('tokenResponse');
-      onClose(); // Close the modal on success
-    },
-    onError: error => console.error(error),
-  });
+const RegisterForm = ({ onClose, userType }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    setLoading(true);
+    try {
+      await authService.register(name , email, password, userType);
+      navigate('/login');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box sx={{ p: 2, textAlign: "center" }}>
@@ -20,10 +41,11 @@ const RegisterForm = ({ onClose }) => {
       <Typography variant="h5" gutterBottom>
         Create my account on Centurion Art!
       </Typography>
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextField
           label="Your full name"
           variant="outlined"
+          onChange={(e) => setName(e.target.value)}
           fullWidth
           margin="normal"
           required
@@ -31,6 +53,7 @@ const RegisterForm = ({ onClose }) => {
         <TextField
           label="Your email"
           type="email"
+          onChange={(e) => setEmail(e.target.value)}
           variant="outlined"
           fullWidth
           margin="normal"
@@ -38,6 +61,16 @@ const RegisterForm = ({ onClose }) => {
         />
         <TextField
           label="Your password"
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Confirm Your password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
           type="password"
           variant="outlined"
           fullWidth
@@ -61,15 +94,10 @@ const RegisterForm = ({ onClose }) => {
           />
         </Box>
         <Box sx={{ mt: 2 }}>
-          <Button variant="contained" color="primary" fullWidth>
+          <Button variant="contained" color="primary" fullWidth type="submit">
             Create Account
           </Button>
         </Box>
-        {/* <Box sx={{ mt: 2 }}>
-          <Button variant="outlined" onClick={() => googleLogin()} startIcon={<Google />} fullWidth>
-            Continue with Google
-          </Button>
-        </Box> */}
       </form>
     </Box>
   );

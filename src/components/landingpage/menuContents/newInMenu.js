@@ -9,6 +9,10 @@ const NewInMenu = ({ close, menus, menuId }) => {
   const navigate = useNavigate();
   const [subMenus, setSubMenus] = useState([]);
 
+  const filterAndNavigate = (menuId) => {
+    navigate("/collector-dashboard", { state: { menuId } });
+  };
+
   // Sub-menus ko filter karna
   useEffect(() => {
     const filteredSubMenus = menus.filter((item) => item.parent_id === menuId);
@@ -36,10 +40,8 @@ const NewInMenu = ({ close, menus, menuId }) => {
                 underline="none"
                 sx={{ "&:hover": { textDecoration: "underline" }, display: "block" }}
                 component="button"
-                onClick={() => {
-                  let numberOnly = subMenuItem.title.match(/\d+/)?.[0] || "";
-                  navigate(`/collector-dashboard/our-artworks/${numberOnly}`);
-                }}>
+                onClick={() => filterAndNavigate(subMenuItem._id)}
+              >
                 <Typography display="block" className="submenu_title">{subMenuItem.title}</Typography>
               </Link>
              

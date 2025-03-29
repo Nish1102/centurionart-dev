@@ -60,6 +60,7 @@ const generalLimiter = rateLimit({
     message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
+// Rate Limiter
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 300, // Allow more requests for authenticated users
@@ -68,16 +69,9 @@ const authLimiter = rateLimit({
 // Middleware to save logs in both app.log
 const logToFile = (message) => {
     const logFilePath = path.join(__dirname, 'app.log');
-    let logs = [];
-    if (fs.existsSync(logFilePath)) {
-        try {
-            logs = JSON.parse(fs.readFileSync(logFilePath, 'utf-8'));
-        } catch (error) {
-            logs = [];
-        }
-    }
-    logs.push({ timestamp: new Date().toISOString(), message });
-    fs.writeFileSync(logFilePath, JSON.stringify(logs, null, 2));
+    const logEntry = JSON.stringify({ timestamp: new Date().toISOString(), message }) + '\n';
+    
+    fs.appendFileSync(logFilePath, logEntry, 'utf8');
 };
 
 // Middlewares
@@ -158,6 +152,7 @@ app.get('/auth/google/callback',
     })
 );
 
+// Logger
 app.use(expressWinston.logger({
     winstonInstance: logger,
     meta: true,
@@ -169,6 +164,7 @@ app.use(expressWinston.logger({
     }
 }));
 
+// Error Logger
 app.use(expressWinston.errorLogger({
     winstonInstance: logger,
     msg: "HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms",

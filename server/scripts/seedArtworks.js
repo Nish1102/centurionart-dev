@@ -6,7 +6,7 @@ const User = require("../models/userModel"); // Import User model
 
 // MongoDB Connection
 mongoose
-  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart-development?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("✅ Database connected successfully"))
   .catch((err) => {
     console.error("Database connection failed:", err);
@@ -26,8 +26,9 @@ const generateStory = () => {
 // Function to fetch random image from Unsplash based on category
 const fetchImageUrl = async (categoryName) => {
   try {
+    const client_id = 'jezH9f_PIRm76wa1VcT2QePTGJp9xyHXHrgjNvDEylM'
     const response = await axios.get(
-      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(categoryName)}&client_id=0lxMQL91nJrnjb47038UD4nd_jSonnU-Ruv9JY0mcN0`
+      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(categoryName)}&client_id=${client_id}`
     );
     return response.data.urls?.small || "https://via.placeholder.com/400x300?text=No+Image";
   } catch (error) {

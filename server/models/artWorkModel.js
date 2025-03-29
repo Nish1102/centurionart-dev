@@ -2,44 +2,19 @@ const mongoose = require("mongoose");
 
 const ArtWorkSchema = new mongoose.Schema({
     title: { type: String, required: true, trim: true },
-    description: { type: String, 
-        // required: true,
-    },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        // required: true,
-    },
-    medium: {
-        type: String,
-        // required: true,
-    },
-    size: {
-        type: String,
-        // required: true,
-    },
-    price: {
-        type: Number,
-        // required: true,
-    },
-    artUrls: [{
-        type: String,
-    }],
-    artist: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        // required: true,
-    },
-    available: {
-        type: Boolean,
-        default: true,
-    },
-    availableCount: {
-        type: Number,
-        // required: true,
-        min: 0
-    },
-    stories: [{ type: String }]
+    description: { type: String },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    medium: { type: String },
+    size: { type: String },
+    price: { type: Number },
+    artUrls: [{ type: String }],
+    artist: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    available: { type: Boolean, default: true },
+    availableCount: { type: Number, min: 0 },
+    isFramed: { type: Boolean, default: true },
+    readyToHang: { type: Boolean, default: true },
+    stories: [{ type: String }],
+    saleStatus: { type: String, enum: ["available", "not-available", "sold"], }
 
 }, { timestamps: true });
 

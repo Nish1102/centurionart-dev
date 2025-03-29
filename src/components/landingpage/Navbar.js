@@ -120,13 +120,14 @@ const Navbar = () => {
             bgcolor: "#f1f1f1",
             borderRadius: 2,
             px: 2,
-            width: {
-              xs: "40%", // Full width on mobile
-              sm: "50%", // Medium width on small screens
-              md: "200px", // Wider on tablets
-              lg: "500px", // Even wider on large screens
-              xl: "600px", // Max width on extra-large screens
-            },
+            width:{
+              xs: '40%',     // Full width on mobile
+              sm: '50%',    // Medium width on small screens
+              md: '200px',    // Wider on tablets
+              lg: '300px',    // Even wider on large screens
+              xl: '300px',    // Max width on extra-large screens
+
+            }
           }}
         >
           <Search color="disabled" />

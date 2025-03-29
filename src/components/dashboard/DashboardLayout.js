@@ -5,8 +5,9 @@ import Sidebar from './sidebar/Sidebar';
 function DashboardLayout() { 
 
   return (
-    <div>
+    <div style={{background: '#f8f8f8cc'}}>
         <Sidebar />
+        
     </div>
   )
 }

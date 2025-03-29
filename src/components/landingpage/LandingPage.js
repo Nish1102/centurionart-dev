@@ -13,6 +13,7 @@ import Footer from "./Footer";
 
 
 export default function ArtGalleryLanding() {
+
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);

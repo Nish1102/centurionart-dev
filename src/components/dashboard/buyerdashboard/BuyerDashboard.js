@@ -1,10 +1,64 @@
-import React from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Typography, Button, Grid, Paper } from "@mui/material";
+import Sidebar from "../../landingpage/Sidebar";
 import GallerySec from "../../landingpage/GallerySec";
 import Navbar from "../../landingpage/Navbar";
-import Navigation from "../../landingpage/Navigation";
+import { useLocation } from "react-router-dom";
+import api from "../../../services/api";
+
+
+const categories = [
+  {
+    name: "Painting",
+    image: "https://via.placeholder.com/300",
+    bgColor: "#f1f1f1",
+  },
+  {
+    name: "Sculpture",
+    image: "https://via.placeholder.com/300",
+    bgColor: "#f1f1f1",
+  },
+  {
+    name: "Photography",
+    image: "https://via.placeholder.com/300",
+    bgColor: "#f1f1f1",
+  },
+  {
+    name: "Drawing",
+    image: "https://via.placeholder.com/300",
+    bgColor: "#f1f1f1",
+  },
+  {
+    name: "Print",
+    image: "https://via.placeholder.com/300",
+    bgColor: "#f1f1f1",
+  },
+];
+
+
 
 const BuyerDashboard = () => {
+  const location = useLocation();
+  const menuId = location.state?.menuId || null;
+  const [artworks, setArtworks] = useState([]);
+
+  useEffect(() => {
+    // Get All Artworks Using Filter
+    const getArtworksUsingFilter = async () => {
+      try {
+        const response = await api.get("/api/menu/");
+
+        if (response.status === 200 && response.data) {
+          setArtworks?.(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching menus:", error);
+      }
+    };
+    getArtworksUsingFilter()
+  }, [menuId])
+
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />

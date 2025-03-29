@@ -7,9 +7,9 @@ const User = require('../models/userModel')
 
 const registerUser = async (req, res) => {
     try {
-        const { email, password, userType } = req.body;
+        const { name, email, password, userType } = req.body;
         // Validate input
-        if (!email || !password || !userType) {
+        if (!name || !email || !password || !userType) {
             return res.status(400).json({ message: 'Some fields is missing' });
         }
         // Check if user already exists
@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         // Create new user
-        const newUser = new User({ email, password: hashedPassword, userType: userType });
+        const newUser = new User({ name, email, password: hashedPassword, userType: userType });
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {

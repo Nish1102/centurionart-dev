@@ -105,7 +105,15 @@ function FeatureCarousel() {
                  marginBottom: { xs: 3, sm: 3, md: 5, lg: 5, xl: 5, xxl: 5 },
                }}
             >
-              <Typography variant="h5" className="main_title">
+              <Typography variant="h5" className="main_title" sx={{
+                fontSize: {
+    xs: '1.825rem',  // Extra small devices (phones)
+    sm: '2rem',  // Small devices (tablets)
+    md: '2.3rem',  // Medium devices (small laptops)
+    lg: '2.8rem',  // Large devices (desktops)
+    xl: '2.8rem',    // Extra large devices (large screens)
+  }
+              }}>
                 Featured collections
               </Typography>
               <Button variant="contained" className="commn_btn">

@@ -64,7 +64,7 @@ const PrintSubMenu = ({ close, menus, menuId }) => {
         </Typography>
   
         <Card sx={{ boxShadow: 0, my: 2 }} className="menu_card">
-          <CardMedia component="img" height="100" image={image1} alt="Surrealist Visions" />
+          <CardMedia component="img" height="80" image={image1} alt="Surrealist Visions" />
           <CardContent sx={{ p: 1 }}>
             <Typography variant="body2" fontWeight="bold">
               Famous artists: Surrealist Visions
@@ -74,12 +74,12 @@ const PrintSubMenu = ({ close, menus, menuId }) => {
         </Card>
   
         <Card sx={{ boxShadow: 0, mt: 2 }} className="menu_card">
-          <CardMedia component="img" height="100" image={image2} alt="Timeless Portraits" />
+          <CardMedia component="img" height="80" image={image2} alt="Timeless Portraits" />
           <CardContent sx={{ p: 1 }}>
             <Typography variant="body2" fontWeight="bold">
               Famous artists: Timeless Portraits
             </Typography>
-            <Typography color="primary">Discover →</Typography>
+            <Typography color="primary">Discover →</Typography> 
           </CardContent>
         </Card>
       </Grid>
@@ -88,5 +88,5 @@ const PrintSubMenu = ({ close, menus, menuId }) => {
   
   
 };
-
+ 
 export default PrintSubMenu;
