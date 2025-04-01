@@ -122,7 +122,7 @@ function GallerySec() {
                             }}
                           >
                             <Box className="art_img" style={styles}>
-                            <span><img src="../images/auth.jpg" alt="auth"/>{art.author}</span>
+                            <span><img src="../images/auth.jpg" alt="auth"/>{art.artist}</span>
                               <img
                                 src={
                                   art.image || "https://via.placeholder.com/300"

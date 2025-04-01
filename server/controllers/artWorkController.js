@@ -6,6 +6,7 @@ const Menu = require("../models/menuModel");
 const Style = require("../models/styleModel");
 const Medium = require("../models/mediumModel");    
 const Theme = require("../models/themeModel");
+const User = require("../models/userModel");
 
 // Get all artworks
 const getAllArtworks = async (req, res) => {
@@ -15,12 +16,12 @@ const getAllArtworks = async (req, res) => {
 
     try {
         const totalArtworks = await ArtWork.countDocuments();
-        const artworks = await ArtWork.find().skip(skip).limit(limit);
+        const artworks = await ArtWork.find().skip(skip).limit(limit).populate('artist', 'name');;
 
         const formattedArtworks = artworks.map(art => ({
             id: art._id,
             title: art.title,
-            author: art.artist,
+            artist: art.artist ? `${art.artist.name.first} ${art.artist.name.last}` : 'Unknown Artist', 
             price: art.price,
             location: art.category,
             image: art.artUrls[0],
