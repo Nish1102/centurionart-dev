@@ -120,6 +120,41 @@ export default function Sidebar() {
     setOpen(false);
   };
 
+
+
+
+  // ========>
+
+    const staticMenus = [
+      {
+        id: 1,
+        title: "Dashboard",
+        parent_id: null,
+        icon: <InboxIcon />,
+        subMenus: [
+          { id: 4, title: "Overview", parent_id: 1 },
+          { id: 5, title: "Reports", parent_id: 1 },
+        ],
+      },
+      {
+        id: 2,
+        title: "Settings",
+        parent_id: null,
+        icon: <InboxIcon />,
+        subMenus: [
+          { id: 6, title: "Profile", parent_id: 2 },
+          { id: 7, title: "Security", parent_id: 2 },
+        ],
+      },
+      {
+        id: 3,
+        title: "Support",
+        parent_id: null,
+        icon: <InboxIcon />,
+        subMenus: [],
+      },
+    ];
+
   const renderDrawerContent = (
     <>
       <DrawerHeader>
@@ -133,87 +168,63 @@ export default function Sidebar() {
       </DrawerHeader>
       <Divider />
       <List>
-        {/* Menu 1 */}
+      {staticMenus.map((item) => (
+        <ListItem key={item.id} disablePadding sx={{ display: "block" }}>
+          <ListItemButton
+            onClick={() => handleSubmenuClick(item)}
+            sx={{
+              minHeight: 48,
+              px: 1.5,
+              justifyContent: open ? "initial" : "center",
+              m: open ? "5px 10px" : "0",
+              borderRadius: open ? "5px" : "0",
+              "&:hover": {
+                backgroundColor: "#5600d3",
+                color: "#fff",
+                "& .MuiListItemIcon-root": { color: "#fff" },
+                "& .MuiSvgIcon-root": { color: "#fff" },
+                "& .MuiListItemText-primary": { color: "#fff" },
+              },
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 1 : "auto",
+                justifyContent: "center",
+                color: "#5600d3",
+              }}
+            >
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
+            {item.subMenus.length > 0 &&
+              (activeSubmenu === item.title ? <ExpandLess /> : <ExpandMore />)}
+          </ListItemButton>
 
-        {
-          menus?.filter((item) => item.parent_id === null).map((item) => (
-            <ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                onClick={() => handleSubmenuClick(item)}
-                sx={{
-                  minHeight: 48,
-                  px: 1.5,
-                  justifyContent: open ? "initial" : "center",
-                  m: open ? "5px 10px" : "0",
-                  borderRadius: open ? "5px" : "0",
-                  boxShadow: open
-                    ? "inset 0px 0px 4px 1px rgba(86, 0, 211, 0.12), inset 0px 0px 27px 1px rgba(255, 255, 255, 0.5)"
-                    : "",
-                  '&:hover': {
-                    backgroundColor: '#5600d3',
-                    color: '#fff',
-                    '& .MuiListItemIcon-root': {
-                      color: '#fff', // Changes icon color
-                    },
-                    '& .MuiSvgIcon-root': {
-                      color: '#fff', // Ensures actual icon SVG color is also white
-                    },
-                    '& .MuiListItemText-primary': {
-                      color: '#fff',
-                    },
-                  },
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 1 : "auto",
-                    justifyContent: "center",
-                    display: "flex", // Important for proper alignment
-                    color: "#5600d3", // Default icon color
-                  }}
-                >
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary={item.title || "No Name"} sx={{ opacity: open ? 1 : 0 }} />
-                {activeSubmenu === item.title ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse
-                in={activeSubmenu === item.title}
-                timeout="auto"
-                unmountOnExit
-                sx={{
-                  borderLeft: open ? "1px solid #ab72ff" : "none",
-                  ml: open ? 3.5 : 0,
-                  pl: 1,
-                }}
-              >
-
-                {subMenus.map((subMenu) => (
-                  <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: open ? 4 : 2, paddingLeft: '0'}}>
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {/* <MailIcon sx={{color: '#5600d3'}} /> */}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={subMenu.title}
-                        primaryTypographyProps={{ fontSize: "0.875rem", textTransform:'capitalize' }} // ✅ Correct font size setting
-                        sx={{ opacity: open ? 1 : 0,fontSize:'0.675rem'}}
-                      />
-                    </ListItemButton>
-
-                  </List>
-                ))}
-              </Collapse>
-            </ListItem>
-          ))}
-      </List>
+          {item.subMenus.length > 0 && (
+            <Collapse
+              in={activeSubmenu === item.title}
+              timeout="auto"
+              unmountOnExit
+              sx={{ borderLeft: open ? "1px solid #ab72ff" : "none", ml: open ? 3.5 : 0, pl: 1 }}
+            >
+              {item.subMenus.map((subMenu) => (
+                <List key={subMenu.id} component="div" disablePadding>
+                  <ListItemButton sx={{ pl: open ? 4 : 2 }}>
+                    <ListItemText
+                      primary={subMenu.title}
+                      primaryTypographyProps={{ fontSize: "0.875rem", textTransform: "capitalize" }}
+                      sx={{ opacity: open ? 1 : 0, fontSize: "0.675rem" }}
+                    />
+                  </ListItemButton>
+                </List>
+              ))}
+            </Collapse>
+          )}
+        </ListItem>
+      ))}
+    </List>
     </>
   );
 
