@@ -1,27 +1,36 @@
-import { Card, CardContent, CardMedia, Grid, Typography, Link, Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Card, CardContent, CardMedia, Grid, Link, Typography } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import image1 from "../../../assets/1.jpg";
 import image2 from "../../../assets/2.jpg";
+import { DrawerContext } from '../../../context/DrawerContext'; // Import the context
+import ErrorMessage from "../../ErrorMessage";
 import api from "../../../services/api";
-
+import { ErrorContext } from "../../../context/ErrorContext";
 
 const NewInMenu = ({ close, menus, menuId }) => {
+  const { setError } = useContext(ErrorContext);
+
   const navigate = useNavigate();
   const [subMenus, setSubMenus] = useState([]);
+  const { toggleDrawer } = useContext(DrawerContext); // Use the context
 
   const filterAndNavigate = async (menuId) => {
+
     console.log(13, 'filter and Navigate');
     console.log(15, 'menuId -->', menuId);
 
     try {
       const response = await api.get(`/api/artwork/filter/${menuId}`);
       console.log(20, 'Response:', response.data);
-
+      toggleDrawer();
+      close();
       // Ab response ko use karo ya navigate karo
-      // navigate("/collector-dashboard", { state: { menuId, artworks: response.data } });
+      navigate("/collector-dashboard", { state: { menuId, artworks: response.data } });
     } catch (error) {
       console.error(25, 'Error fetching artworks:', error);
+      setError(error.message); // Set the error message in the context
+
     }
   };
 
@@ -36,6 +45,7 @@ const NewInMenu = ({ close, menus, menuId }) => {
     <Grid container spacing={2} 
      onMouseLeave={() => close()}
     >
+      <ErrorMessage /> {/* Display error messages here */}
 
       {subMenus.map((subMenu) => (
         <Grid item xs={3} key={subMenu._id} className="menu_row" sx={{ borderRight: '1px solid #ebebeb', px:2}}>
