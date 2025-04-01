@@ -10,6 +10,8 @@ import FeatureCarousel from "./FeatureCarousel";
 import ExpertAdvisor from "./ExpertAdvisor";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
+import ProductDetail from "../productPage/ProductDetail";
+
 
 
 export default function ArtGalleryLanding() {
@@ -39,6 +41,13 @@ export default function ArtGalleryLanding() {
       {/* footer-sec */}
         <Footer/>
 
+
+    {/* start roughling uI */}
+
+
+     {/* <ProductDetail/> */}
+
+    {/* end roughling ui */}
 
       {/* Login Modal */}
       <Modal open={isLoginOpen} onClose={() => setIsLoginOpen(false)}>
