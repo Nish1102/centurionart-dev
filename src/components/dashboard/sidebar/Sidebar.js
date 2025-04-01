@@ -26,10 +26,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import ResellerDashboard from "../resellerdashboard/ResellerDashboard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import api from "../../../services/api";
-<<<<<<< Updated upstream
 import ArtEdit from "../resellerdashboard/ArtEdit";
 import { useLocation, useNavigate } from "react-router-dom";
-=======
 import { Avatar, Button, Card, CardContent, Link, Chip } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AddHomeIcon from "@mui/icons-material/AddHome";
@@ -40,7 +38,6 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Person2Icon from "@mui/icons-material/Person2";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LogoutIcon from "@mui/icons-material/Logout";
->>>>>>> Stashed changes
 
 const drawerWidth = 320;
 
@@ -115,11 +112,8 @@ export default function Sidebar() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [menus, setMenus] = useState();
   const [subMenus, setSubMenus] = useState([]);
-<<<<<<< Updated upstream
   const location = useLocation(); // Get the current route
   
-=======
->>>>>>> Stashed changes
 
   const handleSubmenuClick = (mainMenu) => {
     setActiveSubmenu((prevKey) =>
