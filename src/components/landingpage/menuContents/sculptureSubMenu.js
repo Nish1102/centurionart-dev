@@ -17,15 +17,12 @@ const SculptureSubMenu = ({ close, menus, menuId }) => {
   }, [menuId, menus]);
 
     const filterAndNavigate = async (menuId) => {
-      console.log(13, 'filter and Navigate');
-      console.log(15, 'menuId -->', menuId);
   
       try {
         const response = await api.get(`/api/artwork/filter/${menuId}`);
         console.log(20, 'Response:', response.data);
   
-        // Ab response ko use karo ya navigate karo
-        // navigate("/collector-dashboard", { state: { menuId, artworks: response.data } });
+        navigate("/collector-dashboard", { state: { menuId, artworks: response.data } });
       } catch (error) {
         console.error(25, 'Error fetching artworks:', error);
       }
