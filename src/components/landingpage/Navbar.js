@@ -32,7 +32,7 @@ const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [artworks, setArtworks] = useState([]);
   const [page, setPage] = useState(1);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const { user } = useUser();
@@ -58,7 +58,7 @@ const Navbar = () => {
       const response = await api.get("/api/menu/");
     
       if (response.status === 200 && response.data) {
-        setMenus?.(response.data); 
+        setMenus?.(response.data);
       }
     } catch (error) {
       console.error("Error fetching menus:", error);
@@ -113,7 +113,6 @@ const Navbar = () => {
           }
         </Box>
 
-
         {/* Search Bar */}
         <Box
           sx={{
@@ -124,11 +123,10 @@ const Navbar = () => {
             px: 2,
             width:{
               xs: '40%',     // Full width on mobile
-      sm: '50%',    // Medium width on small screens
-      md: '200px',    // Wider on tablets
-      lg: '300px',    // Even wider on large screens
-      xl: '300px',    // Max width on extra-large screens
-
+            sm: '50%',    // Medium width on small screens
+            md: '200px',    // Wider on tablets
+            lg: '300px',    // Even wider on large screens
+            xl: '300px',    // Max width on extra-large screens
             }
           }}
         >

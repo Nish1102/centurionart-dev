@@ -71,8 +71,11 @@ const logToFile = (message) => {
     const logFilePath = path.join(__dirname, 'app.log');
     const logEntry = JSON.stringify({ timestamp: new Date().toISOString(), message }) + '\n';
     
-    fs.appendFileSync(logFilePath, logEntry, 'utf8');
+    fs.appendFile(logFilePath, logEntry, 'utf8', (err) => {
+        if (err) console.error("Log file write error:", err);
+    });
 };
+
 
 // Middlewares
 
@@ -177,6 +180,24 @@ app.use(expressWinston.errorLogger({
 app.use('/api', routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => res.send(welcome));
+app.get('/logs', (req, res) => {
+    const logFilePath = path.join(__dirname, 'app.log');
+
+    fs.readFile(logFilePath, 'utf8', (err, data) => {
+        if (err) {
+            logger.error(`Error reading log file: ${err.message}`);
+            return res.status(500).send("Unable to read log file");
+        }
+
+        // Split logs by newline and return them as an array of strings
+        const logs = data.trim().split('\n');
+
+        // Send plain text response so logs appear line by line in browser
+        res.setHeader('Content-Type', 'text/plain');
+        res.send(logs.join('\n'));
+    });
+});
+
 app.get('*', (req, res) => res.status(404).send(notFound));
 
 // Global Error Handling Middleware

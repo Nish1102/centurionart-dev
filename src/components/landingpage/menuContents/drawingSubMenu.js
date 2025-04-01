@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import image1 from "../../../assets/1.jpg";
 import image2 from "../../../assets/2.jpg";
-
+import api from "../../../services/api";
 
 
 const DrawingSubMenu = ({ close, menus, menuId }) => {
@@ -18,6 +18,20 @@ const DrawingSubMenu = ({ close, menus, menuId }) => {
     setSubMenus(filteredSubMenus);
   }, [menuId, menus]);
 
+      const filterAndNavigate = async (menuId) => {
+        console.log(13, 'filter and Navigate');
+        console.log(15, 'menuId -->', menuId);
+    
+        try {
+          const response = await api.get(`/api/artwork/filter/${menuId}`);
+          console.log(20, 'Response:', response.data);
+    
+          // Ab response ko use karo ya navigate karo
+          // navigate("/collector-dashboard", { state: { menuId, artworks: response.data } });
+        } catch (error) {
+          console.error(25, 'Error fetching artworks:', error);
+        }
+      };
 
   return (
     <Grid container spacing={3} 
@@ -39,7 +53,7 @@ const DrawingSubMenu = ({ close, menus, menuId }) => {
                 underline="none"
                 sx={{ "&:hover": { textDecoration: "underline" }, display: "block" }}
                 component="button"
-                onClick={() => navigate("/collector-dashboard")}
+                onClick={() => filterAndNavigate(subMenuItem._id)}
               >
                 <Typography display="block" className="submenu_title">{subMenuItem.title}</Typography>
               </Link>

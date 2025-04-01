@@ -16,7 +16,8 @@ const categoriesList = [
   "Portrait Art", "Landscape Art", "Still Life", "Photography", "Sculpture", "Fantasy & Mythology",
   "Renaissance Art", "Baroque Art", "Gothic Art", "Modern Art", "Contemporary Art",
   "Best-Selling Artists", "Famous Artists", "Seasonal Promotion", "Emerging Artists",
-  "Digital Art", "AI-Generated Art", "NFT Art", "Cultural & Heritage Art", "Mixed Media"
+  "Digital Art", "AI-Generated Art", "NFT Art", "Cultural & Heritage Art", "Mixed Media",
+  "New In", "Print", "Drawing", 
 ];
 
 const fetchCategoryImage = async (category) => {

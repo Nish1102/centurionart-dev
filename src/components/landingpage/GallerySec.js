@@ -47,7 +47,7 @@ function GallerySec() {
     const fetchArtworks = async () => {
       try {
         const response = await api.get(
-          `/api/artwork/artworks?_page=${page}&_limit=8`
+          `/api/artwork?_page=${page}&_limit=8`
         );
         setArtworks(response.data);
         // setTotalPages(Math.ceil(response.headers["x-total-count"] / 6));

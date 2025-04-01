@@ -18,7 +18,6 @@ const saveMenu = async (menu, parentId = null) => {
 
         if (menu.child && menu.child.length > 0) {
             for (const child of menu.child) {
-                console.log(21 , 'child name --> ', child.name ,  'filters -->  ', child.filter)
                 await saveMenu(child, savedMenu._id);
             }
         }
@@ -29,9 +28,7 @@ const saveMenu = async (menu, parentId = null) => {
 
 const seedMenus = async () => {
     try {
-        await mongoose.connect(
-            "mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart?retryWrites=true&w=majority&appName=Cluster0"
-        );
+        await mongoose.connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart-development?retryWrites=true&w=majority&appName=Cluster0");
         console.log("✅ Connected to MongoDB");
 
         await Menu.deleteMany({});

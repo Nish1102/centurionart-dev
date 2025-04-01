@@ -8,12 +8,11 @@ const ordersRoutes = require('./orderRoutes');
 const menusRoutes = require('./menusRoute');
 const categoryRoutes = require('./categoryRoutes');
 
-
 // Define routes
 router.use('/auth', authRoutes);
 router.use('/artwork', artWorkRoutes);
 router.use('/orders', ordersRoutes);
 router.use('/menu', menusRoutes);
-router.use('/category', categoryRoutes)
+router.use('/category', categoryRoutes);
 
 module.exports = router;

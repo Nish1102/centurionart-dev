@@ -5,7 +5,7 @@ const { uploadMultiple } = require('../services/uploads');
 
 /**
  * @swagger
- * /api/artwork/artworks:
+ * /api/artwork/:
  *   get:
  *     summary: Get list of artworks
  *     description: Fetches a list of artworks with optional pagination and filtering.
@@ -72,7 +72,7 @@ const { uploadMultiple } = require('../services/uploads');
  *       500:
  *         description: Internal server error
  */
-router.get('/artworks', artWorkController.getAllArtworks);
+router.get('/', artWorkController.getAllArtworks);
 
 /**
  * @swagger
@@ -128,7 +128,7 @@ router.get('/artworks', artWorkController.getAllArtworks);
  *       500:
  *         description: Internal server error
  */
-router.post('/artwork', artWorkController.addArtworks);
+router.post('/', artWorkController.addArtworks);
 
 /**
  * @swagger
@@ -168,7 +168,7 @@ router.post('/artwork', artWorkController.addArtworks);
  *       500:
  *         description: Internal server error
  */
-router.put('/artwork/:id', artWorkController.updateArtworks);
+router.put('/:id', artWorkController.updateArtworks);
 
 /**
  * @swagger
@@ -193,7 +193,7 @@ router.put('/artwork/:id', artWorkController.updateArtworks);
  *       500:
  *         description: Internal server error
  */
-router.delete('/artwork/:id', artWorkController.deleteArtworks);
+router.delete('/:id', artWorkController.deleteArtworks);
 
 /**
  * @swagger
@@ -230,7 +230,47 @@ router.delete('/artwork/:id', artWorkController.deleteArtworks);
  *       500:
  *         description: Internal server error
  */
-router.post('/artwork/upload/:id', uploadMultiple, artWorkController.uploadArtworkImages);
+router.post('/upload/:id', uploadMultiple, artWorkController.uploadArtworkImages);
+
+/**
+ * @swagger
+ * /api/artwork/{menuId}:
+ *   put:
+ *     summary: Update an artwork
+ *     description: Updates an existing artwork by ID.
+ *     tags:
+ *       - Artworks
+ *     parameters:
+ *       - in: path
+ *         name: menuId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Artwork ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               available:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Artwork Fetched successfully
+ *       404:
+ *         description: Artwork not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/filter/:menuId', artWorkController.getArtworksByMenu);
 
 
 module.exports = router;
