@@ -8,8 +8,16 @@ const MediumSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+      uppercase: true,
+      trim: true,
+    },
   },
-  { 
+
+  {
     timestamps: true,
     collection: "mediums"
   }
