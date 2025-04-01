@@ -4,7 +4,7 @@ const { faker } = require("@faker-js/faker");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart?retryWrites=true&w=majority&appName=Cluster0");
+    await mongoose.connect("mongodb+srv://developer:gQkuvS4ZPaOyx1jA@cluster0.tugsa.mongodb.net/Centuionart-development?retryWrites=true&w=majority&appName=Cluster0");
     console.log("MongoDB connected...");
   } catch (err) {
     console.error("MongoDB connection error:", err);

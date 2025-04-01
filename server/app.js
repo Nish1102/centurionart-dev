@@ -60,6 +60,7 @@ const generalLimiter = rateLimit({
     message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
+// Rate Limiter
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 300, // Allow more requests for authenticated users
@@ -68,17 +69,13 @@ const authLimiter = rateLimit({
 // Middleware to save logs in both app.log
 const logToFile = (message) => {
     const logFilePath = path.join(__dirname, 'app.log');
-    let logs = [];
-    if (fs.existsSync(logFilePath)) {
-        try {
-            logs = JSON.parse(fs.readFileSync(logFilePath, 'utf-8'));
-        } catch (error) {
-            logs = [];
-        }
-    }
-    logs.push({ timestamp: new Date().toISOString(), message });
-    fs.writeFileSync(logFilePath, JSON.stringify(logs, null, 2));
+    const logEntry = JSON.stringify({ timestamp: new Date().toISOString(), message }) + '\n';
+    
+    fs.appendFile(logFilePath, logEntry, 'utf8', (err) => {
+        if (err) console.error("Log file write error:", err);
+    });
 };
+
 
 // Middlewares
 
@@ -158,6 +155,7 @@ app.get('/auth/google/callback',
     })
 );
 
+// Logger
 app.use(expressWinston.logger({
     winstonInstance: logger,
     meta: true,
@@ -169,6 +167,7 @@ app.use(expressWinston.logger({
     }
 }));
 
+// Error Logger
 app.use(expressWinston.errorLogger({
     winstonInstance: logger,
     msg: "HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms",
@@ -181,6 +180,24 @@ app.use(expressWinston.errorLogger({
 app.use('/api', routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => res.send(welcome));
+app.get('/logs', (req, res) => {
+    const logFilePath = path.join(__dirname, 'app.log');
+
+    fs.readFile(logFilePath, 'utf8', (err, data) => {
+        if (err) {
+            logger.error(`Error reading log file: ${err.message}`);
+            return res.status(500).send("Unable to read log file");
+        }
+
+        // Split logs by newline and return them as an array of strings
+        const logs = data.trim().split('\n');
+
+        // Send plain text response so logs appear line by line in browser
+        res.setHeader('Content-Type', 'text/plain');
+        res.send(logs.join('\n'));
+    });
+});
+
 app.get('*', (req, res) => res.status(404).send(notFound));
 
 // Global Error Handling Middleware

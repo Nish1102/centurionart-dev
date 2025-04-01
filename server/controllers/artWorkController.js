@@ -2,6 +2,8 @@ const ArtWork = require('../models/artWorkModel');
 const Category = require("../models/categoryModel");
 const path = require('path');
 const logger = require('../utils/logger');
+const Menu = require("../models/menuModel");
+const Style = require("../models/styleModel");
 
 // Get all artworks
 const getAllArtworks = async (req, res) => {
@@ -30,6 +32,43 @@ const getAllArtworks = async (req, res) => {
         logger.error(path.join(__dirname), 'getAllArtworks', error.message);
         res.status(500).json({ message: 'Internal server error' });
     }
+};
+
+// Get Artworks By MenuId
+const getArtworksByMenu = async (req, res) => {
+
+    console.log(38, ' get Artworks By Using Menu Id ');
+
+    const { menuId } = req.params;
+
+    console.log(41, menuId);
+
+    const menu = await Menu.findById(menuId);
+
+    let filters = {}
+
+    if(menu.filters && menu.filters.length) {
+        
+        menu.filters.map((filter) => {
+            if(filter.id === 'price') {
+
+            } else if(filter.id === 'category') {
+                const category = Category.findOne({name: filter.value});
+                console.log(56 , 'category -- >' , category);
+            } else if(filter.id === 'artist') {
+
+            } else if(filter.id === 'style') {
+                const styles = Style.findOne({name: filter.value});
+                console.log(62, styles)
+            } else if(filter.id === 'theme') {
+                
+            }
+        })        
+    } else {
+        
+    }
+
+    console.log(41, menu);
 };
 
 // Add a new artwork
@@ -132,4 +171,5 @@ module.exports = {
     updateArtworks,
     deleteArtworks,
     uploadArtworkImages,
+    getArtworksByMenu
 };
