@@ -2,6 +2,11 @@ const ArtWork = require('../models/artWorkModel');
 const Category = require("../models/categoryModel");
 const path = require('path');
 const logger = require('../utils/logger');
+const Menu = require("../models/menuModel");
+const Style = require("../models/styleModel");
+const Medium = require("../models/mediumModel");    
+const Theme = require("../models/themeModel");
+const User = require("../models/userModel");
 
 // Get all artworks
 const getAllArtworks = async (req, res) => {
@@ -11,12 +16,12 @@ const getAllArtworks = async (req, res) => {
 
     try {
         const totalArtworks = await ArtWork.countDocuments();
-        const artworks = await ArtWork.find().skip(skip).limit(limit);
+        const artworks = await ArtWork.find().skip(skip).limit(limit).populate('artist', 'name');;
 
         const formattedArtworks = artworks.map(art => ({
             id: art._id,
             title: art.title,
-            author: art.artist,
+            artist: art.artist ? `${art.artist.name.first} ${art.artist.name.last}` : 'Unknown Artist', 
             price: art.price,
             location: art.category,
             image: art.artUrls[0],
@@ -29,6 +34,49 @@ const getAllArtworks = async (req, res) => {
         console.error('Error fetching artworks:', error.message);
         logger.error(path.join(__dirname), 'getAllArtworks', error.message);
         res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Get artworks by menu ID
+const getArtworksByMenu = async (req, res) => {
+    try {        
+        const { menuId } = req.params;
+
+        const menu = await Menu.findById(menuId);
+
+        if (!menu) {
+            return res.status(404).json({ message: "Menu not found" });
+        }
+
+        // Construct query filters
+        let query = {};
+
+        menu.filters.forEach(filter => {
+            if (filter.id === 'price' && filter.order) {
+                // If price filter has min and max values, build a range query
+                if (filter.order.min !== undefined && filter.order.max !== undefined) {
+                    query.price = {
+                        $gte: filter.order.min,
+                        $lte: filter.order.max
+                    };
+                }
+            } else if (filter.value) {
+                // For other filters (e.g., category)
+                query[filter.id] = filter.value;
+            }
+        });
+
+        console.log(50, "Query Filters:", query);
+
+        // Fetch artworks based on filters
+        const artworks = await ArtWork.find(query).populate("artist category theme style medium");
+
+        console.log(55, "Fetched Artworks:", artworks);
+
+        res.status(200).json(artworks);
+    } catch (error) {
+        console.error("Error fetching artworks:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
@@ -132,4 +180,5 @@ module.exports = {
     updateArtworks,
     deleteArtworks,
     uploadArtworkImages,
+    getArtworksByMenu
 };
