@@ -10,7 +10,7 @@ import FeatureCarousel from "./FeatureCarousel";
 import ExpertAdvisor from "./ExpertAdvisor";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
-import ProductDetail from "../productPage/ProductDetail";
+// import ProductDetail from "../productPage/ProductDetail";
 
 
 
