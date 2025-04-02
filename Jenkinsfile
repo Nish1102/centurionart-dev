@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // The port for your backend application
-        LOCAL_PORT = '3006'
+        LOCAL_PORT = '3005'
     }
 
     stages {
