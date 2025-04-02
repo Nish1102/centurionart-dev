@@ -99,7 +99,7 @@ const welcome = `<!DOCTYPE html>
                     </head>
                     <body>
                         <div class="container">
-                            <h1>Welcome to Centurion Art!</h1>
+                            <h1>Welcome to Centurion Art...........</h1>
                             <p>Your server is running smoothly.</p>
                             <a href="/api-docs">Explore API</a>
                         </div>
