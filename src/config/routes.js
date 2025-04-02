@@ -5,7 +5,7 @@ import BuyerDashboard from '../components/dashboard/buyerdashboard/BuyerDashboar
 import PaintingDashboard from '../components/dashboard/paintingdashboard/paintingdashoard';
 import VendorDashboard from '../components/dashboard/vendordashboard/VendorDashboard';
 import AdminDashboard from '../components/dashboard/admindashboard/AdminDashboard';
-import CommonDashboard from '../components/dashboard/commondashboard/commonDashboard';
+import CommonDashboard from '../components/dashboard/commondashboard/CommonDashboard';
 import ArtGalleryLanding from '../components/landingpage/LandingPage';
 import Unauthorized from '../pages/Unauthorized';
 import { AuthGuard } from '../guards/AuthGuard';

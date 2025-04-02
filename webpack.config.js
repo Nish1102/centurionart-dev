@@ -116,7 +116,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'public')
     },
-    port: 3000,
+    port: 3005,
     hot: true,
     liveReload: true,
     watchFiles: ['src/**/*', 'public/**/*']
