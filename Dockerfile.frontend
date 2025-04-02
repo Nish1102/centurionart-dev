@@ -3,7 +3,7 @@ FROM node:18-alpine as builder
 # Install dependencies for image optimization
 RUN apk add --no-cache \
     build-base \
-    mozjpeg \
+    libjpeg-turbo \
     gifsicle \
     && rm -rf /var/cache/apk/*
 
@@ -23,3 +23,4 @@ RUN npm run build
 # Stage 2: Serve the built files with Nginx
 FROM nginx:alpine
 COPY --from=builder /app/build /usr/share/nginx/html
+
