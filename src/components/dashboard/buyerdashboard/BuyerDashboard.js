@@ -60,40 +60,32 @@ const BuyerDashboard = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
+      <Navigation />
       <Navbar />
-
-      <Box sx={{ display: "flex", p: 4 }}>
-        {/* Sidebar */}
-        {/* <Sidebar /> */}
-
-        {/* Main Content */}
-        {/* <Box sx={{ flexGrow: 1, ml: 32 }}> */}
-        <Typography variant="h4" textAlign="center" fontWeight="bold" mb={4}>
+      <Box sx={{ backgroundColor: "#0000FF", color: "white", p: 4, textAlign: "center" }}>
+        <Typography variant="h3" fontWeight="bold">
           Original Artworks for Sale
         </Typography>
-        <Typography variant="body1" textAlign="center" mb={4}>
-          Discover SINGULART's selection of original artworks created by
-          contemporary artists from around the world.
+        <Typography variant="body1" mt={1}>
+          Discover SINGULART's selection of original artworks created by contemporary artists from around the world.
         </Typography>
-        <Grid container spacing={2} justifyContent="center">
-          {/* {categories.map((category) => (
-            <Grid item xs={12} sm={6} md={3} key={category.name}>
-              <Paper sx={{ backgroundColor: category.bgColor, padding: 2, textAlign: "center", borderRadius: 2 }}>
-                <Typography variant="subtitle1" fontWeight="bold">{category.name}</Typography>
-                <img src={category.image} alt={category.name} style={{ width: "100%", borderRadius: 8 }} />
-              </Paper>
-            </Grid>
-          ))} */}
-          <GallerySec />
-        </Grid>
-        <Box textAlign="center" mt={3}>
-          <Button variant="outlined" color="primary">
-            Explore all categories
-          </Button>
-        </Box>
       </Box>
-      {/* </Box> */}
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+        <Button variant="outlined" color="primary">Filters (1)</Button>
+        <Button variant="contained" color="primary" sx={{ ml: 2 }}>Save search</Button>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <Typography variant="body2" sx={{ backgroundColor: "#f1f1f1", p: 1, borderRadius: 1 }}>
+          0 - 50,000 INR × <Button sx={{ ml: 1 }}>Clear all</Button>
+        </Typography>
+      </Box>
+      <Grid container spacing={2} justifyContent="center" sx={{ px: 3 }}>
+        <GallerySec />
+      </Grid>
+      <Box textAlign="center" mt={3}>
+        <Button variant="outlined" color="primary">Explore all categories</Button>
+      </Box>
     </div>
   );
 };
