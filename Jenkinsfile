@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Define the ports for your applications.
         BACKEND_PORT = '3006'
         FRONTEND_PORT = '3005'
     }
@@ -28,7 +27,7 @@ pipeline {
                 stage('Frontend Dependencies') {
                     steps {
                         echo "Installing frontend dependencies with legacy peer deps..."
-                        // Install dependencies for the frontend (root package.json)
+                        // Install dependencies for the frontend (from the repository root)
                         sh 'npm install --legacy-peer-deps'
                     }
                 }
@@ -38,7 +37,6 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 echo "Building frontend using webpack..."
-                // Run the webpack build (ensure your package.json build script calls webpack)
                 sh 'npm run build'
             }
         }
@@ -49,18 +47,21 @@ pipeline {
                     steps {
                         echo "Deploying frontend on port ${env.FRONTEND_PORT}..."
                         sh '''
-                            # Kill any existing process on the frontend port.
-                            lsof -t -i:${FRONTEND_PORT} | xargs kill -9 || true
-                            
-                            # Use PM2 to manage the frontend process.
-                            pm2 stop frontend || true
-                            pm2 delete frontend || true
-                            
-                            # Export the port and start the frontend.
-                            export PORT=${FRONTEND_PORT}
-                            pm2 start npm --name frontend -- start
-                            
-                            pm2 save
+                           # Kill any process on FRONTEND_PORT, if one exists
+                           fpid=$(lsof -t -i:${FRONTEND_PORT} || true)
+                           if [ -n "$fpid" ]; then
+                              echo "Killing process $fpid on port ${FRONTEND_PORT}"
+                              kill -9 $fpid
+                           fi
+                           # Stop and delete any existing PM2 process named "frontend"
+                           pm2 stop frontend || true
+                           pm2 delete frontend || true
+                           
+                           # Set the port (if your frontend start script honors PORT)
+                           export PORT=${FRONTEND_PORT}
+                           # Start the frontend using PM2 (make sure your package.json start script uses PORT 3005)
+                           pm2 start npm --name frontend -- start
+                           pm2 save
                         '''
                     }
                 }
@@ -68,21 +69,22 @@ pipeline {
                     steps {
                         echo "Deploying backend on port ${env.BACKEND_PORT}..."
                         sh '''
-                            # Kill any existing process on the backend port.
-                            lsof -t -i:${BACKEND_PORT} | xargs kill -9 || true
-                            
-                            # Use PM2 to manage the backend process.
-                            pm2 stop backend || true
-                            pm2 delete backend || true
-                            
-                            # Change to the server directory and export the port.
-                            cd server
-                            export PORT=${BACKEND_PORT}
-                            
-                            # Start the backend using PM2.
-                            pm2 start npm --name backend -- start
-                            
-                            pm2 save
+                           # Kill any process on BACKEND_PORT, if one exists
+                           bpid=$(lsof -t -i:${BACKEND_PORT} || true)
+                           if [ -n "$bpid" ]; then
+                              echo "Killing process $bpid on port ${BACKEND_PORT}"
+                              kill -9 $bpid
+                           fi
+                           # Stop and delete any existing PM2 process named "backend"
+                           pm2 stop backend || true
+                           pm2 delete backend || true
+                           
+                           # Change to the server directory
+                           cd server
+                           export PORT=${BACKEND_PORT}
+                           # Start the backend using PM2 (ensure your backend uses process.env.PORT)
+                           pm2 start npm --name backend -- start
+                           pm2 save
                         '''
                     }
                 }
