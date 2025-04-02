@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Pull the latest code from your GitHub repository.
-                git url: 'https://github.com/Nish1102/centurionart-dev.git', branch: 'main'
+                git url: 'https://github.com/Nish1102/centurionart-dev.git', branch: 'development'
             }
         }
         
