@@ -1,21 +1,18 @@
-# Stage 1: Build the frontend
-FROM node:18-alpine as builder
+# Use Node.js image
+FROM node:16
 
+# Set working directory
 WORKDIR /app
 
-# Install required image optimization tools
-RUN apk add --no-cache gifsicle libjpeg-turbo
-
 # Install dependencies
-COPY package*.json ./
-RUN npm install --legacy-peer-deps
+COPY package.json package-lock.json ./
+RUN npm install
 
-# Build the frontend
+# Copy source files
 COPY . .
-RUN npm run build
 
-# Stage 2: Serve the built files with Nginx
-FROM nginx:alpine
+# Expose frontend port
+EXPOSE 3005
 
-COPY --from=builder /app/build /usr/share/nginx/html
-
+# Start the app
+CMD ["npm", "start"]
