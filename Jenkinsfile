@@ -2,13 +2,14 @@ pipeline {
     agent any
 
     environment {
+        // The port for your backend application
         LOCAL_PORT = '3006'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Pull the latest code from your GitHub repository on the 'development' branch.
+                // Check out the latest code from the 'development' branch.
                 git url: 'https://github.com/Nish1102/centurionart-dev.git', branch: 'development'
             }
         }
@@ -25,11 +26,10 @@ pipeline {
                 }
                 stage('Frontend Dependencies') {
                     steps {
-                        dir('src') {
-                            echo "Installing frontend dependencies with legacy peer deps..."
-                            // Using --legacy-peer-deps to bypass the React peer dependency conflict.
-                            sh 'npm install --legacy-peer-deps'
-                        }
+                        echo "Installing frontend dependencies with legacy peer deps..."
+                        // Install dependencies for the frontend (using the root package.json)
+                        // This will use your webpack configuration (which calls require('dotenv').config())
+                        sh 'npm install --legacy-peer-deps'
                     }
                 }
             }
@@ -37,23 +37,19 @@ pipeline {
         
         stage('Build Frontend') {
             steps {
-                dir('src') {
-                    echo "Building frontend..."
-                    // Adjust this command if your build process differs.
-                    sh 'npm run build'
-                }
+                echo "Building frontend using webpack..."
+                // This will run the webpack build as defined in your package.json
+                sh 'npm run build'
             }
         }
         
         stage('Deploy to Localhost') {
             steps {
                 echo "Deploying backend on localhost:${env.LOCAL_PORT}..."
-                
-                // Kill any process currently running on the target port.
+                // Kill any process running on the target port (ignore errors if none are found)
                 sh '''
                     lsof -t -i:${LOCAL_PORT} | xargs kill -9 || true
                 '''
-                
                 // Change directory to the backend folder and start the server.
                 dir('server') {
                     sh '''
@@ -74,3 +70,4 @@ pipeline {
         }
     }
 }
+
