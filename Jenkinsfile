@@ -48,10 +48,8 @@ pipeline {
                 stage('Deploy Frontend') {
                     steps {
                         echo "Deploying frontend..."
-                        // Optionally kill a process on the frontend port if needed.
-                        // This command assumes the frontend is started in the repository root.
+                        // Start the frontend process (ensure your npm start in package.json is configured for the frontend)
                         sh '''
-                            # If needed, adjust the port or kill command for the frontend.
                             nohup npm start > frontend.log 2>&1 &
                         '''
                     }
@@ -86,3 +84,4 @@ pipeline {
         }
     }
 }
+
