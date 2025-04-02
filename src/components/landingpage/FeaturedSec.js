@@ -68,7 +68,7 @@ const FeaturedSec = () => {
                   }}
                 >
                   <Typography variant="h5" className="main_title">
-                    Featured artwork 
+                    Featured artwork testing.............
                   </Typography>
 
                   
