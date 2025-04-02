@@ -30,18 +30,25 @@ pipeline {
         
         stage('Deploy Containers') {
             steps {
-                echo "Stopping and removing existing containers..."
-                // Stop and remove existing containers (ignore errors if not found)
-                sh "docker rm -f centurionart-backend || true"
-                sh "docker rm -f centurionart-frontend || true"
-                
-                echo "Starting backend container on port ${BACKEND_PORT}..."
-                // Run backend container; maps container port 3006 to host port 3006
-                sh "docker run -d --name centurionart-backend -p ${BACKEND_PORT}:${BACKEND_PORT} ${BACKEND_IMAGE}"
-                
-                echo "Starting frontend container on port ${FRONTEND_PORT}..."
-                // Run frontend container; maps container port 80 (Nginx) to host port 3005
-                sh "docker run -d --name centurionart-frontend -p ${FRONTEND_PORT}:80 ${FRONTEND_IMAGE}"
+                script {
+                    try {
+                        echo "Stopping and removing existing containers..."
+                        // Stop and remove existing containers (ignore errors if not found)
+                        sh "docker rm -f centurionart-backend || true"
+                        sh "docker rm -f centurionart-frontend || true"
+                        
+                        echo "Starting backend container on port ${BACKEND_PORT}..."
+                        // Run backend container; maps container port 3006 to host port 3006
+                        sh "docker run -d --name centurionart-backend -p ${BACKEND_PORT}:${BACKEND_PORT} ${BACKEND_IMAGE}"
+                        
+                        echo "Starting frontend container on port ${FRONTEND_PORT}..."
+                        // Run frontend container; maps container port 80 (Nginx) to host port 3005
+                        sh "docker run -d --name centurionart-frontend -p ${FRONTEND_PORT}:80 ${FRONTEND_IMAGE}"
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
             }
         }
     }
@@ -57,4 +64,5 @@ pipeline {
         }
     }
 }
+
 
