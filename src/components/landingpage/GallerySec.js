@@ -87,7 +87,7 @@ function GallerySec() {
                   }}
                 >
                   <Typography variant="h5" className="main_title">
-                  Art we love
+                  Art we love .....
                   </Typography>
 
                   <Button variant="contained" className="commn_btn">
