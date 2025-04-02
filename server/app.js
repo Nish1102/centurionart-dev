@@ -206,7 +206,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: "Internal Server Error" });
 });
 
-// Connect Server
-app.listen(PORT, () => {
+// Connect Server - bind to 0.0.0.0 so it's externally accessible
+app.listen(PORT, '0.0.0.0', () => {
     logger.info(`Server running on port ${PORT}`);
 });
