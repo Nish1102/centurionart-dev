@@ -7,11 +7,11 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Nish1102/centurionart-dev.git'  // Replace with your repo
-            }
-        }
+    stage('Checkout') {
+    steps {
+        git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev.git'
+    }
+}
 
         stage('Build Frontend') {
             steps {
