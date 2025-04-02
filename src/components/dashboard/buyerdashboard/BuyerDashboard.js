@@ -5,6 +5,7 @@ import GallerySec from "../../landingpage/GallerySec";
 import Navbar from "../../landingpage/Navbar";
 import { useLocation } from "react-router-dom";
 import api from "../../../services/api";
+import Navigation from "../../landingpage/Navigation";
 
 
 const categories = [

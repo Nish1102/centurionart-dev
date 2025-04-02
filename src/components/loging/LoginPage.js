@@ -97,7 +97,7 @@ function LoginModal({ open, onClose }) {
       if (role === "artist") {
         navigate("/artists-dashboard");
       } else {
-        navigate("/"); // Navigate to home or collector page
+        navigate("/collector-dashboard");
       }
 
       onClose(); // Close the modal on success
