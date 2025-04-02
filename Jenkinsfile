@@ -31,21 +31,10 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Deploy to Local System') {
             steps {
                 script {
-                    // Push images to Docker Hub
-                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                    sh 'docker push $FRONTEND_IMAGE'
-                    sh 'docker push $BACKEND_IMAGE'
-                }
-            }
-        }
-
-        stage('Deploy to Staging') {
-            steps {
-                script {
-                    // Run the frontend and backend Docker containers on staging
+                    // Run the frontend and backend Docker containers locally
                     sh 'docker run -d -p 3005:3005 $FRONTEND_IMAGE'
                     sh 'docker run -d -p 3006:3006 $BACKEND_IMAGE'
                 }
@@ -60,6 +49,7 @@ pipeline {
         }
     }
 }
+
 
 
 
