@@ -2,14 +2,13 @@ pipeline {
     agent any
 
     environment {
-        // The port for your backend application
-        LOCAL_PORT = '3006'
+        BACKEND_PORT = '3006'
+        FRONTEND_PORT = '3005'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Check out the latest code from the 'development' branch.
                 git url: 'https://github.com/Nish1102/centurionart-dev.git', branch: 'development'
             }
         }
@@ -27,8 +26,7 @@ pipeline {
                 stage('Frontend Dependencies') {
                     steps {
                         echo "Installing frontend dependencies with legacy peer deps..."
-                        // Install dependencies for the frontend using the root package.json.
-                        // This will use your webpack configuration that loads dotenv.
+                        // Install frontend dependencies from the root.
                         sh 'npm install --legacy-peer-deps'
                     }
                 }
@@ -38,7 +36,6 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 echo "Building frontend using webpack..."
-                // This runs the webpack build as defined in your package.json.
                 sh 'npm run build'
             }
         }
@@ -47,8 +44,8 @@ pipeline {
             parallel {
                 stage('Deploy Frontend') {
                     steps {
-                        echo "Deploying frontend..."
-                        // Start the frontend process (ensure your npm start in package.json is configured for the frontend)
+                        echo "Deploying frontend on port ${env.FRONTEND_PORT}..."
+                        // Adjust this command if your frontend start script listens on FRONTEND_PORT
                         sh '''
                             nohup npm start > frontend.log 2>&1 &
                         '''
@@ -56,15 +53,14 @@ pipeline {
                 }
                 stage('Deploy Backend') {
                     steps {
-                        echo "Deploying backend on localhost:${env.LOCAL_PORT}..."
+                        echo "Deploying backend on port ${env.BACKEND_PORT}..."
                         // Kill any process running on the backend port.
                         sh '''
-                            lsof -t -i:${LOCAL_PORT} | xargs kill -9 || true
+                            lsof -t -i:${BACKEND_PORT} | xargs kill -9 || true
                         '''
-                        // Change directory to the backend folder and start the Node.js server.
                         dir('server') {
                             sh '''
-                                export PORT=${LOCAL_PORT}
+                                export PORT=${BACKEND_PORT}
                                 nohup npm start > server.log 2>&1 &
                             '''
                         }
@@ -77,11 +73,12 @@ pipeline {
     post {
         success {
             echo "Deployment completed successfully!"
-            echo "Visit your frontend (default port set in package.json) and backend at http://<jenkins-server-ip>:${env.LOCAL_PORT}."
+            echo "Visit your frontend at http://<jenkins-server-ip>:${env.FRONTEND_PORT} and backend at http://<jenkins-server-ip>:${env.BACKEND_PORT}."
         }
         failure {
             echo "Deployment failed."
         }
     }
 }
+
 
