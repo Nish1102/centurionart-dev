@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NODE_PATH = '/usr/bin/node'
-        NPM_PATH = '/usr/bin/npm'
+        NPM_PATH = "/usr/bin/npm"
+        NODE_PATH = "/usr/bin/node"
     }
 
     stages {
@@ -16,7 +16,7 @@ pipeline {
         stage('Install Frontend Dependencies') {
             steps {
                 dir('.') {
-                    sh '$NPM_PATH install'
+                    sh '$NPM_PATH install --legacy-peer-deps'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
         stage('Install Backend Dependencies') {
             steps {
                 dir('server') {
-                    sh '$NPM_PATH install'
+                    sh '$NPM_PATH install --legacy-peer-deps'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
         stage('Start Backend Server') {
             steps {
                 dir('server') {
-                    sh 'nohup $NODE_PATH app.js > backend.log 2>&1 &'
+                    sh '$NODE_PATH app.js &'
                 }
             }
         }
@@ -40,15 +40,17 @@ pipeline {
         stage('Start Frontend Server') {
             steps {
                 dir('.') {
-                    sh 'nohup $NPM_PATH start > frontend.log 2>&1 &'
+                    sh '$NPM_PATH run start &'
                 }
             }
         }
 
         stage('Verify Frontend Running') {
             steps {
-                echo 'Waiting for frontend to start...'
-                sh 'sleep 10 && curl -I http://localhost:3005 || true'
+                script {
+                    sleep 10 // give some time to start server
+                    sh 'curl --fail http://localhost:3005 || echo "Frontend not up yet"'
+                }
             }
         }
     }
@@ -60,4 +62,5 @@ pipeline {
         }
     }
 }
+
 
