@@ -1,13 +1,17 @@
+
+
+
 pipeline {
     agent any
 
     environment {
         NODE_PATH = '/usr/bin/node'
         NPM_PATH = '/usr/bin/npm'
+        PORT = '3005'
+        BACKEND_DIR = 'server'
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev.git'
@@ -18,7 +22,7 @@ pipeline {
             steps {
                 dir('./') {
                     sh '${NPM_PATH} install --legacy-peer-deps'
-                    sh '${NPM_PATH} install serve --save-dev'
+                    sh '${NPM_PATH} install serve --save-dev --legacy-peer-deps'
                 }
             }
         }
@@ -34,14 +38,14 @@ pipeline {
         stage('Serve Frontend') {
             steps {
                 dir('./') {
-                    sh 'nohup ./node_modules/.bin/serve -s build -l 3005 &'
+                    sh 'nohup ${NPM_PATH} exec serve -s dist -l ${PORT} &'
                 }
             }
         }
 
         stage('Install Backend Dependencies') {
             steps {
-                dir('./server') {
+                dir("${BACKEND_DIR}") {
                     sh '${NPM_PATH} install --legacy-peer-deps'
                 }
             }
@@ -49,7 +53,7 @@ pipeline {
 
         stage('Start Backend') {
             steps {
-                dir('./server') {
+                dir("${BACKEND_DIR}") {
                     sh 'nohup ${NODE_PATH} app.js &'
                 }
             }
@@ -59,8 +63,8 @@ pipeline {
             steps {
                 script {
                     echo "Waiting for React server to start..."
-                    sleep(time: 10, unit: 'SECONDS')
-                    sh 'curl --fail http://localhost:3005'
+                    sleep(time: 20, unit: 'SECONDS')
+                    sh 'curl --fail http://localhost:${PORT}'
                 }
             }
         }
@@ -68,13 +72,11 @@ pipeline {
 
     post {
         always {
-            echo "Jenkins pipeline completed."
+            echo 'Jenkins pipeline completed.'
             cleanWs()
         }
     }
 }
-
-
 
 
 
