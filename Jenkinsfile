@@ -2,41 +2,46 @@ pipeline {
     agent any
 
     environment {
-        FRONTEND_IMAGE = 'frontend-image:latest'
-        BACKEND_IMAGE = 'backend-image:latest'
+        NODE_ENV = 'development'
     }
 
     stages {
-    stage('Checkout') {
-    steps {
-        git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev.git'
-    }
-}
-
-        stage('Build Frontend') {
+        stage('Checkout') {
             steps {
-                script {
-                    // Build frontend Docker image
-                    sh 'docker build -t $FRONTEND_IMAGE -f Dockerfile.frontend .'
+                git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev.git'
+            }
+        }
+
+        stage('Install Frontend Dependencies') {
+            steps {
+                dir('.') {
+                    sh 'npm install --legacy-peer-deps'
                 }
             }
         }
 
-        stage('Build Backend') {
+        stage('Start Frontend') {
             steps {
-                script {
-                    // Build backend Docker image
-                    sh 'docker build -t $BACKEND_IMAGE -f server/Dockerfile .'
+                dir('.') {
+                    // Starts the frontend on port 3005
+                    sh 'nohup npm start &'
                 }
             }
         }
 
-        stage('Deploy to Local System') {
+        stage('Install Backend Dependencies') {
             steps {
-                script {
-                    // Run the frontend and backend Docker containers locally
-                    sh 'docker run -d -p 3005:3005 $FRONTEND_IMAGE'
-                    sh 'docker run -d -p 3006:3006 $BACKEND_IMAGE'
+                dir('server') {
+                    sh 'npm install --legacy-peer-deps'
+                }
+            }
+        }
+
+        stage('Start Backend') {
+            steps {
+                dir('server') {
+                    // Starts the backend on port 3006
+                    sh 'nohup node app.js &'
                 }
             }
         }
@@ -44,11 +49,11 @@ pipeline {
 
     post {
         always {
-            // Cleanup and other tasks after the pipeline runs
             cleanWs()
         }
     }
 }
+
 
 
 
