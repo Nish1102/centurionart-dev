@@ -44,11 +44,23 @@ module.exports = {
           {
             loader: 'image-webpack-loader',
             options: {
-              mozjpeg: { progressive: true, quality: 65 },
-              optipng: { enabled: false },
-              pngquant: { quality: [0.65, 0.90], speed: 4 },
-              gifsicle: { interlaced: false },
-              webp: { quality: 75 }
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              optipng: {
+                enabled: false
+              },
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4
+              },
+              gifsicle: {
+                interlaced: false
+              },
+              webp: {
+                quality: 75
+              }
             }
           }
         ]
@@ -73,26 +85,26 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      minify: isDev
-        ? false
-        : {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeRedundantAttributes: true,
-            useShortDoctype: true,
-            removeEmptyAttributes: true,
-            removeStyleLinkTypeAttributes: true,
-            keepClosingSlash: true,
-            minifyJS: true,
-            minifyCSS: true,
-            minifyURLs: true
-          }
+      minify: isDev ? false : {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
     }),
     new MiniCssExtractPlugin({
       filename: isDev ? '[name].css' : '[name].[contenthash].css'
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'public/images', to: 'images' }]
+      patterns: [
+        { from: 'public/images', to: 'images' }
+      ]
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
@@ -100,7 +112,6 @@ module.exports = {
     isDev && new ReactRefreshWebpackPlugin()
   ].filter(Boolean),
   devServer: {
-    host: '0.0.0.0', // 🚀 Important line to allow access from outside
     historyApiFallback: true,
     static: {
       directory: path.join(__dirname, 'public')
@@ -115,4 +126,5 @@ module.exports = {
     fullySpecified: false
   }
 };
+
 
