@@ -15,8 +15,11 @@ pipeline {
 
         stage('Install Frontend Dependencies') {
             steps {
-                sh 'npm install --legacy-peer-deps'
-                sh 'npm install serve --save-dev --legacy-peer-deps'
+                sh '''
+                    npm install --legacy-peer-deps
+                    npm install dotenv --save
+                    npm install serve --save-dev --legacy-peer-deps
+                '''
             }
         }
 
@@ -31,11 +34,7 @@ pipeline {
                 sh '''
                     mkdir -p /var/www/html/centurionart
                     cp -r dist/* /var/www/html/centurionart/
-
-                    # Kill if serve is already running on 3005
                     fuser -k 3005/tcp || true
-
-                    # Start serve in background
                     nohup npx serve -s /var/www/html/centurionart -l 3005 > /tmp/serve.log 2>&1 &
                 '''
             }
@@ -62,7 +61,7 @@ pipeline {
 
         stage('Verify Frontend Running') {
             steps {
-                echo 'Waiting for React server to start...'
+                echo 'Waiting for frontend to start...'
                 sleep 20
                 sh 'curl --fail http://localhost:3005'
             }
@@ -75,8 +74,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-
