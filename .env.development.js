@@ -1,3 +1,3 @@
-REACT_APP_API_BASE_URL=http://localhost:3022
+REACT_APP_API_BASE_URL=http://localhost:3006
 REACT_APP_STRIPE_PUBLISHABLE_KEY=your_dev_stripe_publishable_key
 REACT_APP_GOOGLE_CLIENT_ID=1050899497546-iotkssf89375nf184hp402ng2nflag56.apps.googleusercontent.com
