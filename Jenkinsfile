@@ -16,30 +16,36 @@ pipeline {
         stage('Build Backend Docker Image') {
             steps {
                 dir('server') {
-                    sh 'docker build -t $BACKEND_IMAGE .'
+                    script {
+                        sh "docker build -t ${BACKEND_IMAGE} ."
+                    }
                 }
             }
         }
 
         stage('Build Frontend Docker Image') {
             steps {
-                sh 'docker build -t $FRONTEND_IMAGE .'
+                script {
+                    sh "docker build -t ${FRONTEND_IMAGE} ."
+                }
             }
         }
 
         stage('Run Containers') {
             steps {
-                sh '''
-                # Stop and remove old containers if running
-                docker stop backend || true && docker rm backend || true
-                docker stop frontend || true && docker rm frontend || true
+                script {
+                    sh '''
+                        # Stop and remove existing containers if they exist
+                        docker rm -f backend || true
+                        docker rm -f frontend || true
 
-                # Run backend on port 3020 (internal app port should also be 3020)
-                docker run -d -p 3022:3006 --name backend $BACKEND_IMAGE
+                        # Run backend container: host 3022 → container 3006
+                        docker run -d --name backend -p 3022:3006 ${BACKEND_IMAGE}
 
-                # Run frontend: host 3021 → container 3005
-                docker run -d -p 3023:3005 --name frontend $FRONTEND_IMAGE
-                '''
+                        # Run frontend container: host 3023 → container 3005
+                        docker run -d --name frontend -p 3023:3005 ${FRONTEND_IMAGE}
+                    '''
+                }
             }
         }
     }
@@ -50,6 +56,7 @@ pipeline {
         }
     }
 }
+
 
 
 
