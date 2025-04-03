@@ -1,68 +1,55 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    NODE_ENV = 'production'
-  }
-
-  stages {
-    stage('Checkout Code') {
-      steps {
-        git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev'
-      }
+    environment {
+        BACKEND_IMAGE = "centurionart-backend"
+        FRONTEND_IMAGE = "centurionart-frontend"
     }
 
-    stage('Install Frontend Dependencies') {
-      steps {
-        sh 'npm install --legacy-peer-deps'
-        sh 'npm install --save-dev serve --legacy-peer-deps'
-        sh 'npm install --save dotenv --force --legacy-peer-deps'
-      }
-    }
-
-    stage('Build Frontend') {
-      steps {
-        sh 'npm run build'
-      }
-    }
-
-    stage('Serve Frontend') {
-      steps {
-        sh 'nohup npx serve -s dist -l 3005 &'
-      }
-    }
-
-    stage('Install Backend Dependencies') {
-      steps {
-        dir('server') {
-          sh 'npm install --legacy-peer-deps'
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev'
+            }
         }
-      }
-    }
 
-    stage('Start Backend') {
-      steps {
-        dir('server') {
-          sh 'nohup node app.js &'
+        stage('Build Backend Docker Image') {
+            steps {
+                dir('server') {
+                    sh 'docker build -t $BACKEND_IMAGE .'
+                }
+            }
         }
-      }
+
+        stage('Build Frontend Docker Image') {
+            steps {
+                sh 'docker build -t $FRONTEND_IMAGE .'
+            }
+        }
+
+        stage('Run Containers') {
+            steps {
+                sh '''
+                # Stop and remove old containers if running
+                docker stop backend || true && docker rm backend || true
+                docker stop frontend || true && docker rm frontend || true
+
+                # Run backend on port 3020 (internal app port should also be 3020)
+                docker run -d -p 3020:3006 --name backend $BACKEND_IMAGE
+
+                # Run frontend: host 3021 → container 3005
+                docker run -d -p 3021:3005 --name frontend $FRONTEND_IMAGE
+                '''
+            }
+        }
     }
 
-    stage('Verify Frontend Running') {
-      steps {
-        echo 'Waiting for React server to start...'
-        sleep 20
-        sh 'curl --fail http://localhost:3005'
-      }
+    post {
+        always {
+            echo "✅ Build and deployment completed!"
+        }
     }
-  }
-
-  post {
-    always {
-      echo 'Jenkins pipeline completed.'
-      cleanWs()
-    }
-  }
 }
+
 
 
