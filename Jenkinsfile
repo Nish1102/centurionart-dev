@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NODEJS_HOME = "/usr/bin"  // ✅ Your actual Node path
+        NODE_HOME = "/usr/bin"
+        PATH = "/usr/bin:$PATH"
     }
 
     stages {
@@ -12,38 +13,34 @@ pipeline {
             }
         }
 
-        stage('Build Frontend') {
+        stage('Install Frontend Dependencies') {
             steps {
-                dir('client') {  // 📁 Adjust this if frontend is in a different directory
-                    script {
-                        sh '''
-                            export PATH=$NODEJS_HOME:$PATH
-                            echo "Node version:"
-                            node -v
-                            echo "NPM version:"
-                            npm -v
-                            echo "Installing frontend dependencies..."
-                            npm install --legacy-peer-deps
-                            echo "Starting frontend..."
-                            npm run start &
-                        '''
-                    }
+                dir('./') {
+                    sh 'npm install --legacy-peer-deps'
                 }
             }
         }
 
-        stage('Build Backend') {
+        stage('Start Frontend') {
             steps {
-                dir('server') {  // 📁 Adjust if backend is in a different directory
-                    script {
-                        sh '''
-                            export PATH=$NODEJS_HOME:$PATH
-                            echo "Installing backend dependencies..."
-                            npm install --legacy-peer-deps
-                            echo "Starting backend..."
-                            npm start &
-                        '''
-                    }
+                dir('./') {
+                    sh 'nohup npm start &'
+                }
+            }
+        }
+
+        stage('Install Backend Dependencies') {
+            steps {
+                dir('server') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Start Backend') {
+            steps {
+                dir('server') {
+                    sh 'nohup node app.js &'
                 }
             }
         }
@@ -51,14 +48,8 @@ pipeline {
 
     post {
         always {
-            echo "Cleaning up workspace..."
+            echo 'Cleaning up workspace...'
             cleanWs()
         }
     }
 }
-
-
-
-
-
-
