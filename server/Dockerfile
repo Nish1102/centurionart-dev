@@ -14,7 +14,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Expose the port your app actually uses
-EXPOSE 3020
+EXPOSE 3006
 
 # Start the backend application
 CMD ["node", "app.js"]
