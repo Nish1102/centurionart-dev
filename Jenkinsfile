@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     environment {
-        NODE_HOME = "/usr/bin"
-        PATH = "/usr/bin:$PATH"
+        NODE_PATH = '/usr/bin/node'
+        NPM_PATH = '/usr/bin/npm'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
                 git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev.git'
             }
@@ -15,16 +15,8 @@ pipeline {
 
         stage('Install Frontend Dependencies') {
             steps {
-                dir('./') {
-                    sh 'npm install --legacy-peer-deps'
-                }
-            }
-        }
-
-        stage('Start Frontend') {
-            steps {
-                dir('./') {
-                    sh 'nohup npm start &'
+                dir('.') {
+                    sh '$NPM_PATH install'
                 }
             }
         }
@@ -32,24 +24,40 @@ pipeline {
         stage('Install Backend Dependencies') {
             steps {
                 dir('server') {
-                    sh 'npm install'
+                    sh '$NPM_PATH install'
                 }
             }
         }
 
-        stage('Start Backend') {
+        stage('Start Backend Server') {
             steps {
                 dir('server') {
-                    sh 'nohup node app.js &'
+                    sh 'nohup $NODE_PATH app.js > backend.log 2>&1 &'
                 }
+            }
+        }
+
+        stage('Start Frontend Server') {
+            steps {
+                dir('.') {
+                    sh 'nohup $NPM_PATH start > frontend.log 2>&1 &'
+                }
+            }
+        }
+
+        stage('Verify Frontend Running') {
+            steps {
+                echo 'Waiting for frontend to start...'
+                sh 'sleep 10 && curl -I http://localhost:3005 || true'
             }
         }
     }
 
     post {
         always {
-            echo 'Cleaning up workspace...'
+            echo 'Cleaning up Jenkins workspace...'
             cleanWs()
         }
     }
 }
+
