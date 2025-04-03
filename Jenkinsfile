@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NPM_PATH = "/usr/bin/npm"
         NODE_PATH = "/usr/bin/node"
+        NPM_PATH = "/usr/bin/npm"
     }
 
     stages {
@@ -32,7 +32,8 @@ pipeline {
         stage('Start Backend Server') {
             steps {
                 dir('server') {
-                    sh '$NODE_PATH app.js &'
+                    // Run backend in background
+                    sh 'nohup $NODE_PATH app.js > backend.log 2>&1 &'
                 }
             }
         }
@@ -40,7 +41,8 @@ pipeline {
         stage('Start Frontend Server') {
             steps {
                 dir('.') {
-                    sh '$NPM_PATH run start &'
+                    // Run frontend in background
+                    sh 'nohup $NPM_PATH run start > frontend.log 2>&1 &'
                 }
             }
         }
@@ -48,19 +50,24 @@ pipeline {
         stage('Verify Frontend Running') {
             steps {
                 script {
-                    sleep 10 // give some time to start server
-                    sh 'curl --fail http://localhost:3005 || echo "Frontend not up yet"'
+                    echo 'Waiting for React server to start...'
+                    sleep 10
+                    sh 'curl --fail http://localhost:3005'
                 }
             }
         }
     }
 
     post {
-        always {
-            echo 'Cleaning up Jenkins workspace...'
-            cleanWs()
+        success {
+            echo "Frontend and backend started successfully."
+            // Don't clean workspace, we want servers to keep running
+        }
+        failure {
+            echo "Pipeline failed."
         }
     }
 }
+
 
 
