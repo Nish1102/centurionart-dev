@@ -24,11 +24,9 @@ pipeline {
         stage('Build Frontend Docker Image') {
             steps {
                 withCredentials([file(credentialsId: 'centurionart-frontend-env', variable: 'FRONT_ENV')]) {
-                    sh '''#!/bin/bash
-                        set -a
-                        source "$FRONT_ENV"
-                        set +a
-                        docker build -t $FRONTEND_IMAGE .
+                    sh '''
+                    cp "$FRONT_ENV" .env
+                    docker build -t $FRONTEND_IMAGE .
                     '''
                 }
             }
@@ -47,7 +45,6 @@ pipeline {
                         $BACKEND_IMAGE
 
                     docker run -d -p 3023:3005 \
-                        --env-file=$ENV_FILE \
                         --name frontend \
                         $FRONTEND_IMAGE
                     '''
@@ -62,6 +59,7 @@ pipeline {
         }
     }
 }
+
 
 
 
