@@ -5,16 +5,17 @@ FROM node:16
 WORKDIR /app
 
 # Copy only necessary files first (for layer caching)
-COPY server/package*.json ./
+COPY package*.json ./
 
 # Install backend dependencies
 RUN npm install --legacy-peer-deps
 
 # Copy backend source code
-COPY server/ .
+COPY . .
 
 # Expose the port your app actually uses
-EXPOSE 3006
+EXPOSE 3020
 
 # Start the backend application
 CMD ["node", "app.js"]
+
