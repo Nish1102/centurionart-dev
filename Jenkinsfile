@@ -24,9 +24,11 @@ pipeline {
         stage('Build Frontend Docker Image') {
             steps {
                 withCredentials([file(credentialsId: 'centurionart-frontend-env', variable: 'FRONT_ENV')]) {
-                    sh '''
-                    cp "$FRONT_ENV" .env
-                    docker build -t $FRONTEND_IMAGE .
+                    sh '''#!/bin/bash
+                        set -a
+                        source "$FRONT_ENV"
+                        set +a
+                        docker build -t $FRONTEND_IMAGE .
                     '''
                 }
             }
@@ -36,15 +38,21 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'centurionart-env', variable: 'ENV_FILE')]) {
                     sh '''
+                    # Create network if it doesn't exist
+                    docker network create centurionart-net || true
+
+                    # Clean up old containers if running
                     docker stop backend || true && docker rm backend || true
                     docker stop frontend || true && docker rm frontend || true
 
-                    docker run -d -p 3022:3006 \
+                    # Run backend
+                    docker run -d --network centurionart-net -p 3022:3006 \
                         --env-file=$ENV_FILE \
                         --name backend \
                         $BACKEND_IMAGE
 
-                    docker run -d -p 3023:3005 \
+                    # Run frontend
+                    docker run -d --network centurionart-net -p 3023:3005 \
                         --name frontend \
                         $FRONTEND_IMAGE
                     '''
@@ -59,6 +67,7 @@ pipeline {
         }
     }
 }
+
 
 
 
