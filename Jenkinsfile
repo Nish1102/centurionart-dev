@@ -15,8 +15,9 @@ pipeline {
 
         stage('Build Backend Docker Image') {
             steps {
-                // Keep context at root, specify Dockerfile location
-                sh 'docker build -t $BACKEND_IMAGE -f server/Dockerfile .'
+                dir('server') {
+                    sh 'docker build -t $BACKEND_IMAGE .'
+                }
             }
         }
 
@@ -28,17 +29,21 @@ pipeline {
 
         stage('Run Containers') {
             steps {
-                sh '''
-                # Stop and remove old containers if running
-                docker stop backend || true && docker rm backend || true
-                docker stop frontend || true && docker rm frontend || true
+                withCredentials([file(credentialsId: 'centurionart-env', variable: 'ENV_FILE')]) {
+                    sh '''
+                    docker stop backend || true && docker rm backend || true
+                    docker stop frontend || true && docker rm frontend || true
 
-                # Run backend on port 3022 -> container 3006
-                docker run -d -p 3022:3006 --name backend $BACKEND_IMAGE
+                    docker run -d -p 3022:3006 \
+                        --env-file=$ENV_FILE \
+                        --name backend \
+                        $BACKEND_IMAGE
 
-                # Run frontend: host 3023 -> container 3005
-                docker run -d -p 3023:3005 --name frontend $FRONTEND_IMAGE
-                '''
+                    docker run -d -p 3023:3005 \
+                        --name frontend \
+                        $FRONTEND_IMAGE
+                    '''
+                }
             }
         }
     }
@@ -49,6 +54,7 @@ pipeline {
         }
     }
 }
+
 
 
 
