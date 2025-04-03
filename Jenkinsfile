@@ -15,37 +15,30 @@ pipeline {
 
         stage('Build Backend Docker Image') {
             steps {
-                dir('server') {
-                    script {
-                        sh "docker build -t ${BACKEND_IMAGE} ."
-                    }
-                }
+                // Keep context at root, specify Dockerfile location
+                sh 'docker build -t $BACKEND_IMAGE -f server/Dockerfile .'
             }
         }
 
         stage('Build Frontend Docker Image') {
             steps {
-                script {
-                    sh "docker build -t ${FRONTEND_IMAGE} ."
-                }
+                sh 'docker build -t $FRONTEND_IMAGE .'
             }
         }
 
         stage('Run Containers') {
             steps {
-                script {
-                    sh '''
-                        # Stop and remove existing containers if they exist
-                        docker rm -f backend || true
-                        docker rm -f frontend || true
+                sh '''
+                # Stop and remove old containers if running
+                docker stop backend || true && docker rm backend || true
+                docker stop frontend || true && docker rm frontend || true
 
-                        # Run backend container: host 3022 → container 3006
-                        docker run -d --name backend -p 3022:3006 ${BACKEND_IMAGE}
+                # Run backend on port 3022 -> container 3006
+                docker run -d -p 3022:3006 --name backend $BACKEND_IMAGE
 
-                        # Run frontend container: host 3023 → container 3005
-                        docker run -d --name frontend -p 3023:3005 ${FRONTEND_IMAGE}
-                    '''
-                }
+                # Run frontend: host 3023 -> container 3005
+                docker run -d -p 3023:3005 --name frontend $FRONTEND_IMAGE
+                '''
             }
         }
     }
@@ -56,6 +49,7 @@ pipeline {
         }
     }
 }
+
 
 
 
