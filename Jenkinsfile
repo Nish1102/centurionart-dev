@@ -35,10 +35,10 @@ pipeline {
                 docker stop frontend || true && docker rm frontend || true
 
                 # Run backend on port 3020 (internal app port should also be 3020)
-                docker run -d -p 3020:3006 --name backend $BACKEND_IMAGE
+                docker run -d -p 3022:3006 --name backend $BACKEND_IMAGE
 
                 # Run frontend: host 3021 → container 3005
-                docker run -d -p 3021:3005 --name frontend $FRONTEND_IMAGE
+                docker run -d -p 3023:3005 --name frontend $FRONTEND_IMAGE
                 '''
             }
         }
