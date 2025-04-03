@@ -1,20 +1,20 @@
-# Use an official lightweight Node.js image
-FROM node:18-alpine
+# Use the official Node.js image as the base
+FROM node:16
 
-# Create and change to the app directory.
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy only necessary files first (for layer caching)
+COPY server/package*.json ./
 
-# Install dependencies (production only)
-RUN npm install --production
+# Install backend dependencies
+RUN npm install --legacy-peer-deps
 
-# Copy all source code
-COPY . .
+# Copy backend source code
+COPY server/ .
 
-# Expose the port that the app uses (set to 3006)
+# Expose the port your app actually uses
 EXPOSE 3006
 
-# Start the application
-CMD ["npm", "start"]
+# Start the backend application
+CMD ["node", "app.js"]
