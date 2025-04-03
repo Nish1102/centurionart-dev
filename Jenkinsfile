@@ -3,7 +3,6 @@ pipeline {
 
   environment {
     NODE_ENV = 'production'
-    PORT = '3005'
   }
 
   stages {
@@ -16,7 +15,8 @@ pipeline {
     stage('Install Frontend Dependencies') {
       steps {
         sh 'npm install --legacy-peer-deps'
-        sh 'npm install serve dotenv --save-dev --legacy-peer-deps'
+        sh 'npm install --save-dev serve --legacy-peer-deps'
+        sh 'npm install --save dotenv --force --legacy-peer-deps'
       }
     }
 
@@ -64,4 +64,5 @@ pipeline {
     }
   }
 }
+
 
