@@ -1,71 +1,70 @@
-
-
-
 pipeline {
     agent any
 
     environment {
-        NODE_PATH = '/usr/bin/node'
-        NPM_PATH = '/usr/bin/npm'
-        PORT = '3005'
-        BACKEND_DIR = 'server'
+        NODE_ENV = 'production'
+        PATH = "/usr/bin:$PATH"
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev.git'
+                git branch: 'development', url: 'https://github.com/Nish1102/centurionart-dev'
             }
         }
 
         stage('Install Frontend Dependencies') {
             steps {
-                dir('./') {
-                    sh '${NPM_PATH} install --legacy-peer-deps'
-                    sh '${NPM_PATH} install serve --save-dev --legacy-peer-deps'
-                }
+                sh 'npm install --legacy-peer-deps'
+                sh 'npm install serve --save-dev --legacy-peer-deps'
             }
         }
 
         stage('Build Frontend') {
             steps {
-                dir('./') {
-                    sh '${NPM_PATH} run build'
-                }
+                sh 'npm run build'
             }
         }
 
         stage('Serve Frontend') {
             steps {
-                dir('./') {
-                    sh 'nohup ${NPM_PATH} exec serve -s dist -l ${PORT} &'
-                }
+                sh '''
+                    mkdir -p /var/www/html/centurionart
+                    cp -r dist/* /var/www/html/centurionart/
+
+                    # Kill if serve is already running on 3005
+                    fuser -k 3005/tcp || true
+
+                    # Start serve in background
+                    nohup npx serve -s /var/www/html/centurionart -l 3005 > /tmp/serve.log 2>&1 &
+                '''
             }
         }
 
         stage('Install Backend Dependencies') {
             steps {
-                dir("${BACKEND_DIR}") {
-                    sh '${NPM_PATH} install --legacy-peer-deps'
+                dir('server') {
+                    sh 'npm install --legacy-peer-deps'
                 }
             }
         }
 
         stage('Start Backend') {
             steps {
-                dir("${BACKEND_DIR}") {
-                    sh 'nohup ${NODE_PATH} app.js &'
+                dir('server') {
+                    sh '''
+                        fuser -k 3006/tcp || true
+                        nohup node app.js > /tmp/backend.log 2>&1 &
+                    '''
                 }
             }
         }
 
         stage('Verify Frontend Running') {
             steps {
-                script {
-                    echo "Waiting for React server to start..."
-                    sleep(time: 20, unit: 'SECONDS')
-                    sh 'curl --fail http://localhost:${PORT}'
-                }
+                echo 'Waiting for React server to start...'
+                sleep 20
+                sh 'curl --fail http://localhost:3005'
             }
         }
     }
@@ -73,10 +72,10 @@ pipeline {
     post {
         always {
             echo 'Jenkins pipeline completed.'
-            cleanWs()
         }
     }
 }
+
 
 
 
