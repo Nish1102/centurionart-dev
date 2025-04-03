@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NODE_ENV = 'development'
+        NODEJS_HOME = "/usr/bin"  // ✅ Your actual Node path
     }
 
     stages {
@@ -12,36 +12,38 @@ pipeline {
             }
         }
 
-        stage('Install Frontend Dependencies') {
+        stage('Build Frontend') {
             steps {
-                dir('.') {
-                    sh 'npm install --legacy-peer-deps'
+                dir('client') {  // 📁 Adjust this if frontend is in a different directory
+                    script {
+                        sh '''
+                            export PATH=$NODEJS_HOME:$PATH
+                            echo "Node version:"
+                            node -v
+                            echo "NPM version:"
+                            npm -v
+                            echo "Installing frontend dependencies..."
+                            npm install --legacy-peer-deps
+                            echo "Starting frontend..."
+                            npm run start &
+                        '''
+                    }
                 }
             }
         }
 
-        stage('Start Frontend') {
+        stage('Build Backend') {
             steps {
-                dir('.') {
-                    // Starts the frontend on port 3005
-                    sh 'nohup npm start &'
-                }
-            }
-        }
-
-        stage('Install Backend Dependencies') {
-            steps {
-                dir('server') {
-                    sh 'npm install --legacy-peer-deps'
-                }
-            }
-        }
-
-        stage('Start Backend') {
-            steps {
-                dir('server') {
-                    // Starts the backend on port 3006
-                    sh 'nohup node app.js &'
+                dir('server') {  // 📁 Adjust if backend is in a different directory
+                    script {
+                        sh '''
+                            export PATH=$NODEJS_HOME:$PATH
+                            echo "Installing backend dependencies..."
+                            npm install --legacy-peer-deps
+                            echo "Starting backend..."
+                            npm start &
+                        '''
+                    }
                 }
             }
         }
@@ -49,10 +51,12 @@ pipeline {
 
     post {
         always {
+            echo "Cleaning up workspace..."
             cleanWs()
         }
     }
 }
+
 
 
 
