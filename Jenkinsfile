@@ -6,6 +6,8 @@ pipeline {
         FRONTEND_DIR = "."
         BACKEND_PORT = "3006"
         FRONTEND_PORT = "3005"
+        BACKEND_LOG = "backend.log"
+        FRONTEND_LOG = "frontend.log"
     }
 
     stages {
@@ -23,11 +25,13 @@ pipeline {
             }
         }
 
-        stage('Run Backend') {
+        stage('Run Backend (Log Enabled)') {
             steps {
                 dir("$BACKEND_DIR") {
-                    // Use nohup to run in background
-                    sh 'nohup node app.js > backend.log 2>&1 &'
+                    sh '''
+                        echo "🔧 Starting backend..." > $BACKEND_LOG
+                        nohup node app.js >> $BACKEND_LOG 2>&1 &
+                    '''
                 }
             }
         }
@@ -40,22 +44,33 @@ pipeline {
             }
         }
 
-        stage('Build & Serve Frontend') {
+        stage('Build & Serve Frontend (Log Enabled)') {
             steps {
                 dir("$FRONTEND_DIR") {
                     sh '''
-                    npm run build
-                    nohup npx serve -s dist -l 3005 > frontend.log 2>&1 &
+                        echo "🔧 Building frontend..." > $FRONTEND_LOG
+                        npm run build >> $FRONTEND_LOG 2>&1
+                        echo "🚀 Serving frontend..." >> $FRONTEND_LOG
+                        nohup npx serve -s dist -l 3005 >> $FRONTEND_LOG 2>&1 &
                     '''
                 }
+            }
+        }
+
+        stage('Tail Logs (Optional)') {
+            steps {
+                echo "🪵 Backend Log:"
+                sh "tail -n 20 $BACKEND_DIR/$BACKEND_LOG || echo 'No backend log yet'"
+
+                echo "🪵 Frontend Log:"
+                sh "tail -n 20 $FRONTEND_DIR/$FRONTEND_LOG || echo 'No frontend log yet'"
             }
         }
     }
 
     post {
         always {
-            echo "✅ App built and served without Docker"
+            echo "✅ Jenkins build completed with logs saved."
         }
     }
 }
-
