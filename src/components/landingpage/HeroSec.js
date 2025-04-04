@@ -43,7 +43,7 @@ function HeroSec() {
     xl: '2.8rem',    // Extra large devices (large screens)
   }
               }}>
-                30% off
+                30%  Testing
               </Typography>
               <Typography variant="body1">
                 Our seasonal promotion is now on
