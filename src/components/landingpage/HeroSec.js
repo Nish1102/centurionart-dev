@@ -43,7 +43,7 @@ function HeroSec() {
     xl: '2.8rem',    // Extra large devices (large screens)
   }
               }}>
-                30% off your favorite artworks, for a limited time only
+                30% off your favorite art.....
               </Typography>
               <Typography variant="body1">
                 Our seasonal promotion is now on
