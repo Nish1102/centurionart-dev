@@ -43,7 +43,7 @@ function HeroSec() {
     xl: '2.8rem',    // Extra large devices (large screens)
   }
               }}>
-                30% off your favorite art.....
+                30% off your favorite art Teting.......
               </Typography>
               <Typography variant="body1">
                 Our seasonal promotion is now on
